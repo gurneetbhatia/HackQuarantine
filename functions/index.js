@@ -6,11 +6,6 @@ require("firebase/firestore");
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
-exports.helloWorld = functions.https.onRequest((request, response) => {
-	response.send("Hello from Firebase!");
-});
-//console.log('here1');
-
 const firebaseConfig = {
   apiKey: "AIzaSyCleBofgyhYWDkI6o9fz1lF_wZnlpIlnuc",
   authDomain: "hq-app-8cc14.firebaseapp.com",
@@ -22,9 +17,15 @@ const firebaseConfig = {
   measurementId: "G-LVC5S42ELF"
 };
 firebase.initializeApp(firebaseConfig);
+/*var database = firebase.database();
+exports.helloWorld = functions.https.onRequest((request, response) => {
+	response.send("Hello from Firebase!");
+});*/
+//console.log('here1');
 //firebase.analytics();
 
-exports.dbTest = functions.https.onRequest((request, response) => {
+/*exports.dbTest = functions.https.onRequest((request, response) => {
+	var database = firebase.database();
 	var db = firebase.firestore();
 	db.collection("users").add({
 	    first_name: "Gurneet",
@@ -41,7 +42,7 @@ exports.dbTest = functions.https.onRequest((request, response) => {
 	    console.error("Error adding document: ", error);
 	});
 
-});
+});*/
 
 
 

@@ -1,13 +1,210 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Login Page</title>
+	<title>Title</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href='https://fonts.googleapis.com/css?family=Darker Grotesque' rel='stylesheet'>
+	<link href='https://fonts.googleapis.com/css?family=Archivo Black' rel='stylesheet'>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<style>
+	/* body {
+    font-family: 'Averia Sans Libre';
+		font-size: medium;
+	} */
+	h1 {
+		font-family: 'Archivo Black';
+		font-size: 45px;
+	}
+
+	.vertical-center {
+	  margin: 0;
+	  position: absolute;
+	  top: 50%;
+	  -ms-transform: translateY(-50%);
+	  transform: translateY(-50%);
+	}
+
+	.header {
+		padding: 25px;
+		background: #5EE1E6;
+		color: white;
+		z-index: 2;
+		position:relative;
+		border-radius: 10px;
+	}
+
+	.split {
+	  height: 100%;
+	  width: 50%;
+	  position: fixed;
+	  z-index: 1;
+	  top: 0;
+	  overflow-x: hidden;
+	  padding-top: 20px;
+	}
+
+	.left {
+		height: 100%;
+  	left: 0;
+		border-right: 1px solid #EEF5F3;
+	}
+
+	.right {
+  	right: 0;
+		border-left: 1px solid #EEF5F3;
+	}
+
+	.fa {
+  	padding: 15px;
+  	font-size: 30px;
+  	width: 30px;
+  	text-align: center;
+  	text-decoration: none;
+  	margin: 5px 2px;
+  	border-radius: 50%;
+	}
+	.fa:hover {
+    opacity: 0.7;
+	}
+
+	.fa-facebook {
+  	background: #3B5998;
+  	color: white;
+	}
+
+	.fa-google {
+  	background: #dd4b39;
+  	color: white;
+	}
+
+	.fa-twitter {
+  	background: #55ACEE;
+  	color: white;
+	}
+
+	.entryBox {
+    border-radius: 25px;
+    border: 1px solid	#EEF5F3;
+		margin: 5px;
+    padding: 20px;
+    width: 200px;
+    height: 12px;
+		background-color:	#EEF5F3;
+		font-size: 20px;
+		letter-spacing: 1px;
+		font-family: 'Darker Grotesque';
+		font-weight: bold;
+	}
+
+	.socials {
+		clear: both;
+		display:block;
+		margin-left: auto;
+		margin-right: auto;
+		width: 230px
+	}
+
+	.adjacentEntryBox {
+		clear: both;
+		display: block;
+	}
+
+	.subButton {
+		border-radius: 25px;
+    border: 1px solid	#35f8ff;
+		margin: 5px;
+    padding: 20px;
+    width: 200px;
+    height: 12px;
+		line-height: 0px;
+		background-color:	#35f8ff;
+		color: white;
+		font-size: 20px;
+		margin: 0 auto;
+    display: block;
+		font-family: 'Darker Grotesque';
+		font-weight: bold;
+	}
+
+	.buttonContainer {
+		vertical-align: middle;
+		width: 508px;
+		height: 500px;
+		margin: auto;
+		position: absolute;
+		top: 0; right: 0;
+		bottom: 0; left: 0;
+	}
+
+	input:focus,
+	select:focus,
+	textarea:focus,
+	button:focus {
+    outline: none;
+	}
+
+
+	</style>
 </head>
 <body>
 	<!-- Assuming that Haikal + Finn will be putting their code in this file. I am serving this file as the first instance from the node server -->
-	<h1>Login</h1>
-	<p>The frontend from Haikal+Finn.</p>
 
+<!--<div id = "right" class="split left">
+		<div id ="header" class = "header">
+			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#5EE1E6">TITLE</h1>
+		</div>
+	<div id = "1" class = "buttonContainer" style = "text-align:center;" >
+		<h1 style = "color: #202121;">CREATE ACCOUNT</h1>
+	<div class = "socials">
+		<a href="#" class="fa fa-facebook"></a>
+		<a href="#" class="fa fa-google"></a>
+		<a href="#" class="fa fa-twitter"></a>
+	</div>
+		<hr>
+	<div id = "2" class = "adjacentEntryBox">
+		<input type="text" class = "entryBox" placeholder= "Username"/>
+		<input type="text" class = "entryBox" placeholder= "Email"/>
+	</div>
+	<div class = "adjacentEntryBox">
+		<input type="password" class = "entryBox" placeholder= "Password"/>
+		<input type="text" class = "entryBox" placeholder= "Phone"/>
+	</div>
+	<button type="button" class = "subButton">Register</input>
+	</div>
+</div>
+
+<div id = "right" class="split right">
+<div class = "buttonContainer" style = "text-align:center; height: 500px;" >
+	<h1 style = "color: #202121;">SIGN IN</h1>
+<div class = "socials">
+	<a href="#" class="fa fa-facebook"></a>
+	<a href="#" class="fa fa-google"></a>
+	<a href="#" class="fa fa-twitter"></a>
+</div>
+	<hr>
+<div id = "2" class = "adjacentEntryBox">
+	<input type="text" class = "entryBox" placeholder= "Username"/>
+	<input type="password" class = "entryBox" placeholder= "Password"/>
+</div>
+<button type="button" class = "subButton">Login</input>
+</div>
+</div>
+	<script>
+	$(document).ready(function(){
+		$(".left").click(function(){
+			$(".header").appendTo(".left");
+		});
+	});
+	</script>
+	<script>
+	$(document).ready(function(){
+		$(".right").click(function(){
+			$(".header").appendTo(".right");
+		});
+	});
+	</script>-->
+
+	<pre id="object"></pre>
 
 
 
@@ -22,5 +219,7 @@
 
 	<!-- Initialize Firebase -->
 	<script src="/__/firebase/init.js"></script>
+	<script src="/__/firebase/7.12.0/firebase-database.js"></script>
+	<script src="./app.js"></script>
 </body>
 </html>
