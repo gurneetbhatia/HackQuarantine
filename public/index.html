@@ -7,6 +7,18 @@
 	<link href='https://fonts.googleapis.com/css?family=Archivo Black' rel='stylesheet'>
 	<link href='https://fonts.googleapis.com/css?family=Chau Philomene One' rel='stylesheet'>
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="/__/firebase/7.12.0/firebase-app.js"></script>
+
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+	     https://firebase.google.com/docs/web/setup#available-libraries -->
+	<script src="/__/firebase/7.12.0/firebase-analytics.js"></script>
+
+	<!-- Initialize Firebase -->
+	<script src="/__/firebase/init.js"></script>
+	<script src="/__/firebase/7.12.0/firebase-auth.js"></script>
+	<script src="/__/firebase/7.12.0/firebase-database.js"></script>
+	<script src="/__/firebase/7.12.0/firebase-functions.js"></script>
+	<!--<script src="./app.js"></script>-->
 	<style>
 	h1 {
 		font-family: 'Chau Philomene One';
@@ -196,14 +208,14 @@
 		<a href="#" class="fa fa-twitter"></a>
 	</div>
 		<hr>
-	<form>
+	<form id="regform" onsubmit="regsubmit();">
 		<div id = "2" class = "adjacentEntryBox">
-			<input type="text" class = "entryBox" placeholder= "Username" required/>
-			<input type="email" class = "entryBox" placeholder= "Email" required/>
+			<input type="text" id="username" class = "entryBox" placeholder= "Username" required/>
+			<input type="email" id="email" class = "entryBox" placeholder= "Email" required/>
 		</div>
 		<div class = "adjacentEntryBox">
-			<input type="password" class = "entryBox" placeholder= "Password" required/>
-			<input type="text" class = "entryBox" placeholder= "Phone" required/>
+			<input type="password" id="password" class = "entryBox" placeholder= "Password" required/>
+			<input type="text" id="phone" class = "entryBox" placeholder= "Phone" required/>
 		</div>
 			<button id = "RegButton" type="submit" class = "subButton">Register</button>
 		</div>
@@ -221,10 +233,10 @@
 	<hr>
 	<form>
 		<div id = "2" class = "adjacentEntryBox">
-			<input type="text" class = "entryBox" placeholder= "Username" required/>
-			<input type="password" class = "entryBox" placeholder= "Password" required/>
+			<input type="text" class="entryBox" placeholder="Username" required/>
+			<input type="password" class="entryBox" placeholder="Password" required/>
 		</div>
-		<button id = "logButton" type="submit" class = "subButton">Login</button>
+		<button id="logButton" type="submit" class="subButton">Login</button>
 	</form>
 </div>
 </div>
@@ -262,24 +274,33 @@
 			$(this).css('margin-top', '10px');
 			*/
 		});
+		$("#regform").submit(function(e) {
+    		e.preventDefault();
+		});
+
+		// connecting the registration button here for access in Node JS
+		/*$('#regform').submit(function (event) {
+			$.post('https://us-central1-hq-app-8cc14.cloudfunctions.net/register', {username: $('#username').val(), email: $('#email').val(), password: $('password').val(), phone: $('phone').val()}, function(data) {
+				console.log(data);
+			}, 'json');
+	});*/
 	});
 	</script>
-
-
-
-
-	<!-- NOTE: this code needs to be at the very bottom, so whatever you add, add above this line.-->
-	<!-- The core Firebase JS SDK is always required and must be listed first -->
-	<script src="/__/firebase/7.12.0/firebase-app.js"></script>
-
-	<!-- TODO: Add SDKs for Firebase products that you want to use
-	     https://firebase.google.com/docs/web/setup#available-libraries -->
-	<script src="/__/firebase/7.12.0/firebase-analytics.js"></script>
-
-	<!-- Initialize Firebase -->
-	<!--<script src="/__/firebase/init.js"></script>-->
-	<script src="/__/firebase/7.12.0/firebase-auth.js"></script>
-	<script src="/__/firebase/7.12.0/firebase-database.js"></script>
-	<script src="./app.js"></script>
+	<script type="text/javascript">
+		var functions = firebase.functions();
+		function regsubmit() {
+			alert("here1");
+			var username = document.getElementById('username').value;
+			var email = document.getElementById('email').value;
+			var password = document.getElementById('password').value;
+			var phone = document.getElementById('phone').value;
+			var register = firebase.functions().httpsCallable('register');
+			register({username: username, email: email, password: password, phone: phone}).then(function(result) {
+				alert('here');
+				console.log(result);
+				// TODO: Do anything that needs to happen after the reg form is submitted over here (like changing pages etc.)
+			});
+		}
+	</script>
 </body>
 </html>

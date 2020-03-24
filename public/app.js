@@ -25,13 +25,13 @@
 	at_risk (boolean)
 	*/
 
-	getUniqueUserID().then(function(output) {
+	/*getUniqueUserID().then(function(output) {
 		var userid = output;
 		createUser(userid, "07464775305", "Gurneet", "Bhatia", "sbgurneet@gmail.com", "test", "novice", false);
-	});
+	});*/
 
 
-})();
+});
 
 async function getUniqueUserID() {
 	var userid = Math.floor(Math.random()*90000) + 10000;
