@@ -80,3 +80,42 @@
 [info] i  functions: Your functions could not be parsed due to an issue with your node_modules (see above)
 [debug] [2020-03-24T16:22:28.676Z] [worker-~diagnostic~-a06da977-bce4-4b47-a7a9-a9a374dff2b8]: exited
 [debug] [2020-03-24T16:22:28.676Z] [worker-~diagnostic~-a06da977-bce4-4b47-a7a9-a9a374dff2b8]: FINISHED
+[debug] [2020-03-24T16:23:59.248Z] ----------------------------------------------------------------------
+[debug] [2020-03-24T16:23:59.249Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\findai\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve --project hq-app-8cc14
+[debug] [2020-03-24T16:23:59.250Z] CLI Version:   7.16.0
+[debug] [2020-03-24T16:23:59.250Z] Platform:      win32
+[debug] [2020-03-24T16:23:59.250Z] Node Version:  v12.16.1
+[debug] [2020-03-24T16:23:59.251Z] Time:          Tue Mar 24 2020 16:23:59 GMT+0000 (Greenwich Mean Time)
+[debug] [2020-03-24T16:23:59.251Z] ----------------------------------------------------------------------
+[debug] [2020-03-24T16:23:59.251Z] 
+[debug] [2020-03-24T16:23:59.258Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-03-24T16:23:59.258Z] > authorizing via signed-in user
+[debug] [2020-03-24T16:23:59.259Z] [iam] checking project hq-app-8cc14 for permissions ["firebase.projects.get"]
+[debug] [2020-03-24T16:23:59.261Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/hq-app-8cc14:testIamPermissions  
+
+[debug] [2020-03-24T16:24:00.073Z] <<< HTTP RESPONSE 200
+[debug] [2020-03-24T16:24:00.074Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/hq-app-8cc14  
+ 
+[debug] [2020-03-24T16:24:00.347Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\wamp64\www\wwwprojects\HackQuarantine'...
+[info] 
+[debug] [2020-03-24T16:24:00.351Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/hq-app-8cc14/webApps/-/config  
+ 
+[debug] [2020-03-24T16:24:01.079Z] <<< HTTP RESPONSE 200
+[info] i  hosting[shopperhelper]: Serving hosting files from: public
+[info] +  hosting[shopperhelper]: Local server: http://localhost:5000
+[warn] !  Your requested "node" version "8" doesn't match your global version "12"
+[info] +  functions: functions emulator started at http://localhost:5001
+[info] i  functions: Watching "C:\wamp64\www\wwwprojects\HackQuarantine\functions" for Cloud Functions...
+[debug] [2020-03-24T16:24:01.416Z] [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-03-24T16:24:01.416Z] [worker-pool] Adding worker with key ~diagnostic~, total=1
+[debug] [2020-03-24T16:24:01.416Z] [worker-pool] submitWork(triggerId=)
+[debug] [2020-03-24T16:24:01.417Z] [worker-~diagnostic~-fd19b5f7-13ce-496d-a69c-56503c0afbd6]: Assigning socketPath: \\?\pipe\C:\wamp64\www\wwwprojects\HackQuarantine\functions\9368
+[debug] [2020-03-24T16:24:01.417Z] [worker-~diagnostic~-fd19b5f7-13ce-496d-a69c-56503c0afbd6]: BUSY
+[debug] [2020-03-24T16:24:01.716Z] [runtime-status] [9368] Functions runtime initialized. {"cwd":"C:\\wamp64\\www\\wwwprojects\\HackQuarantine\\functions","node_version":"12.16.1"}
+[debug] [2020-03-24T16:24:01.717Z] [runtime-status] [9368] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[warn] !  The Cloud Functions emulator requires the module "firebase-admin" to be installed. This package is in your package.json, but it's not available. You probably need to run "npm install" in your functions directory.
+[info] i  functions: Your functions could not be parsed due to an issue with your node_modules (see above)
+[debug] [2020-03-24T16:24:01.737Z] [worker-~diagnostic~-fd19b5f7-13ce-496d-a69c-56503c0afbd6]: exited
+[debug] [2020-03-24T16:24:01.738Z] [worker-~diagnostic~-fd19b5f7-13ce-496d-a69c-56503c0afbd6]: FINISHED
