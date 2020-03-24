@@ -11,7 +11,7 @@
 	h1 {
 		font-family: 'Chau Philomene One';
 		letter-spacing: 2px;
-		font-size: 45px;
+		font-size: 2.5vw;
 	}
 
 	html {
@@ -69,7 +69,6 @@
 	}
 
 	.left {
-		height: 100%;
   	left: 0;
 		border-right: 1px solid #E0E0E0;
 	}
@@ -111,12 +110,13 @@
     border-radius: 25px;
     border: 2px solid	#e3e1df;
 		margin: 5px;
-    padding: 20px;
-		padding-top: 16px;
-    width: 200px;
-    height: 12px;
+    padding: 3.5%;
+		padding-top: 3%;
+    width: 35%;
+		padding-top: 3%;
+    height: 1vh;
 		background-color:	#e3e1df;
-		font-size: 20px;
+		font-size: 2vh;
 		letter-spacing: 1px;
 		font-family: 'Darker Grotesque';
 		font-weight: bold;
@@ -139,15 +139,16 @@
 	.subButton {
 		border-radius: 25px;
     border: 1px solid	#26b3a3;
-    padding: 20px;
-		padding-top: 18px;
-    width: 200px;
-    height: 12px;
+    padding: 3.5%;
+		padding-top: 2.5%;
+    width: 35%;
+    height: 10%;
+		padding-top: 2.5%;
 		background-color:	#26b3a3;
 		color: white;
-		font-size: 20px;
+		font-size: 2.5vh;
 		margin: 0 auto;
-		margin-top: 10px;
+		margin-top:2%;
     display: block;
 		line-height: 0px;
 		font-family: 'Darker Grotesque';
@@ -156,8 +157,9 @@
 
 	.buttonContainer {
 		vertical-align: middle;
-		width: 515px;
-		height: 350px;
+		width: 100%;
+		height: 50%;
+		margin-top:50%;
 		margin: auto;
 		position: absolute;
 		top: 0; right: 0;
@@ -184,7 +186,7 @@
 	<div class = "fullBackgroundContainer">
 	<div class = "smallerBackgroundContainer">
 		<div id ="header" class = "header">
-			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: 65px; letter-spacing: 5px;">TITLE</h1>
+			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: 7vh; letter-spacing: 5px;">TITLE</h1>
 		</div>
 	<div id = "right" class="split left">
 
@@ -219,13 +221,6 @@
 	<a href="#" class="fa fa-twitter"></a>
 </div>
 	<hr>
-<<<<<<< HEAD
-<div id = "2" class = "adjacentEntryBox">
-	<input type="text" class = "entryBox" placeholder= "Username/Email"/>
-	<input type="password" class = "entryBox" placeholder= "Password"/>
-</div>
-<button id = "logButton" type="button" class = "subButton">Login</input>
-=======
 	<form>
 		<div id = "2" class = "adjacentEntryBox">
 			<input type="text" class = "entryBox" placeholder= "Username" required/>
@@ -233,7 +228,6 @@
 		</div>
 		<button id = "logButton" type="submit" class = "subButton">Login</button>
 	</form>
->>>>>>> d1cf39a2a0a03c77e6ca6d305c96d77e8d514663
 </div>
 </div>
 </div>
@@ -242,11 +236,11 @@
 
 	$(document).ready(function(){
 		$(".subButton").on('mouseenter', function(){
-			$(this).css({padding: '22px',
-									'padding-top':'18px',
-									width:'205px',
-									'font-size':'21px',
-									'margin-top':'9px'
+			$(this).css({padding: '3.6%',
+									'padding-top':'2.5%',
+									width:'36%',
+									'font-size':'2.6vh',
+									'margin-top':'1.9%'
 								});
 			/*
 			$(this).css('padding-top', '18px');
@@ -256,19 +250,13 @@
 			*/
 		});
 		$(".subButton").on('mouseleave', function(){
-			$(this).css({padding: '20px',
-									'padding-top':'18px',
-									width:'200px',
-									'font-size':'20px',
-									'margin-top':'10px'
+			$(this).css({padding: '3.5%',
+									'padding-top':'2.5%',
+									width:'35%',
+									'font-size':'2.5vh',
+									'margin-top':'2%'
 								});
-			/*
-			$(this).css('width', '200px');
-			$(this).css('font-size', '20px');
-			$(this).css('padding', '20px');
-			$(this).css('padding-top', '18px');
-			$(this).css('margin-top', '10px');
-			*/
+
 		});
 	});
 	</script>
