@@ -14,9 +14,17 @@
 		font-size: 45px;
 	}
 
+	html {
+		display: unset;
+    color: unset;
+	}
+
 	body {
 		margin: 0px;
-	}
+		margin-top: 0px;
+		border: 1px solid transparent;
+		overflow: hidden
+}
 
 
 	.header {
@@ -100,6 +108,7 @@
     border: 2px solid	#e3e1df;
 		margin: 5px;
     padding: 20px;
+		padding-top: 16px;
     width: 200px;
     height: 12px;
 		background-color:	#e3e1df;
@@ -166,13 +175,9 @@
 </head>
 <body>
 	<!-- Assuming that Haikal + Finn will be putting their code in this file. I am serving this file as the first instance from the node server -->
-<<<<<<< HEAD
+
 	<div class = "fullBackgroundContainer">
 	<div class = "smallerBackgroundContainer">
-=======
-
-<!--<div id = "right" class="split left">
->>>>>>> 42158eae8cf55fc75c3525172bf9e5da7c073104
 		<div id ="header" class = "header">
 			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: 65px; letter-spacing: 5px;">TITLE</h1>
 		</div>
@@ -188,7 +193,7 @@
 		<hr>
 	<div id = "2" class = "adjacentEntryBox">
 		<input type="text" class = "entryBox" placeholder= "Username"/>
-		<input type="text" class = "entryBox" placeholder= "Email"/>
+		<input type="email" class = "entryBox" placeholder= "Email"/>
 	</div>
 	<div class = "adjacentEntryBox">
 		<input type="password" class = "entryBox" placeholder= "Password"/>
@@ -199,7 +204,7 @@
 </div>
 
 <div id = "right" class="split right">
-<div class = "buttonContainer" style = "text-align:center;" >
+<div class = "buttonContainer" style = "text-align:center;">
 	<h1 style = "color: #404040;">SIGN IN</h1>
 <div class = "socials">
 	<a href="#" class="fa fa-facebook"></a>
@@ -217,34 +222,36 @@
 </div>
 </div>
 <script>
+
 	$(document).ready(function(){
-		$("#RegButton").on('mouseenter', function(){
-			$("#RegButton").css('padding', '22px');
-			$("#RegButton").css('padding-top', '18px');
-			$("#RegButton").css('font-size', '21px');
-			$("#RegButton").css('width', '205px');
-			$("#RegButton").css('margin-top', '9px');
+		$(".subButton").on('mouseenter', function(){
+			$(this).css({padding: '22px',
+									'padding-top':'18px',
+									width:'205px',
+									'font-size':'21px',
+									'margin-top':'9px'
+								});
+			/*
+			$(this).css('padding-top', '18px');
+			$(this).css('font-size', '21px');
+			$(this).css('width', '205px');
+			$(this).css('margin-top', '9px');
+			*/
 		});
-		$("#RegButton").on('mouseleave', function(){
-			$("#RegButton").css('width', '200px');
-			$("#RegButton").css('font-size', '20px');
-			$("#RegButton").css('padding', '20px');
-			$("#RegButton").css('padding-top', '18px');
-			$("#RegButton").css('margin-top', '10px');
-		});
-		$("#logButton").on('mouseenter', function(){
-			$("#logButton").css('padding', '22px');
-			$("#logButton").css('padding-top', '18px');
-			$("#logButton").css('font-size', '21px');
-			$("#logButton").css('width', '205px');
-			$("#logButton").css('margin-top', '9px');
-		});
-		$("#logButton").on('mouseleave', function(){
-			$("#logButton").css('width', '200px');
-			$("#logButton").css('font-size', '20px');
-			$("#logButton").css('padding', '20px');
-			$("#logButton").css('padding-top', '18px');
-			$("#logButton").css('margin-top', '10px');
+		$(".subButton").on('mouseleave', function(){
+			$(this).css({padding: '20px',
+									'padding-top':'18px',
+									width:'200px',
+									'font-size':'20px',
+									'margin-top':'10px'
+								});
+			/*
+			$(this).css('width', '200px');
+			$(this).css('font-size', '20px');
+			$(this).css('padding', '20px');
+			$(this).css('padding-top', '18px');
+			$(this).css('margin-top', '10px');
+			*/
 		});
 	});
 	</script>
@@ -254,9 +261,6 @@
 			$(".header").appendTo(".right");
 		});
 	});
-<<<<<<< HEAD
-	</script> -->
-=======
 	</script>-->
 
 	<pre id="object"></pre>
@@ -276,6 +280,5 @@
 	<script src="/__/firebase/init.js"></script>
 	<script src="/__/firebase/7.12.0/firebase-database.js"></script>
 	<script src="./app.js"></script>
->>>>>>> 42158eae8cf55fc75c3525172bf9e5da7c073104
 </body>
 </html>

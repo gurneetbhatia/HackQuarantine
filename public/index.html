@@ -5,53 +5,74 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link href='https://fonts.googleapis.com/css?family=Darker Grotesque' rel='stylesheet'>
 	<link href='https://fonts.googleapis.com/css?family=Archivo Black' rel='stylesheet'>
+	<link href='https://fonts.googleapis.com/css?family=Chau Philomene One' rel='stylesheet'>
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<style>
-	/* body {
-    font-family: 'Averia Sans Libre';
-		font-size: medium;
-	} */
 	h1 {
-		font-family: 'Archivo Black';
+		font-family: 'Chau Philomene One';
+		letter-spacing: 2px;
 		font-size: 45px;
 	}
 
-	.vertical-center {
-	  margin: 0;
-	  position: absolute;
-	  top: 50%;
-	  -ms-transform: translateY(-50%);
-	  transform: translateY(-50%);
+	html {
+		display: unset;
+    color: unset;
 	}
 
+	body {
+		margin: 0px;
+		margin-top: 0px;
+		border: 1px solid transparent;
+		overflow: hidden
+}
+
+
 	.header {
-		padding: 25px;
-		background: #5EE1E6;
+		padding: 1px;
+		background:#1a7c72;
 		color: white;
 		z-index: 2;
 		position:relative;
-		border-radius: 10px;
+		border-top-left-radius: 28px;
+		border-top-right-radius: 28px;
+	}
+	.fullBackgroundContainer {
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		border: 0px;
+		background-image: url("online-3217733_1920.jpg");
+	}
+
+	.smallerBackgroundContainer {
+		height: 80%;
+		width: 60%;
+		margin-left: 20%;
+		margin-top: 5%;
+		background-color: rgba(255,255,255,0.9);;
+		position: absolute;
+		border-radius: 30px;
+		box-shadow: 0px 0px 10px 0px #165054;
 	}
 
 	.split {
 	  height: 100%;
 	  width: 50%;
-	  position: fixed;
+	  position: absolute;
 	  z-index: 1;
 	  top: 0;
 	  overflow-x: hidden;
-	  padding-top: 20px;
 	}
 
 	.left {
 		height: 100%;
   	left: 0;
-		border-right: 1px solid #EEF5F3;
+		border-right: 1px solid #E0E0E0;
 	}
 
 	.right {
   	right: 0;
-		border-left: 1px solid #EEF5F3;
+		border-left: 1px solid #E0E0E0;
 	}
 
 	.fa {
@@ -84,16 +105,18 @@
 
 	.entryBox {
     border-radius: 25px;
-    border: 1px solid	#EEF5F3;
+    border: 2px solid	#e3e1df;
 		margin: 5px;
     padding: 20px;
+		padding-top: 16px;
     width: 200px;
     height: 12px;
-		background-color:	#EEF5F3;
+		background-color:	#e3e1df;
 		font-size: 20px;
 		letter-spacing: 1px;
 		font-family: 'Darker Grotesque';
 		font-weight: bold;
+		line-height: 0px;
 	}
 
 	.socials {
@@ -111,36 +134,40 @@
 
 	.subButton {
 		border-radius: 25px;
-    border: 1px solid	#35f8ff;
-		margin: 5px;
+    border: 1px solid	#26b3a3;
     padding: 20px;
+		padding-top: 18px;
     width: 200px;
     height: 12px;
-		line-height: 0px;
-		background-color:	#35f8ff;
+		background-color:	#26b3a3;
 		color: white;
 		font-size: 20px;
 		margin: 0 auto;
+		margin-top: 10px;
     display: block;
+		line-height: 0px;
 		font-family: 'Darker Grotesque';
 		font-weight: bold;
 	}
 
 	.buttonContainer {
 		vertical-align: middle;
-		width: 508px;
-		height: 500px;
+		width: 515px;
+		height: 350px;
 		margin: auto;
 		position: absolute;
 		top: 0; right: 0;
 		bottom: 0; left: 0;
 	}
+	input:focus {
+		outline: none;
+		background-color:	white;
+	}
 
-	input:focus,
 	select:focus,
 	textarea:focus,
 	button:focus {
-    outline: none;
+    outline: none
 	}
 
 
@@ -149,12 +176,15 @@
 <body>
 	<!-- Assuming that Haikal + Finn will be putting their code in this file. I am serving this file as the first instance from the node server -->
 
-<div id = "right" class="split left">
+	<div class = "fullBackgroundContainer">
+	<div class = "smallerBackgroundContainer">
 		<div id ="header" class = "header">
-			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#5EE1E6">TITLE</h1>
+			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: 65px; letter-spacing: 5px;">TITLE</h1>
 		</div>
+	<div id = "right" class="split left">
+
 	<div id = "1" class = "buttonContainer" style = "text-align:center;" >
-		<h1 style = "color: #202121;">CREATE ACCOUNT</h1>
+		<h1 style = "color: #404040;">CREATE ACCOUNT</h1>
 	<div class = "socials">
 		<a href="#" class="fa fa-facebook"></a>
 		<a href="#" class="fa fa-google"></a>
@@ -163,19 +193,19 @@
 		<hr>
 	<div id = "2" class = "adjacentEntryBox">
 		<input type="text" class = "entryBox" placeholder= "Username"/>
-		<input type="text" class = "entryBox" placeholder= "Email"/>
+		<input type="email" class = "entryBox" placeholder= "Email"/>
 	</div>
 	<div class = "adjacentEntryBox">
 		<input type="password" class = "entryBox" placeholder= "Password"/>
 		<input type="text" class = "entryBox" placeholder= "Phone"/>
 	</div>
-	<button type="button" class = "subButton">Register</input>
+	<button id = "RegButton" type="button" class = "subButton">Register</input>
 	</div>
 </div>
 
 <div id = "right" class="split right">
-<div class = "buttonContainer" style = "text-align:center; height: 500px;" >
-	<h1 style = "color: #202121;">SIGN IN</h1>
+<div class = "buttonContainer" style = "text-align:center;">
+	<h1 style = "color: #404040;">SIGN IN</h1>
 <div class = "socials">
 	<a href="#" class="fa fa-facebook"></a>
 	<a href="#" class="fa fa-google"></a>
@@ -186,20 +216,42 @@
 	<input type="text" class = "entryBox" placeholder= "Username"/>
 	<input type="password" class = "entryBox" placeholder= "Password"/>
 </div>
-<button type="button" class = "subButton">Login</input>
+<button id = "logButton" type="button" class = "subButton">Login</input>
 </div>
 </div>
-	<script>
+</div>
+</div>
+<script>
+
 	$(document).ready(function(){
-		$(".left").click(function(){
-			$(".header").appendTo(".left");
+		$(".subButton").on('mouseenter', function(){
+			$(this).css({padding: '22px',
+									'padding-top':'18px',
+									width:'205px',
+									'font-size':'21px',
+									'margin-top':'9px'
+								});
+			/*
+			$(this).css('padding-top', '18px');
+			$(this).css('font-size', '21px');
+			$(this).css('width', '205px');
+			$(this).css('margin-top', '9px');
+			*/
 		});
-	});
-	</script>
-	<script>
-	$(document).ready(function(){
-		$(".right").click(function(){
-			$(".header").appendTo(".right");
+		$(".subButton").on('mouseleave', function(){
+			$(this).css({padding: '20px',
+									'padding-top':'18px',
+									width:'200px',
+									'font-size':'20px',
+									'margin-top':'10px'
+								});
+			/*
+			$(this).css('width', '200px');
+			$(this).css('font-size', '20px');
+			$(this).css('padding', '20px');
+			$(this).css('padding-top', '18px');
+			$(this).css('margin-top', '10px');
+			*/
 		});
 	});
 	</script>
