@@ -5,66 +5,53 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link href='https://fonts.googleapis.com/css?family=Darker Grotesque' rel='stylesheet'>
 	<link href='https://fonts.googleapis.com/css?family=Archivo Black' rel='stylesheet'>
-	<link href='https://fonts.googleapis.com/css?family=Chau Philomene One' rel='stylesheet'>
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<style>
+	/* body {
+    font-family: 'Averia Sans Libre';
+		font-size: medium;
+	} */
 	h1 {
-		font-family: 'Chau Philomene One';
-		letter-spacing: 2px;
+		font-family: 'Archivo Black';
 		font-size: 45px;
 	}
 
-	body {
-		margin: 0px;
+	.vertical-center {
+	  margin: 0;
+	  position: absolute;
+	  top: 50%;
+	  -ms-transform: translateY(-50%);
+	  transform: translateY(-50%);
 	}
 
-
 	.header {
-		padding: 1px;
-		background:#1a7c72;
+		padding: 25px;
+		background: #5EE1E6;
 		color: white;
 		z-index: 2;
 		position:relative;
-		border-top-left-radius: 28px;
-		border-top-right-radius: 28px;
-	}
-	.fullBackgroundContainer {
-		height: 100%;
-		width: 100%;
-		position: absolute;
-		border: 0px;
-		background-image: url("online-3217733_1920.jpg");
-	}
-
-	.smallerBackgroundContainer {
-		height: 80%;
-		width: 60%;
-		margin-left: 20%;
-		margin-top: 5%;
-		background-color: rgba(255,255,255,0.9);;
-		position: absolute;
-		border-radius: 30px;
-		box-shadow: 0px 0px 10px 0px #165054;
+		border-radius: 10px;
 	}
 
 	.split {
 	  height: 100%;
 	  width: 50%;
-	  position: absolute;
+	  position: fixed;
 	  z-index: 1;
 	  top: 0;
 	  overflow-x: hidden;
+	  padding-top: 20px;
 	}
 
 	.left {
 		height: 100%;
   	left: 0;
-		border-right: 1px solid #E0E0E0;
+		border-right: 1px solid #EEF5F3;
 	}
 
 	.right {
   	right: 0;
-		border-left: 1px solid #E0E0E0;
+		border-left: 1px solid #EEF5F3;
 	}
 
 	.fa {
@@ -97,17 +84,16 @@
 
 	.entryBox {
     border-radius: 25px;
-    border: 2px solid	#e3e1df;
+    border: 1px solid	#EEF5F3;
 		margin: 5px;
     padding: 20px;
     width: 200px;
     height: 12px;
-		background-color:	#e3e1df;
+		background-color:	#EEF5F3;
 		font-size: 20px;
 		letter-spacing: 1px;
 		font-family: 'Darker Grotesque';
 		font-weight: bold;
-		line-height: 0px;
 	}
 
 	.socials {
@@ -125,40 +111,36 @@
 
 	.subButton {
 		border-radius: 25px;
-    border: 1px solid	#26b3a3;
+    border: 1px solid	#35f8ff;
+		margin: 5px;
     padding: 20px;
-		padding-top: 18px;
     width: 200px;
     height: 12px;
-		background-color:	#26b3a3;
+		line-height: 0px;
+		background-color:	#35f8ff;
 		color: white;
 		font-size: 20px;
 		margin: 0 auto;
-		margin-top: 10px;
     display: block;
-		line-height: 0px;
 		font-family: 'Darker Grotesque';
 		font-weight: bold;
 	}
 
 	.buttonContainer {
 		vertical-align: middle;
-		width: 515px;
-		height: 350px;
+		width: 508px;
+		height: 500px;
 		margin: auto;
 		position: absolute;
 		top: 0; right: 0;
 		bottom: 0; left: 0;
 	}
-	input:focus {
-		outline: none;
-		background-color:	white;
-	}
 
+	input:focus,
 	select:focus,
 	textarea:focus,
 	button:focus {
-    outline: none
+    outline: none;
 	}
 
 
@@ -166,20 +148,13 @@
 </head>
 <body>
 	<!-- Assuming that Haikal + Finn will be putting their code in this file. I am serving this file as the first instance from the node server -->
-<<<<<<< HEAD
-	<div class = "fullBackgroundContainer">
-	<div class = "smallerBackgroundContainer">
-=======
 
-<!--<div id = "right" class="split left">
->>>>>>> 42158eae8cf55fc75c3525172bf9e5da7c073104
+<div id = "right" class="split left">
 		<div id ="header" class = "header">
-			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: 65px; letter-spacing: 5px;">TITLE</h1>
+			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#5EE1E6">TITLE</h1>
 		</div>
-	<div id = "right" class="split left">
-
 	<div id = "1" class = "buttonContainer" style = "text-align:center;" >
-		<h1 style = "color: #404040;">CREATE ACCOUNT</h1>
+		<h1 style = "color: #202121;">CREATE ACCOUNT</h1>
 	<div class = "socials">
 		<a href="#" class="fa fa-facebook"></a>
 		<a href="#" class="fa fa-google"></a>
@@ -194,13 +169,13 @@
 		<input type="password" class = "entryBox" placeholder= "Password"/>
 		<input type="text" class = "entryBox" placeholder= "Phone"/>
 	</div>
-	<button id = "RegButton" type="button" class = "subButton">Register</input>
+	<button type="button" class = "subButton">Register</input>
 	</div>
 </div>
 
 <div id = "right" class="split right">
-<div class = "buttonContainer" style = "text-align:center;" >
-	<h1 style = "color: #404040;">SIGN IN</h1>
+<div class = "buttonContainer" style = "text-align:center; height: 500px;" >
+	<h1 style = "color: #202121;">SIGN IN</h1>
 <div class = "socials">
 	<a href="#" class="fa fa-facebook"></a>
 	<a href="#" class="fa fa-google"></a>
@@ -211,55 +186,23 @@
 	<input type="text" class = "entryBox" placeholder= "Username"/>
 	<input type="password" class = "entryBox" placeholder= "Password"/>
 </div>
-<button id = "logButton" type="button" class = "subButton">Login</input>
+<button type="button" class = "subButton">Login</input>
 </div>
 </div>
-</div>
-</div>
-<script>
+	<script>
 	$(document).ready(function(){
-		$("#RegButton").on('mouseenter', function(){
-			$("#RegButton").css('padding', '22px');
-			$("#RegButton").css('padding-top', '18px');
-			$("#RegButton").css('font-size', '21px');
-			$("#RegButton").css('width', '205px');
-			$("#RegButton").css('margin-top', '9px');
-		});
-		$("#RegButton").on('mouseleave', function(){
-			$("#RegButton").css('width', '200px');
-			$("#RegButton").css('font-size', '20px');
-			$("#RegButton").css('padding', '20px');
-			$("#RegButton").css('padding-top', '18px');
-			$("#RegButton").css('margin-top', '10px');
-		});
-		$("#logButton").on('mouseenter', function(){
-			$("#logButton").css('padding', '22px');
-			$("#logButton").css('padding-top', '18px');
-			$("#logButton").css('font-size', '21px');
-			$("#logButton").css('width', '205px');
-			$("#logButton").css('margin-top', '9px');
-		});
-		$("#logButton").on('mouseleave', function(){
-			$("#logButton").css('width', '200px');
-			$("#logButton").css('font-size', '20px');
-			$("#logButton").css('padding', '20px');
-			$("#logButton").css('padding-top', '18px');
-			$("#logButton").css('margin-top', '10px');
+		$(".left").click(function(){
+			$(".header").appendTo(".left");
 		});
 	});
 	</script>
-	<!-- <script>
+	<script>
 	$(document).ready(function(){
 		$(".right").click(function(){
 			$(".header").appendTo(".right");
 		});
 	});
-<<<<<<< HEAD
-	</script> -->
-=======
-	</script>-->
-
-	<pre id="object"></pre>
+	</script>
 
 
 
@@ -273,9 +216,9 @@
 	<script src="/__/firebase/7.12.0/firebase-analytics.js"></script>
 
 	<!-- Initialize Firebase -->
-	<script src="/__/firebase/init.js"></script>
+	<!--<script src="/__/firebase/init.js"></script>-->
+	<script src="/__/firebase/7.12.0/firebase-auth.js"></script>
 	<script src="/__/firebase/7.12.0/firebase-database.js"></script>
 	<script src="./app.js"></script>
->>>>>>> 42158eae8cf55fc75c3525172bf9e5da7c073104
 </body>
 </html>
