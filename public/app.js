@@ -27,7 +27,7 @@
 
 	getUniqueUserID().then(function(output) {
 		var userid = output;
-		createUser(userid, "Gurneet", "Bhatia", "sbgurneet@gmail.com", "test", "novice", false);
+		createUser(userid, "07464775305", "Gurneet", "Bhatia", "sbgurneet@gmail.com", "test", "novice", false);
 	});
 
 
@@ -54,8 +54,9 @@ async function getAllUserIDs() {
 	return userids;
 }
 
-function createUser(userid, first_name, last_name, email, password, volunteer_level, at_risk) {
+function createUser(userid, phone, first_name, last_name, email, password, volunteer_level, at_risk) {
 	firebase.database().ref('users/' + userid).set({
+		phone: phone,
 		first_name: first_name,
 		last_name: last_name,
 		email: email,
