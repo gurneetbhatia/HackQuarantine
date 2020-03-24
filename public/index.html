@@ -24,7 +24,11 @@
 		margin-top: 0px;
 		border: 1px solid transparent;
 		overflow: hidden
-}
+	}
+
+	button {
+		cursor: pointer;
+	}
 
 
 	.header {
@@ -164,6 +168,7 @@
 		background-color:	white;
 	}
 
+
 	select:focus,
 	textarea:focus,
 	button:focus {
@@ -191,16 +196,18 @@
 		<a href="#" class="fa fa-twitter"></a>
 	</div>
 		<hr>
-	<div id = "2" class = "adjacentEntryBox">
-		<input type="text" class = "entryBox" placeholder= "Username"/>
-		<input type="email" class = "entryBox" placeholder= "Email"/>
-	</div>
-	<div class = "adjacentEntryBox">
-		<input type="password" class = "entryBox" placeholder= "Password"/>
-		<input type="text" class = "entryBox" placeholder= "Phone"/>
-	</div>
-	<button id = "RegButton" type="button" class = "subButton">Register</input>
-	</div>
+	<form>
+		<div id = "2" class = "adjacentEntryBox">
+			<input type="text" class = "entryBox" placeholder= "Username" required/>
+			<input type="email" class = "entryBox" placeholder= "Email" required/>
+		</div>
+		<div class = "adjacentEntryBox">
+			<input type="password" class = "entryBox" placeholder= "Password" required/>
+			<input type="text" class = "entryBox" placeholder= "Phone" required/>
+		</div>
+			<button id = "RegButton" type="submit" class = "subButton">Register</button>
+		</div>
+	</form>
 </div>
 
 <div id = "right" class="split right">
@@ -212,11 +219,13 @@
 	<a href="#" class="fa fa-twitter"></a>
 </div>
 	<hr>
-<div id = "2" class = "adjacentEntryBox">
-	<input type="text" class = "entryBox" placeholder= "Username"/>
-	<input type="password" class = "entryBox" placeholder= "Password"/>
-</div>
-<button id = "logButton" type="button" class = "subButton">Login</input>
+	<form>
+		<div id = "2" class = "adjacentEntryBox">
+			<input type="text" class = "entryBox" placeholder= "Username" required/>
+			<input type="password" class = "entryBox" placeholder= "Password" required/>
+		</div>
+		<button id = "logButton" type="submit" class = "subButton">Login</button>
+	</form>
 </div>
 </div>
 </div>
