@@ -38,6 +38,7 @@
 		overflow: hidden;
 		min-width: 1000px;
 		min-height: 300px;
+
 	}
 
 	button {
@@ -132,7 +133,7 @@
 		padding-top: 3%;
     height: 1vh;
 		background-color:	#e3e1df;
-		font-size: calc(14px + (26 - 14) * ((100vw - 1000px) / (2600 - 1000)));
+		font-size: calc(2px + 2vh);
 		letter-spacing: 1px;
 		font-family: 'Darker Grotesque';
 		font-weight: bold;
@@ -162,7 +163,7 @@
 		padding-top: 2.5%;
 		background-color:	#26b3a3;
 		color: white;
-		font-size: calc(14px + (26 - 14) * ((100vw - 1000px) / (2600 - 1000)));
+		font-size: calc(2px + 2vh);
 		margin: 0 auto;
 		margin-top:2%;
     display: block;
@@ -202,7 +203,7 @@
 	<div class = "fullBackgroundContainer">
 	<div class = "smallerBackgroundContainer">
 		<div id ="header" class = "header">
-			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: calc(40px + (60 - 40) * ((100vh - 600px) / (1000 - 600)));; letter-spacing: 5px;">TITLE</h1>
+			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: calc(20px + 5vh); letter-spacing: 5px;">TITLE</h1>
 		</div>
 	<div id = "right" class="split left">
 
@@ -272,10 +273,12 @@
 								});
 
 		});
-		$("#regform").submit(function(e) {
-    		e.preventDefault();
+		$(".smallerBackgroundContainer").css({
+			left: $( window ).width()
+							});
+		$(".smallerBackgroundContainer").animate({
+			left:0
 		});
-
 		// connecting the registration button here for access in Node JS
 		/*$('#regform').submit(function (event) {
 			$.post('https://us-central1-hq-app-8cc14.cloudfunctions.net/register', {username: $('#username').val(), email: $('#email').val(), password: $('password').val(), phone: $('phone').val()}, function(data) {

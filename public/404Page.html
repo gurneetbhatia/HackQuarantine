@@ -10,7 +10,7 @@
 	h1 {
 		font-family: 'Chau Philomene One';
 		letter-spacing: 2px;
-		font-size: 45px;
+		font-size: 2.5vw;
 	}
 
 	html {
@@ -22,8 +22,12 @@
 		margin: 0px;
 		margin-top: 0px;
 		border: 1px solid transparent;
-		overflow: hidden
-}
+		overflow: hidden;
+	}
+
+	button {
+		cursor: pointer;
+	}
 
 	p {
 		font-family: 'Darker Grotesque';
@@ -40,20 +44,21 @@
 		position:relative;
 		border-top-left-radius: 28px;
 		border-top-right-radius: 28px;
-		display:block;
 	}
-
-
 	.fullBackgroundContainer {
 		height: 100%;
 		width: 100%;
 		position: absolute;
 		border: 0px;
 		background-image: url("online-3217733_1920.jpg");
+		min-width: 1000px;
+		min-height: 600px;
 	}
 
 	.smallerBackgroundContainer {
 		height: 80%;
+		min-width: 500px;
+		min-height: 500px;
 		width: 60%;
 		margin-left: 20%;
 		margin-top: 5%;
@@ -73,7 +78,6 @@
 	}
 
 	.left {
-		height: 100%;
   	left: 0;
 		border-right: 1px solid #E0E0E0;
 	}
@@ -115,12 +119,13 @@
     border-radius: 25px;
     border: 2px solid	#e3e1df;
 		margin: 5px;
-    padding: 20px;
-		padding-top: 16px;
-    width: 200px;
-    height: 12px;
+    padding: 3.5%;
+		padding-top: 3%;
+    width: 35%;
+		padding-top: 3%;
+    height: 1vh;
 		background-color:	#e3e1df;
-		font-size: 20px;
+		font-size: 2vh;
 		letter-spacing: 1px;
 		font-family: 'Darker Grotesque';
 		font-weight: bold;
@@ -143,15 +148,16 @@
 	.subButton {
 		border-radius: 25px;
     border: 1px solid	#26b3a3;
-    padding: 20px;
-		padding-top: 18px;
-    width: 200px;
-    height: 12px;
+    padding: 3.5%;
+		padding-top: 2.5%;
+    width: 35%;
+    height: 10%;
+		padding-top: 2.5%;
 		background-color:	#26b3a3;
 		color: white;
-		font-size: 20px;
+		font-size: 2.5vh;
 		margin: 0 auto;
-		margin-top: 10px;
+		margin-top:2%;
     display: block;
 		line-height: 0px;
 		font-family: 'Darker Grotesque';
@@ -160,8 +166,9 @@
 
 	.buttonContainer {
 		vertical-align: middle;
-		width: 515px;
-		height: 350px;
+		width: 100%;
+		height: 50%;
+		margin-top:50%;
 		margin: auto;
 		position: absolute;
 		top: 0; right: 0;
@@ -171,6 +178,7 @@
 		outline: none;
 		background-color:	white;
 	}
+
 
 	select:focus,
 	textarea:focus,
@@ -187,7 +195,7 @@
 	<div class = "fullBackgroundContainer">
 	<div class = "smallerBackgroundContainer">
 		<div id ="header" class = "header">
-			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: 65px; letter-spacing: 5px;">WRONG PAGE MAYBE?</h1>
+			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: calc(20px + 5vh);; letter-spacing: 5px;">WRONG PAGE MAYBE?</h1>
 		</div>
 	<div id = "1" class = "buttonContainer" style = "text-align:center;" >
 	<div>
@@ -204,11 +212,11 @@
 
 	$(document).ready(function(){
 		$(".subButton").on('mouseenter', function(){
-			$(this).css({padding: '22px',
-									'padding-top':'18px',
-									width:'205px',
-									'font-size':'21px',
-									'margin-top':'9px'
+			$(this).css({padding: '3.7%',
+									'padding-top':'2.5%',
+									width:'36%',
+									'font-size':'2.6vh',
+									'margin-top':'1.8%'
 								});
 			/*
 			$(this).css('padding-top', '18px');
@@ -218,19 +226,13 @@
 			*/
 		});
 		$(".subButton").on('mouseleave', function(){
-			$(this).css({padding: '20px',
-									'padding-top':'18px',
-									width:'200px',
-									'font-size':'20px',
-									'margin-top':'10px'
+			$(this).css({padding: '3.5%',
+									'padding-top':'2.5%',
+									width:'35%',
+									'font-size':'2.5vh',
+									'margin-top':'2%'
 								});
-			/*
-			$(this).css('width', '200px');
-			$(this).css('font-size', '20px');
-			$(this).css('padding', '20px');
-			$(this).css('padding-top', '18px');
-			$(this).css('margin-top', '10px');
-			*/
+
 		});
 	});
 	</script>
