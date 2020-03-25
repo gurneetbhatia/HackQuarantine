@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width = device-width, initial-scale = 1">
+
+	<title>Account Setup</title>
+
+	<link href='https://fonts.googleapis.com/css?family=Chau Philomene One' rel='stylesheet'>
+	<link href='https://fonts.googleapis.com/css?family=Darker Grotesque' rel='stylesheet'>
+
+
+	<script src='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
+
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+	<style>
+		body, html{
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			background-color: #019585;
+		}
+		p{
+			color: black;
+		}
+		.jumbotron{
+			font-family: 'Darker Grotesque';
+			background-color: rgba(255,255,255,0.9);
+			color: white;
+		}
+		#header{
+			font-family: 'Chau Philomene One';
+			text-align: center;	
+			background-color: #1a7c72;
+			color: white;
+			border-top-left-radius: 28px;
+			border-top-right-radius: 28px;
+			margin-bottom: 0px;
+			padding-top: 40px;
+			padding-bottom: 40px;
+		}
+		#form{
+			padding-top: 5%;
+			padding-bottom: 3%;
+		}
+		#formEntry1{
+			margin-top: 0px;
+			margin-bottom: 0px;
+			border-top-left-radius: 0px;
+			border-top-right-radius: 0px;
+			border-bottom-left-radius: 0px;
+			border-bottom-right-radius: 0px;
+		}
+		#formEntry2{
+			display: none;
+			margin-top: 0px;
+			margin-bottom: 0px;
+			border-top-left-radius: 0px;
+			border-top-right-radius: 0px;
+			border-bottom-left-radius: 0px;
+			border-bottom-right-radius: 0px;
+		}
+		#fullBackgroundContainer {
+			height: 100%;
+			width: 100%;
+			background-image: url("online-3217733_1920.jpg");
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+		.form-group{
+			color: black;
+		}
+		#buttons{
+			font-family: 'Chau Philomene One';
+			text-align: center;	
+			background-color: #1a7c72;
+			border-bottom-left-radius: 28px;
+			border-bottom-right-radius: 28px;
+			padding-top: 40px;
+			padding-bottom: 40px;
+		}
+		#helper{
+			display: none;
+		}
+		#map{
+			position: relative;
+			top: 0;
+			bottom: 0;
+			width: 100%;
+			height: 300px;
+		}
+		.coordinates {
+			background: rgba(0, 0, 0, 0.5);
+			color: #fff;
+			position: relative;
+			bottom: 70px;
+			left: 10px;
+			margin: 0;
+			padding: 5px, 10px;
+			font-size: 11px;
+			line-height: 18px;
+			width: 20%;
+			border-radius: 3px;
+
+			display: none;
+		}
+		#sel2{
+			margin-top: 15px;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="fullBackgroundContainer" >
+		<div id="form" class="container">
+			<div id="header" class="page-header">
+				<h1>Account Setup</h1>
+			</div>
+			<div id="formEntry1" class="jumbotron">
+				<p>* Required fields</p>
+				<form action="#">
+					<div class="form-group">
+						<label for="firstName">First Name *</label>
+						<input class="form-control" id="firstName">
+					</div>
+					<div class="form-group">
+						<label for="lastName">Last Name *</label>
+						<input class="form-control" id="lastName">
+					</div>
+				</form>
+			</div>
+			<div id="formEntry2" class="jumbotron">
+				<p>* Required fields</p>
+				<div id="sel1" class="form-group">
+					<label for="helperSelect">Will you be a helper? *</label>
+					<select class="form-control" id="helperSelect">
+						<option id="selNo">No</option>
+						<option id="selYes">Yes</option>
+					</select>
+				</div>
+				<div id="helper">
+					<p>Choose location *</p>
+					<div id='map'></div>
+					<pre id="coordinates" class="coordinates"></pre>
+					<div id="sel2" class="form-group">
+						<label for="radiusSelect">Choose preferred radius *</label>
+						<select class="form-control" id="radiusSelect">
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+							<option>6</option>
+							<option>7</option>
+							<option>8</option>
+							<option>9</option>
+							<option>10</option>
+					</select>
+				</div>
+				</div>
+			</div>
+			<div id="buttons" class="jumbotron">
+				<div class="btn-group">
+					<input id="previous" type="button" class="btn" disabled="disabled" value="Previous" onclick="previousPage();"></button>
+					<input id="next" type="button" class="btn" value="Next" onclick="nextPage();"></button>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+	<script>
+		function nextPage(){
+			document.getElementById('next').disabled = true;
+			document.getElementById('previous').disabled = false;
+			document.getElementById('formEntry1').style.display = 'none';
+			document.getElementById('formEntry2').style.display = 'block';
+		}
+
+		function previousPage(){
+			document.getElementById('next').disabled = false;
+			document.getElementById('previous').disabled = true;
+			document.getElementById('formEntry1').style.display = 'block';
+			document.getElementById('formEntry2').style.display = 'none';
+		}
+
+		$(document).ready(function(){
+			$("select").change(function(){
+				$(this).find("option:selected").each(function(){
+					if($(this).attr("id")=="selYes"){
+						$("#helper").show();
+					}
+					else{
+						$("#helper").hide();
+					}
+				})
+			}).change();
+		});
+	</script>
+
+	<script>
+		mapboxgl.accessToken = 'pk.eyJ1IjoiaHVjY2FsIiwiYSI6ImNrODdta3FwYTAxaTAzbW1lbjZ3dXc2bTYifQ.bCvPCM3ThA-UbWLF4-Eqnw';
+		var map = new mapboxgl.Map({
+		container: 'map',
+		style: 'mapbox://styles/mapbox/streets-v11',
+		center: [-2.2338, 53.4668],
+		zoom: 12
+		});
+
+		var marker = new mapboxgl.Marker({
+		draggable: true
+		})
+		.setLngLat([-2.2338, 53.4668])
+		.addTo(map);
+		 
+		function onDragEnd() {
+		var lngLat = marker.getLngLat();
+		coordinates.style.display = 'block';
+		coordinates.innerHTML =
+		'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
+		}
+		 
+		marker.on('dragend', onDragEnd);
+	</script>
+
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+</body>
+</html>
