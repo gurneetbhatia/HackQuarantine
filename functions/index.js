@@ -38,12 +38,20 @@ app.use(express.json());
 exports.register = functions.https.onCall((data, context) => {
 	getUniqueUserID().then(function(output) {
 		var userid = output;
-		createUser(userid, data.username, data.email, data.phone);
+		createUser(data.userid, data.username, data.email, data.phone);
 		// response.set('Access-Control-Allow-Origin', '*');
 		// response.status(500).send({test: 'Testing functions'});
 		// createUser(userid, "07464", "G", "Bhatia", "sbgurneet@gmail.com", "test", "novice", false);
 	});
 });
+
+function createUser(userid, username, email, phone) {
+	firebase.database().ref('users/' + userid).set({
+		username: username,
+		email: email,
+		phone: phone
+	})
+}
 
 async function getUniqueUserID() {
 	var userid = Math.floor(Math.random()*90000) + 10000;
@@ -64,14 +72,6 @@ async function getAllUserIDs() {
     	//userids = Object.keys(snapshot.val());
 	});
 	return userids;
-}
-
-function createUser(userid, username, email, phone) {
-	firebase.database().ref('users/' + userid).set({
-		username: username,
-		email: email,
-		phone: phone
-	})
 }
 
 
