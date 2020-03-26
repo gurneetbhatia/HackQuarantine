@@ -2,6 +2,7 @@ const functions = require('firebase-functions');
 const firebase = require("firebase");
 const express = require('express');
 const cors = require('cors')({origin: true});
+const nodemailer = require('nodemailer');
 var app = express();
 // Required for side-effects
 require("firebase/firestore");
@@ -37,9 +38,9 @@ exports.register = functions.https.onCall((data, context) => {
 	getUniqueUserID().then(function(output) {
 		var userid = output;
 		createUser(userid, data.username, data.email, data.phone);
-		response.set('Access-Control-Allow-Origin', '*');
-		response.status(500).send({test: 'Testing functions'});
-		//createUser(userid, "07464", "G", "Bhatia", "sbgurneet@gmail.com", "test", "novice", false);
+		// response.set('Access-Control-Allow-Origin', '*');
+		// response.status(500).send({test: 'Testing functions'});
+		// createUser(userid, "07464", "G", "Bhatia", "sbgurneet@gmail.com", "test", "novice", false);
 	});
 });
 

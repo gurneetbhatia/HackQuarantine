@@ -304,13 +304,15 @@
 			var phone = document.getElementById('phone').value;
 			const promise = auth.createUserWithEmailAndPassword(email, password);
 			promise.then(user => {
-			  user.sendEmailVerification();
-			}).catch(error => console.log);
-			var register = firebase.functions().httpsCallable('register');
-			register({username: username, email: email, phone: phone}).then(function(result) {
+			  // user.sendEmailVerification();
+			  var register = firebase.functions().httpsCallable('register');
+				register({username: username, email: email, phone: phone}).then(function(result) {
 				alert('here');
 				console.log(result);
 				// TODO: Do anything that needs to happen after the reg form is submitted over here (like changing pages etc.)
+			});
+			}).catch(error => {
+				alert(error);
 			});
 		}
 	</script>
