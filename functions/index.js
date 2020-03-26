@@ -10,6 +10,8 @@ require("firebase/functions");
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyCleBofgyhYWDkI6o9fz1lF_wZnlpIlnuc",
   authDomain: "hq-app-8cc14.firebaseapp.com",
@@ -36,12 +38,20 @@ app.use(express.json());
 exports.register = functions.https.onCall((data, context) => {
 	getUniqueUserID().then(function(output) {
 		var userid = output;
-		createUser(userid, data.username, data.email, data.password, data.phone);
-		response.set('Access-Control-Allow-Origin', '*');
-		response.status(500).send({test: 'Testing functions'});
-		//createUser(userid, "07464", "G", "Bhatia", "sbgurneet@gmail.com", "test", "novice", false);
+		createUser(data.userid, data.username, data.email, data.phone);
+		// response.set('Access-Control-Allow-Origin', '*');
+		// response.status(500).send({test: 'Testing functions'});
+		// createUser(userid, "07464", "G", "Bhatia", "sbgurneet@gmail.com", "test", "novice", false);
 	});
 });
+
+function createUser(userid, username, email, phone) {
+	firebase.database().ref('users/' + userid).set({
+		username: username,
+		email: email,
+		phone: phone
+	})
+}
 
 async function getUniqueUserID() {
 	var userid = Math.floor(Math.random()*90000) + 10000;
@@ -63,42 +73,6 @@ async function getAllUserIDs() {
 	});
 	return userids;
 }
-
-function createUser(userid, username, email, password, phone) {
-	firebase.database().ref('users/' + userid).set({
-		username: username,
-		email: email,
-		password: password,
-		phone: phone
-	})
-}
-
-/*var database = firebase.database();
-exports.helloWorld = functions.https.onRequest((request, response) => {
-	response.send("Hello from Firebase!");
-});*/
-//console.log('here1');
-//firebase.analytics();
-
-/*exports.dbTest = functions.https.onRequest((request, response) => {
-	var database = firebase.database();
-	var db = firebase.firestore();
-	db.collection("users").add({
-	    first_name: "Gurneet",
-	    last_name: "Bhatia",
-	    email: "sbgurneet@gmail.com",
-	    at_risk: false,
-	    password: "testpasswd",
-	    volunteer_level: "novice"
-	})
-	.then(function(docRef) {
-	    console.log("Document written with ID: ", docRef.id);
-	})
-	.catch(function(error) {
-	    console.error("Error adding document: ", error);
-	});
-
-});*/
 
 
 
