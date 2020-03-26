@@ -297,7 +297,6 @@
 		var functions = firebase.functions();
 		var auth = firebase.auth();
 		function regsubmit(event) {
-			alert("here1");
 			var username = document.getElementById('username').value;
 			var email = document.getElementById('email').value;
 			var password = document.getElementById('password').value;
@@ -309,6 +308,7 @@
 				register({username: username, email: email, phone: phone}).then(function(result) {
 				alert('here');
 				console.log(result);
+				window.location.href = "accountsetup.html";
 				// TODO: Do anything that needs to happen after the reg form is submitted over here (like changing pages etc.)
 			});
 			}).catch(error => {

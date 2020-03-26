@@ -2,7 +2,6 @@ const functions = require('firebase-functions');
 const firebase = require("firebase");
 const express = require('express');
 const cors = require('cors')({origin: true});
-const nodemailer = require('nodemailer');
 var app = express();
 // Required for side-effects
 require("firebase/firestore");
@@ -11,6 +10,8 @@ require("firebase/functions");
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyCleBofgyhYWDkI6o9fz1lF_wZnlpIlnuc",
   authDomain: "hq-app-8cc14.firebaseapp.com",
@@ -72,33 +73,6 @@ function createUser(userid, username, email, phone) {
 		phone: phone
 	})
 }
-
-/*var database = firebase.database();
-exports.helloWorld = functions.https.onRequest((request, response) => {
-	response.send("Hello from Firebase!");
-});*/
-//console.log('here1');
-//firebase.analytics();
-
-/*exports.dbTest = functions.https.onRequest((request, response) => {
-	var database = firebase.database();
-	var db = firebase.firestore();
-	db.collection("users").add({
-	    first_name: "Gurneet",
-	    last_name: "Bhatia",
-	    email: "sbgurneet@gmail.com",
-	    at_risk: false,
-	    password: "testpasswd",
-	    volunteer_level: "novice"
-	})
-	.then(function(docRef) {
-	    console.log("Document written with ID: ", docRef.id);
-	})
-	.catch(function(error) {
-	    console.error("Error adding document: ", error);
-	});
-
-});*/
 
 
 
