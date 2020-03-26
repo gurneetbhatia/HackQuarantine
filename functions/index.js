@@ -36,7 +36,7 @@ app.use(express.json());
 exports.register = functions.https.onCall((data, context) => {
 	getUniqueUserID().then(function(output) {
 		var userid = output;
-		createUser(userid, data.username, data.email, data.password, data.phone);
+		createUser(userid, data.username, data.email, data.phone);
 		response.set('Access-Control-Allow-Origin', '*');
 		response.status(500).send({test: 'Testing functions'});
 		//createUser(userid, "07464", "G", "Bhatia", "sbgurneet@gmail.com", "test", "novice", false);
@@ -64,11 +64,10 @@ async function getAllUserIDs() {
 	return userids;
 }
 
-function createUser(userid, username, email, password, phone) {
+function createUser(userid, username, email, phone) {
 	firebase.database().ref('users/' + userid).set({
 		username: username,
 		email: email,
-		password: password,
 		phone: phone
 	})
 }

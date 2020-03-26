@@ -281,6 +281,9 @@
 		$(".smallerBackgroundContainer").animate({
 			left:0
 		});
+		$('form').submit(function(event){
+			event.preventDefault();
+		});
 		// connecting the registration button here for access in Node JS
 		/*$('#regform').submit(function (event) {
 			$.post('https://us-central1-hq-app-8cc14.cloudfunctions.net/register', {username: $('#username').val(), email: $('#email').val(), password: $('password').val(), phone: $('phone').val()}, function(data) {
@@ -292,14 +295,19 @@
 	<!--<div id='firebaseui-auth-container'></div>-->
 	<script type="text/javascript">
 		var functions = firebase.functions();
-		function regsubmit() {
+		var auth = firebase.auth();
+		function regsubmit(event) {
 			alert("here1");
 			var username = document.getElementById('username').value;
 			var email = document.getElementById('email').value;
 			var password = document.getElementById('password').value;
 			var phone = document.getElementById('phone').value;
+			const promise = auth.createUserWithEmailAndPassword(email, password);
+			promise.then(user => {
+			  user.sendEmailVerification();
+			}).catch(error => console.log);
 			var register = firebase.functions().httpsCallable('register');
-			register({username: username, email: email, password: password, phone: phone}).then(function(result) {
+			register({username: username, email: email, phone: phone}).then(function(result) {
 				alert('here');
 				console.log(result);
 				// TODO: Do anything that needs to happen after the reg form is submitted over here (like changing pages etc.)
