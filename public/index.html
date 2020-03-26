@@ -296,7 +296,7 @@
 	<script type="text/javascript">
 		var functions = firebase.functions();
 		var auth = firebase.auth();
-		function regsubmit(event) {
+		function regsubmit() {
 			var username = document.getElementById('username').value;
 			var email = document.getElementById('email').value;
 			var password = document.getElementById('password').value;
@@ -304,6 +304,7 @@
 			const promise = auth.createUserWithEmailAndPassword(email, password);
 			promise.then(user => {
 			  // user.sendEmailVerification();
+			  auth.currentUser.sendEmailVerification();
 			  var register = firebase.functions().httpsCallable('register');
 				register({username: username, email: email, phone: phone}).then(function(result) {
 				alert('here');
