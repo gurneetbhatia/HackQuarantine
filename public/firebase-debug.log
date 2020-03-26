@@ -41,3 +41,89 @@
 [info] i  functions: Your functions could not be parsed due to an issue with your node_modules (see above)
 [debug] [2020-03-24T22:08:31.142Z] [worker-~diagnostic~-04e780c2-5270-4be0-ae69-5d533de33332]: exited
 [debug] [2020-03-24T22:08:31.142Z] [worker-~diagnostic~-04e780c2-5270-4be0-ae69-5d533de33332]: FINISHED
+[debug] [2020-03-25T12:10:32.989Z] ----------------------------------------------------------------------
+[debug] [2020-03-25T12:10:32.992Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\findai\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve --project hq-app-8cc14
+[debug] [2020-03-25T12:10:32.992Z] CLI Version:   7.16.0
+[debug] [2020-03-25T12:10:32.992Z] Platform:      win32
+[debug] [2020-03-25T12:10:32.992Z] Node Version:  v12.16.1
+[debug] [2020-03-25T12:10:32.993Z] Time:          Wed Mar 25 2020 12:10:32 GMT+0000 (Greenwich Mean Time)
+[debug] [2020-03-25T12:10:32.993Z] ----------------------------------------------------------------------
+[debug] [2020-03-25T12:10:32.993Z] 
+[debug] [2020-03-25T12:10:33.005Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-03-25T12:10:33.005Z] > authorizing via signed-in user
+[debug] [2020-03-25T12:10:33.005Z] [iam] checking project hq-app-8cc14 for permissions ["firebase.projects.get"]
+[debug] [2020-03-25T12:10:33.008Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2020-03-25T12:10:33.008Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2020-03-25T12:10:33.137Z] <<< HTTP RESPONSE 200
+[debug] [2020-03-25T12:10:33.148Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/hq-app-8cc14:testIamPermissions  
+
+[debug] [2020-03-25T12:10:33.948Z] <<< HTTP RESPONSE 200
+[debug] [2020-03-25T12:10:33.949Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/hq-app-8cc14  
+ 
+[debug] [2020-03-25T12:10:34.244Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\wamp64\www\wwwprojects\HackQuarantine'...
+[info] 
+[debug] [2020-03-25T12:10:34.247Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/hq-app-8cc14/webApps/-/config  
+ 
+[debug] [2020-03-25T12:10:34.865Z] <<< HTTP RESPONSE 200
+[info] i  hosting[shopperhelper]: Serving hosting files from: public
+[info] +  hosting[shopperhelper]: Local server: http://localhost:5000
+[warn] !  Your requested "node" version "8" doesn't match your global version "12"
+[info] +  functions: functions emulator started at http://localhost:5001
+[info] i  functions: Watching "C:\wamp64\www\wwwprojects\HackQuarantine\functions" for Cloud Functions...
+[debug] [2020-03-25T12:10:35.273Z] [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-03-25T12:10:35.273Z] [worker-pool] Adding worker with key ~diagnostic~, total=1
+[debug] [2020-03-25T12:10:35.273Z] [worker-pool] submitWork(triggerId=)
+[debug] [2020-03-25T12:10:35.273Z] [worker-~diagnostic~-6fffd1f6-ebe3-4144-8424-a0b4165569d4]: Assigning socketPath: \\?\pipe\C:\wamp64\www\wwwprojects\HackQuarantine\functions\13412
+[debug] [2020-03-25T12:10:35.273Z] [worker-~diagnostic~-6fffd1f6-ebe3-4144-8424-a0b4165569d4]: BUSY
+[debug] [2020-03-25T12:10:35.571Z] [runtime-status] [13412] Functions runtime initialized. {"cwd":"C:\\wamp64\\www\\wwwprojects\\HackQuarantine\\functions","node_version":"12.16.1"}
+[debug] [2020-03-25T12:10:35.572Z] [runtime-status] [13412] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[warn] !  The Cloud Functions emulator requires the module "firebase-admin" to be installed. This package is in your package.json, but it's not available. You probably need to run "npm install" in your functions directory.
+[info] i  functions: Your functions could not be parsed due to an issue with your node_modules (see above)
+[debug] [2020-03-25T12:10:35.589Z] [worker-~diagnostic~-6fffd1f6-ebe3-4144-8424-a0b4165569d4]: exited
+[debug] [2020-03-25T12:10:35.589Z] [worker-~diagnostic~-6fffd1f6-ebe3-4144-8424-a0b4165569d4]: FINISHED
+[debug] [2020-03-26T03:13:34.581Z] ----------------------------------------------------------------------
+[debug] [2020-03-26T03:13:34.585Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\findai\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve --project hq-app-8cc14
+[debug] [2020-03-26T03:13:34.586Z] CLI Version:   7.16.0
+[debug] [2020-03-26T03:13:34.586Z] Platform:      win32
+[debug] [2020-03-26T03:13:34.586Z] Node Version:  v12.16.1
+[debug] [2020-03-26T03:13:34.592Z] Time:          Thu Mar 26 2020 03:13:34 GMT+0000 (Greenwich Mean Time)
+[debug] [2020-03-26T03:13:34.592Z] ----------------------------------------------------------------------
+[debug] [2020-03-26T03:13:34.592Z] 
+[debug] [2020-03-26T03:13:34.608Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-03-26T03:13:34.609Z] > authorizing via signed-in user
+[debug] [2020-03-26T03:13:34.609Z] [iam] checking project hq-app-8cc14 for permissions ["firebase.projects.get"]
+[debug] [2020-03-26T03:13:34.611Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2020-03-26T03:13:34.611Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2020-03-26T03:13:34.746Z] <<< HTTP RESPONSE 200
+[debug] [2020-03-26T03:13:34.755Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/hq-app-8cc14:testIamPermissions  
+
+[debug] [2020-03-26T03:13:35.466Z] <<< HTTP RESPONSE 200
+[debug] [2020-03-26T03:13:35.467Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/hq-app-8cc14  
+ 
+[debug] [2020-03-26T03:13:35.713Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\wamp64\www\wwwprojects\HackQuarantine'...
+[info] 
+[debug] [2020-03-26T03:13:35.718Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/hq-app-8cc14/webApps/-/config  
+ 
+[debug] [2020-03-26T03:13:36.373Z] <<< HTTP RESPONSE 200
+[info] i  hosting[shopperhelper]: Serving hosting files from: public
+[info] +  hosting[shopperhelper]: Local server: http://localhost:5000
+[warn] !  Your requested "node" version "8" doesn't match your global version "12"
+[info] +  functions: functions emulator started at http://localhost:5001
+[info] i  functions: Watching "C:\wamp64\www\wwwprojects\HackQuarantine\functions" for Cloud Functions...
+[debug] [2020-03-26T03:13:36.740Z] [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-03-26T03:13:36.740Z] [worker-pool] Adding worker with key ~diagnostic~, total=1
+[debug] [2020-03-26T03:13:36.741Z] [worker-pool] submitWork(triggerId=)
+[debug] [2020-03-26T03:13:36.741Z] [worker-~diagnostic~-5139c19e-6936-4e5b-8671-1db08340a1d2]: Assigning socketPath: \\?\pipe\C:\wamp64\www\wwwprojects\HackQuarantine\functions\11272
+[debug] [2020-03-26T03:13:36.741Z] [worker-~diagnostic~-5139c19e-6936-4e5b-8671-1db08340a1d2]: BUSY
+[debug] [2020-03-26T03:13:37.019Z] [runtime-status] [11272] Functions runtime initialized. {"cwd":"C:\\wamp64\\www\\wwwprojects\\HackQuarantine\\functions","node_version":"12.16.1"}
+[debug] [2020-03-26T03:13:37.019Z] [runtime-status] [11272] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[warn] !  The Cloud Functions emulator requires the module "firebase-admin" to be installed. This package is in your package.json, but it's not available. You probably need to run "npm install" in your functions directory.
+[info] i  functions: Your functions could not be parsed due to an issue with your node_modules (see above)
+[debug] [2020-03-26T03:13:37.038Z] [worker-~diagnostic~-5139c19e-6936-4e5b-8671-1db08340a1d2]: exited
+[debug] [2020-03-26T03:13:37.038Z] [worker-~diagnostic~-5139c19e-6936-4e5b-8671-1db08340a1d2]: FINISHED
