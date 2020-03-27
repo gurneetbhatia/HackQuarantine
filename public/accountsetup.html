@@ -137,15 +137,15 @@
 				<form action="#" id="entry1" method="post">
 					<div class="form-group">
 						<label for="firstName">First Name *</label>
-						<input class="form-control" id="firstName">
+						<input class="form-control" id="firstName" required>
 					</div>
 					<div class="form-group">
 						<label for="lastName">Last Name *</label>
-						<input class="form-control" id="lastName">
+						<input class="form-control" id="lastName" required>
 					</div>
 					<div class="form-group">
 						<label for="age">Age *</label>
-						<input class="form-control" id="age">
+						<input class="form-control" id="age" required>
 					</div>
 					<div id="selMed" class="form-group">
 					<label for="medSelect">Any medical conditions? * <b data-toggle="tooltip" title="Any conditions that poses you at a higher risk, e.g., asthma, chronic lung disease, heart conditions, immunocompromised, etc.">?</b></label>
@@ -201,11 +201,19 @@
 	</div>
 	<script>
 		function nextPage(){
-			document.getElementById('next').disabled = true;
-			document.getElementById('previous').disabled = false;
-			document.getElementById('finButton').disabled = false;
-			document.getElementById('formEntry1').style.display = 'none';
-			document.getElementById('formEntry2').style.display = 'block';
+			const firstName = document.getElementById('firstName').value;
+			const lastName = document.getElementById('lastName').value;
+			const age = document.getElementById('age').value;
+			if(!(firstName && lastName && age)) {
+				alert('Please fill out all the required fields!');
+			} else {
+
+				document.getElementById('next').disabled = true;
+				document.getElementById('previous').disabled = false;
+				document.getElementById('finButton').disabled = false;
+				document.getElementById('formEntry1').style.display = 'none';
+				document.getElementById('formEntry2').style.display = 'block';
+			}
 		}
 
 		function previousPage(){
@@ -238,18 +246,22 @@
 				firstName = $("#firstName").val();
 				lastName = $("#lastName").val();
 				age = $("#age").val();
-				medCond = $("#selMed").find("option:selected").val();
-				helper = $("#sel1").find("option:selected").val();
-				radius = $("#sel2").find("option:selected").val();
+				if(!(firstName && lastName && age)) {
+					alert('Please fill out all the required fields!');
+				} else {
+					medCond = $("#selMed").find("option:selected").val();
+					helper = $("#sel1").find("option:selected").val();
+					radius = $("#sel2").find("option:selected").val();
 
-				document.getElementById('formEntry1').style.display = 'none';
-				document.getElementById('formEntry2').style.display = 'none';
-				document.getElementById('buttons').style.display = 'none';
-				document.getElementById('finishPage').style.display = 'block';
+					document.getElementById('formEntry1').style.display = 'none';
+					document.getElementById('formEntry2').style.display = 'none';
+					document.getElementById('buttons').style.display = 'none';
+					document.getElementById('finishPage').style.display = 'block';
 
-				setTimeout(function(){
-					window.location.href = "homepage.html";
-				}, 3000);
+					setTimeout(function(){
+						window.location.href = "homepage.html";
+					}, 3000);
+				}
 
 			})
 
