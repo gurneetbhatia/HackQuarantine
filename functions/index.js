@@ -35,12 +35,18 @@ app.use(express.json());
 		createUser(userid, "07464", "G", "Bhatia", "sbgurneet@gmail.com", "test", "novice", false);
 	});
 });*/
-/*exports.checkIfUserUnique = functions.https.onCall((data, context) => {
-
-});*/
-
-exports.currentUser = functions.https.onCall((data, context) => {
-	return {user: firebase.auth().currentUser};
+exports.checkIfUserUnique = functions.https.onCall((data, context) => {
+	return firebase.database().ref('/users/').once("value").then(function(snapshot) {
+	    let snapData = snapshot.val();
+	    values = Object.values(snapData);
+	    var usernames = [];
+	    for (var i=0;i<values.length;i++) {
+	    	usernames.push(values[i].username);
+	    }
+	    return !usernames.includes(data.username);
+	}).catch(function(error) {
+		return error;
+	});
 });
 
 exports.register = functions.https.onCall((data, context) => {
@@ -61,16 +67,6 @@ exports.register = functions.https.onCall((data, context) => {
 		// createUser(userid, "07464", "G", "Bhatia", "sbgurneet@gmail.com", "test", "novice", false);
 	});
 });
-
-/*async function getAllUsernames() {
-	var usernames = {}
-	await firebase.database().ref('/users/').once("value").then(function(snapshot) {
-		let values = snapshot.val();
-		userids = (values) ? Object.keys(snapshot.val()) : [];
-    	//userids = Object.keys(snapshot.val());
-	});
-	return userids;
-}*/
 
 function createUser(userid, username, email, phone) {
 	firebase.database().ref('users/' + userid).set({

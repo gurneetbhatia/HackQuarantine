@@ -309,16 +309,26 @@
 			var email = document.getElementById('email').value;
 			var password = document.getElementById('password').value;
 			var phone = document.getElementById('phone').value;
-			const promise = auth.createUserWithEmailAndPassword(email, password);
-			promise.then(user => {
-			  //user.sendEmailVerification();
-			  auth.currentUser.sendEmailVerification();
-			  var register = firebase.functions().httpsCallable('register');
-				register({userid: auth.currentUser.uid, username: username, email: email, phone: phone}).then(function(result) {
+			var userUnique = firebase.functions().httpsCallable("checkIfUserUnique");
+			userUnique({username: username.value}).then(function(result) {
 				console.log(result);
-				window.location.href = "accountsetup.html";
-				// TODO: Do anything that needs to happen after the reg form is submitted over here (like changing pages etc.)
-			});
+				if(result.data) {
+					const promise = auth.createUserWithEmailAndPassword(email, password);
+					promise.then(user => {
+					  //user.sendEmailVerification();
+					  auth.currentUser.sendEmailVerification();
+					  var register = firebase.functions().httpsCallable('register');
+						register({userid: auth.currentUser.uid, username: username, email: email, phone: phone}).then(function(result) {
+							console.log(result);
+							window.location.href = "accountsetup.html";
+							// TODO: Do anything that needs to happen after the reg form is submitted over here (like changing pages etc.)
+					});
+					}).catch(error => {
+						alert(error);
+					});
+				} else {
+					alert("Username taken!");
+				}
 			}).catch(error => {
 				alert(error);
 			});
