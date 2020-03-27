@@ -56,6 +56,9 @@
 		p{
 			color: black;
 		}
+		input:disabled {
+			cursor: not-allowed;
+		}
 		.jumbotron{
 			font-family: 'Darker Grotesque';
 			background-color: rgba(255,255,255,0.9);
@@ -297,7 +300,7 @@
 	</script>
 
 	<script>
-		mapboxgl.accessToken = 'pk.eyJ1IjoiaHVjY2FsIiwiYSI6ImNrODdta3FwYTAxaTAzbW1lbjZ3dXc2bTYifQ.bCvPCM3ThA-UbWLF4-Eqnw';
+		/*mapboxgl.accessToken = 'pk.eyJ1IjoiaHVjY2FsIiwiYSI6ImNrODdta3FwYTAxaTAzbW1lbjZ3dXc2bTYifQ.bCvPCM3ThA-UbWLF4-Eqnw';
 		var map = new mapboxgl.Map({
 		container: 'map',
 		style: 'mapbox://styles/mapbox/streets-v11',
@@ -318,7 +321,59 @@
 		draggable: true
 		})
 		.setLngLat([-0.13044, 51.5099])
-		.addTo(map);
+		.addTo(map);*/
+
+		function setMapToCurrentPos(position) {
+			mapboxgl.accessToken = 'pk.eyJ1IjoiaHVjY2FsIiwiYSI6ImNrODdta3FwYTAxaTAzbW1lbjZ3dXc2bTYifQ.bCvPCM3ThA-UbWLF4-Eqnw';
+			var map = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/mapbox/streets-v11',
+			center: [position.coords.longitude, position.coords.latitude],
+			zoom: 7
+			});
+
+			map.addControl(
+				new mapboxgl.GeolocateControl({
+					positionOptions: {
+						enableHighAccuracy: true
+					},
+					trackUserLocation: true
+				})
+			);
+
+			/*var marker = new mapboxgl.Marker({
+			draggable: true
+			})
+			.setLngLat([-0.13044, 51.5099])
+			.addTo(map);*/
+		}
+
+		function setMapToPredefinedPos() {
+			mapboxgl.accessToken = 'pk.eyJ1IjoiaHVjY2FsIiwiYSI6ImNrODdta3FwYTAxaTAzbW1lbjZ3dXc2bTYifQ.bCvPCM3ThA-UbWLF4-Eqnw';
+			var map = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/mapbox/streets-v11',
+			center: [-0.13044, 51.5099],
+			zoom: 7
+			});
+
+			map.addControl(
+				new mapboxgl.GeolocateControl({
+					positionOptions: {
+						enableHighAccuracy: true
+					},
+					trackUserLocation: true
+				})
+			);
+
+			var marker = new mapboxgl.Marker({
+			draggable: true
+			})
+			.setLngLat([-0.13044, 51.5099])
+			.addTo(map);
+		}
+
+		navigator.geolocation.getCurrentPosition(setMapToCurrentPos, setMapToPredefinedPos);
 		 
 		function onDragEnd() {
 		var lngLat = marker.getLngLat();
