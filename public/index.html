@@ -196,26 +196,12 @@
     outline: none
 	}
 
-	.preloader {
-	  align-items: center;
-	  background: rgb(23, 22, 22);
-	  display: flex;
-	  height: 100vh;
-	  justify-content: center;
-	  left: 0;
-	  position: fixed;
-	  top: 0;
-	  transition: opacity 0.3s linear;
-	  width: 100%;
-	  z-index: 9999;
-	}
 
 
 	</style>
 </head>
 <body>
 	<!-- Assuming that Haikal + Finn will be putting their code in this file. I am serving this file as the first instance from the node server -->
-
 	<div class = "fullBackgroundContainer">
 	<div class = "smallerBackgroundContainer">
 		<div id ="header" class = "header">
@@ -264,9 +250,6 @@
 </div>
 </div>
 </div>
-<div class="preloader">
-  <img src="spinner.svg" alt="spinner">
-</div>
 </div>
 <script>
 
@@ -311,21 +294,6 @@
 	</script>
 	<!--<div id='firebaseui-auth-container'></div>-->
 	<script type="text/javascript">
-		const preloader = document.querySelector('.preloader');
-		const fadeEffect = setInterval(() => {
-		  // if we don't set opacity 1 in CSS, then
-		  // it will be equaled to "" -- that's why
-		  // we check it, and if so, set opacity to 1
-		  if (!preloader.style.opacity) {
-		    preloader.style.opacity = 1;
-		  }
-		  if (preloader.style.opacity > 0) {
-		    preloader.style.opacity -= 0.1;
-		  } else {
-		    clearInterval(fadeEffect);
-		  }
-		}, 100);
-		window.addEventListener('load', fadeEffect);
 
 		var functions = firebase.functions();
 		var auth = firebase.auth();
@@ -340,7 +308,6 @@
 			  auth.currentUser.sendEmailVerification();
 			  var register = firebase.functions().httpsCallable('register');
 				register({userid: auth.currentUser.uid, username: username, email: email, phone: phone}).then(function(result) {
-				alert('here');
 				console.log(result);
 				window.location.href = "accountsetup.html";
 				// TODO: Do anything that needs to happen after the reg form is submitted over here (like changing pages etc.)
