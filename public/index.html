@@ -25,9 +25,8 @@
 		var auth = firebase.auth();
 		firebase.auth().onAuthStateChanged(function(user) {
 		  if (user) {
+		  	// there is a user signed in on the current session
 		    window.location.href = "accountsetup.html";
-		  } else {
-		    // No user is signed in.
 		  }
 		});
 	</script>
