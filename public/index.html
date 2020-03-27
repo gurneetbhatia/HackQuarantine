@@ -4,6 +4,7 @@
 	<title>Title</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link href='https://fonts.googleapis.com/css?family=Darker Grotesque' rel='stylesheet'>
+	<link href='https://fonts.googleapis.com/css?family=Archivo Black' rel='stylesheet'>
 	<link href='https://fonts.googleapis.com/css?family=Chau Philomene One' rel='stylesheet'>
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<script src="/__/firebase/7.12.0/firebase-app.js"></script>
@@ -46,52 +47,6 @@
 		cursor: pointer;
 	}
 
-	@media only screen and (max-height: 600px) {
-	h1 {
-		font-family: 'Chau Philomene One';
-		letter-spacing: 2px;
-		font-size: 33px
-		}
-
-	.entryBox {
-		font-size: 20px
-		}
-
-	.title {
-		font-family: 'Chau Philomene One';
-		letter-spacing: 2px;
-		font-size: 58px
-		}
-
-	.logo {
-		width : 85px;
-		height : 85px;
-	}
-
-	}
-	@media only screen and (min-height: 600px) {
-	h1 {
-		font-family: 'Chau Philomene One';
-		letter-spacing: 2px;
-		font-size: calc(35px + (45 - 35) * ((100vh - 1000px) / (2600 - 1000)));
-	}
-
-	.entryBox {
-		font-size: calc(25px + (45 - 25) * ((100vh - 1000px) / (2600 - 1000)));
-		}
-
-	.title {
-		font-family: 'Chau Philomene One';
-		letter-spacing: 2px;
-		font-size: calc(65px + (90 - 65) * ((100vh - 1000px) / (2600 - 1000)));
-	}
-
-	.logo {
-		width: calc(90px + (120 - 90) * ((100vh - 1000px) / (2600 - 1000)));
-		height: calc(90px + (120 - 90) * ((100vh - 1000px) / (2600 - 1000)));
-	}
-}
-
 
 	.header {
 		padding: 1px;
@@ -108,7 +63,7 @@
 		position: absolute;
 		border: 0px;
 		background-image: url("online-3217733_1920.jpg");
-		min-width: 1150px;
+		min-width: 1000px;
 		min-height: 600px;
 	}
 
@@ -121,8 +76,6 @@
 		position: absolute;
 		border-radius: 30px;
 		box-shadow: 0px 0px 10px 0px #165054;
-		min-width: 1150px;
-		min-height: 600px;
 	}
 
 	.split {
@@ -182,6 +135,7 @@
 		padding-top: 3%;
     height: 1vh;
 		background-color:	#e3e1df;
+		font-size: calc(2px + 2vh);
 		letter-spacing: 1px;
 		font-family: 'Darker Grotesque';
 		font-weight: bold;
@@ -211,6 +165,7 @@
 		padding-top: 2.5%;
 		background-color:	#26b3a3;
 		color: white;
+		font-size: calc(2px + 2vh);
 		margin: 0 auto;
 		margin-top:2%;
     display: block;
@@ -241,6 +196,20 @@
     outline: none
 	}
 
+	.preloader {
+	  align-items: center;
+	  background: rgb(23, 22, 22);
+	  display: flex;
+	  height: 100vh;
+	  justify-content: center;
+	  left: 0;
+	  position: fixed;
+	  top: 0;
+	  transition: opacity 0.3s linear;
+	  width: 100%;
+	  z-index: 9999;
+	}
+
 
 	</style>
 </head>
@@ -250,7 +219,7 @@
 	<div class = "fullBackgroundContainer">
 	<div class = "smallerBackgroundContainer">
 		<div id ="header" class = "header">
-			<H1 class = "title" style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; letter-spacing: 5px;">TITLE</h1>
+			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: calc(20px + 5vh); letter-spacing: 5px;">TITLE</h1>
 		</div>
 	<div id = "right" class="split left">
 
@@ -285,7 +254,7 @@
 	<a href="#" class="fa fa-twitter"></a>
 </div>
 	<hr>
-	<form id="login">
+	<form>
 		<div id = "2" class = "adjacentEntryBox">
 			<input type="text" class="entryBox" placeholder="Username" required/>
 			<input type="password" class="entryBox" placeholder="Password" required/>
@@ -294,6 +263,9 @@
 	</form>
 </div>
 </div>
+</div>
+<div class="preloader">
+  <img src="spinner.svg" alt="spinner">
 </div>
 </div>
 <script>
@@ -339,6 +311,22 @@
 	</script>
 	<!--<div id='firebaseui-auth-container'></div>-->
 	<script type="text/javascript">
+		const preloader = document.querySelector('.preloader');
+		const fadeEffect = setInterval(() => {
+		  // if we don't set opacity 1 in CSS, then
+		  // it will be equaled to "" -- that's why
+		  // we check it, and if so, set opacity to 1
+		  if (!preloader.style.opacity) {
+		    preloader.style.opacity = 1;
+		  }
+		  if (preloader.style.opacity > 0) {
+		    preloader.style.opacity -= 0.1;
+		  } else {
+		    clearInterval(fadeEffect);
+		  }
+		}, 100);
+		window.addEventListener('load', fadeEffect);
+
 		var functions = firebase.functions();
 		var auth = firebase.auth();
 		function regsubmit() {
