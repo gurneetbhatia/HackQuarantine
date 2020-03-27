@@ -19,6 +19,20 @@
 	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
+	<script src="/__/firebase/7.12.0/firebase-app.js"></script>
+
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+	     https://firebase.google.com/docs/web/setup#available-libraries -->
+	<script src="/__/firebase/7.12.0/firebase-analytics.js"></script>
+	<script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
+	<!-- Initialize Firebase -->
+	<script src="/__/firebase/init.js"></script>
+	<script src="/__/firebase/7.12.0/firebase-auth.js"></script>
+	<script src="/__/firebase/7.12.0/firebase-database.js"></script>
+	<script src="/__/firebase/7.12.0/firebase-functions.js"></script>
+
 	<style>
 		body, html{
 			height: 100%;
@@ -263,7 +277,7 @@
 					}, 3000);
 				}
 
-			})
+			});
 
 
 		});
@@ -306,6 +320,7 @@
 		var lat = marker.getLngLat().lat;
 		console.log(long);
 		console.log(lat);
+		console.log(firebase.auth().currentUser);
 	</script>
 
 

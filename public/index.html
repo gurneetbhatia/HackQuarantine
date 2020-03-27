@@ -297,6 +297,13 @@
 
 		var functions = firebase.functions();
 		var auth = firebase.auth();
+		firebase.auth().onAuthStateChanged(function(user) {
+		  if (user) {
+		    window.location.href = "accountsetup.html";
+		  } else {
+		    // No user is signed in.
+		  }
+		});
 		function regsubmit() {
 			var username = document.getElementById('username').value;
 			var email = document.getElementById('email').value;
@@ -304,7 +311,7 @@
 			var phone = document.getElementById('phone').value;
 			const promise = auth.createUserWithEmailAndPassword(email, password);
 			promise.then(user => {
-			  // user.sendEmailVerification();
+			  //user.sendEmailVerification();
 			  auth.currentUser.sendEmailVerification();
 			  var register = firebase.functions().httpsCallable('register');
 				register({userid: auth.currentUser.uid, username: username, email: email, phone: phone}).then(function(result) {

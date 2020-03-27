@@ -35,14 +35,27 @@ app.use(express.json());
 		createUser(userid, "07464", "G", "Bhatia", "sbgurneet@gmail.com", "test", "novice", false);
 	});
 });*/
-exports.checkIfUserUnique = functions.https.onCall((data, context) => {
+/*exports.checkIfUserUnique = functions.https.onCall((data, context) => {
 
+});*/
+
+exports.currentUser = functions.https.onCall((data, context) => {
+	return {user: firebase.auth().currentUser};
 });
 
 exports.register = functions.https.onCall((data, context) => {
 	getUniqueUserID().then(function(output) {
 		var userid = output;
-		createUser(data.userid, data.username, data.email, data.phone);
+		firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+		.then(function() {
+			createUser(data.userid, data.username, data.email, data.phone);
+			return firebase.auth().signInWithEmailAndPassword(email, password);
+		})
+		.catch(function(error) {
+			// Handle Errors here.
+			return error;
+		});
+
 		// response.set('Access-Control-Allow-Origin', '*');
 		// response.status(500).send({test: 'Testing functions'});
 		// createUser(userid, "07464", "G", "Bhatia", "sbgurneet@gmail.com", "test", "novice", false);
