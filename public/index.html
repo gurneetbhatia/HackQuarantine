@@ -23,12 +23,12 @@
 	<script type="text/javascript">
 		var functions = firebase.functions();
 		var auth = firebase.auth();
-		firebase.auth().onAuthStateChanged(function(user) {
-		  if (user) {
-		  	// there is a user signed in on the current session
-		    window.location.href = "accountsetup.html";
-		  }
-		});
+		// firebase.auth().onAuthStateChanged(function(user) {
+		//   if (user) {
+		//   	// there is a user signed in on the current session
+		//     window.location.href = "accountsetup.html";
+		//   }
+		// });
 	</script>
 	<!--<script src="./app.js"></script>-->
 	<style>
@@ -222,9 +222,9 @@
 	<div id = "1" class = "buttonContainer" style = "text-align:center;" >
 		<h1 style = "color: #404040;">CREATE ACCOUNT</h1>
 	<div class = "socials">
-		<a href="#" class="fa fa-facebook"></a>
-		<a href="#" class="fa fa-google"></a>
-		<a href="#" class="fa fa-twitter"></a>
+		<a class="fa fa-facebook"></a>
+		<a id = "google" type = "button" class="fa fa-google"></a>
+		<a class="fa fa-twitter"></a>
 	</div>
 		<hr>
 	<form id="regform" onsubmit="regsubmit();">
@@ -250,10 +250,10 @@
 	<a href="#" class="fa fa-twitter"></a>
 </div>
 	<hr>
-	<form>
+	<form id="logform" onsubmit="loginSubmit();">
 		<div id = "2" class = "adjacentEntryBox">
-			<input type="text" class="entryBox" placeholder="Username" required/>
-			<input type="password" class="entryBox" placeholder="Password" required/>
+			<input id = "loginUsername" type="text" class="entryBox" placeholder="Username/email" required/>
+			<input id = "loginPassword" type="password" class="entryBox" placeholder="Password" required/>
 		</div>
 		<button id="logButton" type="submit" class="subButton">Login</button>
 	</form>
@@ -323,6 +323,49 @@
 				alert(error);
 			});
 		}
+
+	function loginSubmit() {
+		var email = document.getElementById('loginUsername').value;
+		var password = document.getElementById('loginPassword').value;
+		console.log(email);
+		console.log(password)
+		const promise = auth.signInWithEmailAndPassword(email, password);
+		promise.then(user => {
+			window.location.href = "accountsetup.html";
+		}).catch(function(error) {
+  		// Handle Errors here.
+  		var errorCode = error.code;
+  		var errorMessage = error.message;
+			console.log(errorCode)
+			console.log(errorMessage)
+		});
+	}
+	</script>
+
+	<script>
+	$("#google").click(function() {
+		console.log("Clicked")
+		var provider = new firebase.auth.GoogleAuthProvider();
+		firebase.auth().signInWithPopup(provider).then(function(result) {
+  		// This gives you a Google Access Token. You can use it to access the Google API.
+  		var token = result.credential.accessToken;
+  		// The signed-in user info.
+  		var user = result.user;
+			console.log(user)
+  		// ...
+		}).catch(function(error) {
+  		// Handle Errors here.
+  		var errorCode = error.code;
+  		var errorMessage = error.message;
+  		// The email of the user's account used.
+  		var email = error.email;
+  		// The firebase.auth.AuthCredential type that was used.
+  		var credential = error.credential;
+			console.log(errorCode)
+			console.log(errorMessage)
+  		// ...
+		})
+	});
 	</script>
 </body>
 </html>
