@@ -37,9 +37,7 @@
 		var auth = firebase.auth();
 		console.log("here");
 		auth.onAuthStateChanged(function(user) {
-		  if (user) {
-		  	console.log(user.uid);
-		  } else {
+		  if (!user) {
 		    alert("No User is logged in!");
 		    window.location.href = "/";
 		  }
@@ -222,7 +220,7 @@
 					<input id="previous" type="button" class="btn" disabled="disabled" value="Previous" onclick="previousPage();"></button>
 					<input id="next" type="button" class="btn" value="Next" onclick="nextPage();"></button>
 				</div>
-				<input id="finButton" type="button" class="btn" disabled="disabled" value="Finish">
+				<input onclick="finished();" id="finButton" type="button" class="btn" disabled="disabled" value="Finish">
 			</div>
 		</div>
 
@@ -230,6 +228,7 @@
 
 	</div>
 	<script>
+
 		function nextPage(){
 			const firstName = document.getElementById('firstName').value;
 			const lastName = document.getElementById('lastName').value;
@@ -254,6 +253,10 @@
 			document.getElementById('formEntry2').style.display = 'none';
 		}
 
+		function finished() {
+			console.log("here");
+		}
+
 		var firstName, lastName, age, medCond, helper, radius;
 
 		$(document).ready(function(){
@@ -271,7 +274,7 @@
   				$('[data-toggle="tooltip"]').tooltip()
 			})
 
-			$("#finButton").click(function(e){
+			/*$("#finButton").click(function(e){
 				e.preventDefault();
 				firstName = $("#firstName").val();
 				lastName = $("#lastName").val();
@@ -293,7 +296,7 @@
 					}, 3000);
 				}
 
-			});
+			});*/
 
 
 		});
@@ -341,11 +344,12 @@
 				})
 			);
 
-			/*var marker = new mapboxgl.Marker({
+			var marker = new mapboxgl.Marker({
 			draggable: true
 			})
-			.setLngLat([-0.13044, 51.5099])
-			.addTo(map);*/
+			.setLngLat([position.coords.longitude, position.coords.latitude])
+			.addTo(map);
+			marker.on('dragend', onDragEnd);
 		}
 
 		function setMapToPredefinedPos() {
@@ -371,6 +375,7 @@
 			})
 			.setLngLat([-0.13044, 51.5099])
 			.addTo(map);
+			marker.on('dragend', onDragEnd);
 		}
 
 		navigator.geolocation.getCurrentPosition(setMapToCurrentPos, setMapToPredefinedPos);
@@ -382,12 +387,11 @@
 		'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
 		}
 		 
-		marker.on('dragend', onDragEnd);
 
-		var long = marker.getLngLat().lng;
+		/*var long = marker.getLngLat().lng;
 		var lat = marker.getLngLat().lat;
 		console.log(long);
-		console.log(lat);
+		console.log(lat);*/
 	</script>
 
 
