@@ -56,6 +56,9 @@
 	button {
 		cursor: pointer;
 	}
+	a {
+		cursor: pointer;
+	}
 
 
 	.header {
@@ -314,7 +317,7 @@
 		<h1 style = "color: #404040;">CREATE ACCOUNT</h1>
 	<div class = "socials">
 		<a class="fa fa-facebook"></a>
-		<a id = "google" type = "button" class="fa fa-google"></a>
+		<a id = "google" type = "button" onclick="googleRegistration();" class="fa fa-google"></a>
 		<a class="fa fa-twitter"></a>
 	</div>
 		<hr>
@@ -395,6 +398,45 @@
 	</script>
 	<!--<div id='firebaseui-auth-container'></div>-->
 	<script type="text/javascript">
+		function googleRegistration() {
+			console.log("here");
+			console.log("Clicked")
+			$('#fullBackgroundContainer *').attr("disabled", "disabled").off('click');
+			document.getElementById('loadingAnimation').hidden = false;
+			var provider = new firebase.auth.GoogleAuthProvider();
+			firebase.auth().signInWithPopup(provider).then(function(result) {
+		  		// This gives you a Google Access Token. You can use it to access the Google API.
+		  		if(result.additionalUserInfo.isNewUser) {
+					// add the users details to the database and then move them to account setup
+					var register = firebase.functions().httpsCallable('register');
+					register({userid: auth.currentUser.uid, username: auth.currentUser.email, email: auth.currentUser.email, phone: null}).then(function(result) {
+							console.log(result);
+							window.location.href = "accountsetup.html";
+					});
+
+		  		} 
+
+		  		var token = result.credential.accessToken;
+		  		// The signed-in user info.
+		  		var user = result.user;
+				console.log(user);
+
+		  		
+			}).catch(function(error) {
+		  		// Handle Errors here.
+		  		var errorCode = error.code;
+		  		var errorMessage = error.message;
+		  		// The email of the user's account used.
+		  		var email = error.email;
+		  		// The firebase.auth.AuthCredential type that was used.
+		  		var credential = error.credential;
+				console.log(errorCode)
+				console.log(errorMessage)
+				$('#fullBackgroundContainer *').attr("disabled", false).on('click');
+				document.getElementById('loadingAnimation').hidden = true;
+	  			// ...
+			})
+		}
 		function regsubmit() {
 			$('#fullBackgroundContainer *').attr("disabled", "disabled").off('click');
 						document.getElementById('loadingAnimation').hidden = false;
@@ -456,13 +498,13 @@
 	</script>
 
 	<script>
-	$("#google").click(function() {
+	/*$("#google").click(function() {
 		console.log("Clicked")
+		$('#fullBackgroundContainer *').attr("disabled", "disabled").off('click');
+		document.getElementById('loadingAnimation').hidden = false;
 		var provider = new firebase.auth.GoogleAuthProvider();
 		firebase.auth().signInWithPopup(provider).then(function(result) {
 	  		// This gives you a Google Access Token. You can use it to access the Google API.
-	  		$('#fullBackgroundContainer *').attr("disabled", "disabled").off('click');
-			document.getElementById('loadingAnimation').hidden = false;
 	  		if(result.additionalUserInfo.isNewUser) {
 				// add the users details to the database and then move them to account setup
 				var register = firebase.functions().httpsCallable('register');
@@ -489,9 +531,11 @@
 	  		var credential = error.credential;
 			console.log(errorCode)
 			console.log(errorMessage)
+			$('#fullBackgroundContainer *').attr("disabled", false).on('click');
+			document.getElementById('loadingAnimation').hidden = true;
   			// ...
 		})
-	});
+	});*/
 	</script>
 </body>
 </html>
