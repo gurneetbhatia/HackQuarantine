@@ -35,11 +35,13 @@
 	<script type="text/javascript">
 		var functions = firebase.functions();
 		var auth = firebase.auth();
-		console.log("here");
 		auth.onAuthStateChanged(function(user) {
 		  if (!user) {
 		    alert("No User is logged in!");
 		    window.location.href = "/";
+		  } else if(user.providerData[0].providerId == "google.com") {
+		  	console.log("here");
+		  	document.getElementById("phoneDiv").hidden = false;
 		  }
 		});
 	</script>
@@ -175,6 +177,10 @@
 						<label for="age">Age *</label>
 						<input class="form-control" id="age" required>
 					</div>
+					<div id="phoneDiv" class="form-group" hidden=true>
+						<label for="phone">Phone Number *</label>
+						<input class="form-control" id="phone" required>
+					</div>
 					<div id="selMed" class="form-group">
 					<label for="medSelect">Any medical conditions? * <b data-toggle="tooltip" title="Any conditions that poses you at a higher risk, e.g., asthma, chronic lung disease, heart conditions, immunocompromised, etc.">?</b></label>
 					<select class="form-control" id="medSelect">
@@ -233,7 +239,8 @@
 			const firstName = document.getElementById('firstName').value;
 			const lastName = document.getElementById('lastName').value;
 			const age = document.getElementById('age').value;
-			if(!(firstName && lastName && age)) {
+			const phone = document.getElementById("phoneDiv").hidden ? "na" : document.getElementById("phone").value
+			if(!(firstName && lastName && age && phone)) {
 				alert('Please fill out all the required fields!');
 			} else {
 
