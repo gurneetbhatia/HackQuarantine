@@ -35,6 +35,7 @@ app.use(express.json());
 		createUser(userid, "07464", "G", "Bhatia", "sbgurneet@gmail.com", "test", "novice", false);
 	});
 });*/
+
 exports.checkIfUserUnique = functions.https.onCall((data, context) => {
 	return firebase.database().ref('/users/').once("value").then(function(snapshot) {
 	    let snapData = snapshot.val();
@@ -68,6 +69,19 @@ exports.register = functions.https.onCall((data, context) => {
 		// createUser(userid, "07464", "G", "Bhatia", "sbgurneet@gmail.com", "test", "novice", false);
 	});
 });
+
+exports.updateRegistrationInfo = functions.https.onCall((data, context) => {
+	let uid = data.uid;
+	data.uid = null;
+	return updateUser(uid, data);
+})
+
+function updateUser(uid, data) {
+	var newPostKey = firebase.database().ref().child('users').push().key;
+	updates = {};
+	updates['/users/' + uid] = data;
+	return firebase.database().ref().update(updates);
+}
 
 async function getUniqueUserID() {
 	var userid = Math.floor(Math.random()*90000) + 10000;

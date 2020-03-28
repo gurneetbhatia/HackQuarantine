@@ -262,6 +262,20 @@
 
 		function finished() {
 			console.log("here");
+			const firstName = document.getElementById('firstName').value;
+			const lastName = document.getElementById('lastName').value;
+			const age = document.getElementById('age').value;
+			const phone = document.getElementById("phoneDiv").hidden ? null : document.getElementById("phone").value
+			const medConditions = document.getElementById('medSelect').value;
+			const helper = document.getElementById('helperSelect').value
+			const radius = helper == "Yes" ? document.getElementById('radiusSelect').value : null;
+			const data = {uid: auth.currentUser.uid, firstName: firstName, lastName: lastName, age: age, phone: phone, medConditions: medConditions, helper: helper, radius: radius};
+			var updateRegistrationInfo = firebase.functions().httpsCallable('updateRegistrationInfo');
+			updateRegistrationInfo(data).then(function(result) {
+				console.log("pushed data");
+				window.location.href = "homepage.html";
+
+			})
 		}
 
 		var firstName, lastName, age, medCond, helper, radius;
@@ -310,28 +324,6 @@
 	</script>
 
 	<script>
-		/*mapboxgl.accessToken = 'pk.eyJ1IjoiaHVjY2FsIiwiYSI6ImNrODdta3FwYTAxaTAzbW1lbjZ3dXc2bTYifQ.bCvPCM3ThA-UbWLF4-Eqnw';
-		var map = new mapboxgl.Map({
-		container: 'map',
-		style: 'mapbox://styles/mapbox/streets-v11',
-		center: [-0.13044, 51.5099],
-		zoom: 7
-		});
-
-		map.addControl(
-			new mapboxgl.GeolocateControl({
-				positionOptions: {
-					enableHighAccuracy: true
-				},
-				trackUserLocation: true
-			})
-		);
-
-		var marker = new mapboxgl.Marker({
-		draggable: true
-		})
-		.setLngLat([-0.13044, 51.5099])
-		.addTo(map);*/
 
 		function setMapToCurrentPos(position) {
 			mapboxgl.accessToken = 'pk.eyJ1IjoiaHVjY2FsIiwiYSI6ImNrODdta3FwYTAxaTAzbW1lbjZ3dXc2bTYifQ.bCvPCM3ThA-UbWLF4-Eqnw';
