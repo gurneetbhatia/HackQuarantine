@@ -206,13 +206,104 @@
     outline: none
 	}
 
+	svg{
+		width: 100px;
+		height: 100px;
+		left: 50%;
+		display:inline-block;
+	}
+	svg circle {
+		stroke: #419385;
+	}
+	svg rect {
+		fill: #89CAD4;
+	}
+	#loadingAnimation {
+		position: fixed;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		z-index: 3;
+	}
 
 
 	</style>
 </head>
 <body>
+
 	<!-- Assuming that Haikal + Finn will be putting their code in this file. I am serving this file as the first instance from the node server -->
-	<div class = "fullBackgroundContainer">
+	<div class = "fullBackgroundContainer" id="fullBackgroundContainer" >
+		<div id="loadingAnimation" class="center" hidden=true>
+		<svg version="1.1" id="L1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+    <circle fill="none" stroke-width="6" stroke-miterlimit="15" stroke-dasharray="14.2472,14.2472" cx="50" cy="50" r="47" >
+      <animateTransform 
+         attributeName="transform" 
+         attributeType="XML" 
+         type="rotate"
+         dur="5s" 
+         from="0 50 50"
+         to="360 50 50" 
+         repeatCount="indefinite" />
+  </circle>
+  <circle fill="none" stroke="#fff" stroke-width="1" stroke-miterlimit="10" stroke-dasharray="10,10" cx="50" cy="50" r="39">
+      <animateTransform 
+         attributeName="transform" 
+         attributeType="XML" 
+         type="rotate"
+         dur="5s" 
+         from="0 50 50"
+         to="-360 50 50" 
+         repeatCount="indefinite" />
+  </circle>
+  <g fill="#fff">
+  <rect x="30" y="35" width="5" height="30">
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5" 
+       repeatCount="indefinite" 
+       begin="0.1"/>
+  </rect>
+  <rect x="40" y="35" width="5" height="30" >
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5" 
+       repeatCount="indefinite" 
+       begin="0.2"/>
+  </rect>
+  <rect x="50" y="35" width="5" height="30" >
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5" 
+       repeatCount="indefinite" 
+       begin="0.3"/>
+  </rect>
+  <rect x="60" y="35" width="5" height="30" >
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5"  
+       repeatCount="indefinite" 
+       begin="0.4"/>
+  </rect>
+  <rect x="70" y="35" width="5" height="30" >
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5" 
+       repeatCount="indefinite" 
+       begin="0.5"/>
+  </rect>
+  </g>
+</svg>
+	</div>
 	<div class = "smallerBackgroundContainer">
 		<div id ="header" class = "header">
 			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: calc(20px + 5vh); letter-spacing: 5px;">TITLE</h1>
@@ -305,6 +396,8 @@
 	<!--<div id='firebaseui-auth-container'></div>-->
 	<script type="text/javascript">
 		function regsubmit() {
+			$('#fullBackgroundContainer *').attr("disabled", "disabled").off('click');
+						document.getElementById('loadingAnimation').hidden = false;
 			var username = document.getElementById('username').value;
 			var email = document.getElementById('email').value;
 			var password = document.getElementById('password').value;
@@ -320,20 +413,24 @@
 					  //user.sendEmailVerification();
 					  auth.currentUser.sendEmailVerification();
 					  var register = firebase.functions().httpsCallable('register');
-					  alert("here1")
 						register({userid: auth.currentUser.uid, username: username, email: email, phone: phone, password: password}).then(function(result) {
-								alert('here');
 								console.log(result);
 								window.location.href = "accountsetup.html";
 								// TODO: Do anything that needs to happen after the reg form is submitted over here (like changing pages etc.)
 						});
 					}).catch(error => {
+						$('#fullBackgroundContainer *').attr("disabled", false).on('click');
+						document.getElementById('loadingAnimation').hidden = true;
 						alert(error);
 					});
 				} else {
+					$('#fullBackgroundContainer *').attr("disabled", false).on('click');
+					document.getElementById('loadingAnimation').hidden = true;
 					alert("Username taken!");
 				}
 			}).catch(error => {
+				$('#fullBackgroundContainer *').attr("disabled", false).on('click');
+				document.getElementById('loadingAnimation').hidden = true;
 				alert(error);
 			});
 		}
@@ -345,6 +442,8 @@
 		console.log(password)
 		const promise = auth.signInWithEmailAndPassword(email, password);
 		promise.then(user => {
+			$('#fullBackgroundContainer *').attr("disabled", "disabled").off('click');
+			document.getElementById('loadingAnimation').hidden = false;
 			window.location.href = "accountsetup.html";
 		}).catch(function(error) {
   		// Handle Errors here.
@@ -362,7 +461,8 @@
 		var provider = new firebase.auth.GoogleAuthProvider();
 		firebase.auth().signInWithPopup(provider).then(function(result) {
 	  		// This gives you a Google Access Token. You can use it to access the Google API.
-
+	  		$('#fullBackgroundContainer *').attr("disabled", "disabled").off('click');
+			document.getElementById('loadingAnimation').hidden = false;
 	  		if(result.additionalUserInfo.isNewUser) {
 				// add the users details to the database and then move them to account setup
 				var register = firebase.functions().httpsCallable('register');
