@@ -79,7 +79,14 @@ exports.updateRegistrationInfo = functions.https.onCall((data, context) => {
 function updateUser(uid, data) {
 	var newPostKey = firebase.database().ref().child('users').push().key;
 	updates = {};
-	updates['/users/' + uid] = data;
+	updates['/users/' + uid + '/firstName'] = data.firstName;
+	updates['/users/' + uid + '/lastName'] = data.lastName;
+	updates['/users/' + uid + '/age'] = data.age;
+	updates['/users/' + uid + '/phone'] = data.phone;
+	updates['/users/' + uid + '/medConditons'] = data.medConditions;
+	updates['/users/' + uid + '/helper'] = data.helper;
+	updates['/users/' + uid + '/radius'] = data.radius;
+	updates['/users/' + uid + '/regCompleted'] = true;
 	return firebase.database().ref().update(updates);
 }
 
