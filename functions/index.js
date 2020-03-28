@@ -94,7 +94,8 @@ function createUser(userid, username, email, phone) {
 	firebase.database().ref('users/' + userid).set({
 		username: username,
 		email: email,
-		phone: phone
+		phone: phone,
+		regCompleted: false
 	})
 }
 
