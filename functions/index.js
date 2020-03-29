@@ -78,6 +78,11 @@ exports.updateRegistrationInfo = functions.https.onCall((data, context) => {
 
 exports.checkRegistrationStatus = functions.https.onCall((data, context) => {
 	let uid = data.uid;
+	return firebase.database().ref('/users/'+uid).once("value").then(function(snapshot) {
+		let values = snapshot.val();
+		return values.regCompleted;
+    	//userids = Object.keys(snapshot.val());
+	});
 })
 
 function updateUser(uid, data) {

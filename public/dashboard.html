@@ -2,18 +2,40 @@
 <html>
   <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="/__/firebase/7.12.0/firebase-app.js"></script>
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="/__/firebase/7.12.0/firebase-analytics.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
+  <!-- Initialize Firebase -->
+  <script src="/__/firebase/init.js"></script>
+  <script src="/__/firebase/7.12.0/firebase-auth.js"></script>
+  <script src="/__/firebase/7.12.0/firebase-database.js"></script>
+  <script src="/__/firebase/7.12.0/firebase-functions.js"></script>
   <script type="text/javascript">
     var functions = firebase.functions();
     var auth = firebase.auth();
     auth.onAuthStateChanged(function(user) {
-      $('#fullBackgroundContainer *').attr("disabled", false).on('click');
-      document.getElementById('loadingAnimation').hidden = true;
+      
         if (!user) {
           alert("No User is logged in!");
           window.location.href = "/";
         } else {
           // there is a logged in user, check if they have completed the registration process
-          
+          console.log("here");
+          var checkRegistrationStatus = firebase.functions().httpsCallable('checkRegistrationStatus');
+          checkRegistrationStatus({uid: auth.currentUser.uid}).then(function(result) {
+            if(result.data) {
+              // they have completed the registration process (account setup)
+              removeLoading();
+            } else {
+              window.location.href = "accountsetup.html";
+            }
+          })
+
         }
     });
   </script>
@@ -60,6 +82,26 @@
       height: 1000px;
     }
 
+    svg{
+      width: 100px;
+      height: 100px;
+      left: 50%;
+      display:inline-block;
+    }
+    svg circle {
+      stroke: #419385;
+    }
+    svg rect {
+      fill: #89CAD4;
+    }
+    #loadingAnimation {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+    }
+
     @media screen and (max-width: 700px) {
       .sidebar {
         width: 100%;
@@ -78,9 +120,82 @@
     }
   </style>
   </head>
-  <body>
+  <body onload="displayLoading();">
 
     <div id="fullBackgroundContainer">
+      <div id="loadingAnimation" class="center" hidden=true>
+    <svg version="1.1" id="L1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+    <circle fill="none" stroke-width="6" stroke-miterlimit="15" stroke-dasharray="14.2472,14.2472" cx="50" cy="50" r="47" >
+      <animateTransform 
+         attributeName="transform" 
+         attributeType="XML" 
+         type="rotate"
+         dur="5s" 
+         from="0 50 50"
+         to="360 50 50" 
+         repeatCount="indefinite" />
+  </circle>
+  <circle fill="none" stroke="#fff" stroke-width="1" stroke-miterlimit="10" stroke-dasharray="10,10" cx="50" cy="50" r="39">
+      <animateTransform 
+         attributeName="transform" 
+         attributeType="XML" 
+         type="rotate"
+         dur="5s" 
+         from="0 50 50"
+         to="-360 50 50" 
+         repeatCount="indefinite" />
+  </circle>
+  <g fill="#fff">
+  <rect x="30" y="35" width="5" height="30">
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5" 
+       repeatCount="indefinite" 
+       begin="0.1"/>
+  </rect>
+  <rect x="40" y="35" width="5" height="30" >
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5" 
+       repeatCount="indefinite" 
+       begin="0.2"/>
+  </rect>
+  <rect x="50" y="35" width="5" height="30" >
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5" 
+       repeatCount="indefinite" 
+       begin="0.3"/>
+  </rect>
+  <rect x="60" y="35" width="5" height="30" >
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5"  
+       repeatCount="indefinite" 
+       begin="0.4"/>
+  </rect>
+  <rect x="70" y="35" width="5" height="30" >
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5" 
+       repeatCount="indefinite" 
+       begin="0.5"/>
+  </rect>
+  </g>
+</svg>
+  </div>
+
+
       <div class="sidebar">
         <a class="active" href="#home">Home</a>
         <a href="#reservations">Reservations</a>
@@ -92,6 +207,20 @@
         
       </div>
     </div>
+
+
+    <script type="text/javascript">
+      function displayLoading() {
+        $('#fullBackgroundContainer *').attr("disabled", "disabled").off('click');
+        document.getElementById('loadingAnimation').hidden = false;
+      }
+
+      function removeLoading() {
+        $('#fullBackgroundContainer *').attr("disabled", false).on('click');
+        document.getElementById('loadingAnimation').hidden = true;
+      }
+
+    </script>
 
 </body>
 </html>
