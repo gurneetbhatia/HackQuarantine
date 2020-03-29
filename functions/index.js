@@ -76,6 +76,10 @@ exports.updateRegistrationInfo = functions.https.onCall((data, context) => {
 	return updateUser(uid, data);
 })
 
+exports.checkRegistrationStatus = functions.https.onCall((data, context) => {
+	let uid = data.uid;
+})
+
 function updateUser(uid, data) {
 	var newPostKey = firebase.database().ref().child('users').push().key;
 	updates = {};
