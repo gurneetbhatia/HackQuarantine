@@ -1,24 +1,25 @@
 <!DOCTYPE html>
-<html>
-<head>
+<!-- saved from url=(0032)http://localhost:5000/index.html -->
+<html class="mdl-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Title</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link href='https://fonts.googleapis.com/css?family=Darker Grotesque' rel='stylesheet'>
-	<link href='https://fonts.googleapis.com/css?family=Archivo Black' rel='stylesheet'>
-	<link href='https://fonts.googleapis.com/css?family=Chau Philomene One' rel='stylesheet'>
-	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-	<script src="/__/firebase/7.12.0/firebase-app.js"></script>
+	<link rel="stylesheet" href="./Title_files/font-awesome.min.css">
+	<link href="./Title_files/css" rel="stylesheet">
+	<link href="./Title_files/css(1)" rel="stylesheet">
+	<link href="./Title_files/css(2)" rel="stylesheet">
+	<script src="./Title_files/jquery-1.12.4.min.js"></script>
+	<script src="./Title_files/firebase-app.js"></script>
+	<script src="./Title_files/firebase-messaging.js"></script>
 	<!-- TODO: Add SDKs for Firebase products that you want to use
 	     https://firebase.google.com/docs/web/setup#available-libraries -->
-	<script src="/__/firebase/7.12.0/firebase-analytics.js"></script>
-	<script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
-	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+	<script src="./Title_files/firebase-analytics.js"></script>
+	<script src="./Title_files/firebaseui.js"></script>
+	<link type="text/css" rel="stylesheet" href="./Title_files/firebaseui.css">
 
 	<!-- Initialize Firebase -->
-	<script src="/__/firebase/init.js"></script>
-	<script src="/__/firebase/7.12.0/firebase-auth.js"></script>
-	<script src="/__/firebase/7.12.0/firebase-database.js"></script>
-	<script src="/__/firebase/7.12.0/firebase-functions.js"></script>
+	<script src="./Title_files/init.js"></script>
+	<script src="./Title_files/firebase-auth.js"></script>
+	<script src="./Title_files/firebase-database.js"></script>
+	<script src="./Title_files/firebase-functions.js"></script>
 	<script type="text/javascript">
 		var functions = firebase.functions();
 		var auth = firebase.auth();
@@ -230,125 +231,81 @@
 
 
 	</style>
-</head>
-<body>
+<link href="./Title_files/css(3)" rel="stylesheet"></head>
+<body data-gr-c-s-loaded="true">
 
 	<!-- Assuming that Haikal + Finn will be putting their code in this file. I am serving this file as the first instance from the node server -->
-	<div class = "fullBackgroundContainer" id="fullBackgroundContainer" >
-		<div id="loadingAnimation" class="center" hidden=true>
+	<div class="fullBackgroundContainer" id="fullBackgroundContainer">
+		<div id="loadingAnimation" class="center" hidden="true">
 		<svg version="1.1" id="L1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
-    <circle fill="none" stroke-width="6" stroke-miterlimit="15" stroke-dasharray="14.2472,14.2472" cx="50" cy="50" r="47" >
-      <animateTransform 
-         attributeName="transform" 
-         attributeType="XML" 
-         type="rotate"
-         dur="5s" 
-         from="0 50 50"
-         to="360 50 50" 
-         repeatCount="indefinite" />
+    <circle fill="none" stroke-width="6" stroke-miterlimit="15" stroke-dasharray="14.2472,14.2472" cx="50" cy="50" r="47" transform="rotate(288.406 50 50)">
+      <animatetransform attributeName="transform" attributeType="XML" type="rotate" dur="5s" from="0 50 50" to="360 50 50" repeatCount="indefinite"></animatetransform>
   </circle>
-  <circle fill="none" stroke="#fff" stroke-width="1" stroke-miterlimit="10" stroke-dasharray="10,10" cx="50" cy="50" r="39">
-      <animateTransform 
-         attributeName="transform" 
-         attributeType="XML" 
-         type="rotate"
-         dur="5s" 
-         from="0 50 50"
-         to="-360 50 50" 
-         repeatCount="indefinite" />
+  <circle fill="none" stroke="#fff" stroke-width="1" stroke-miterlimit="10" stroke-dasharray="10,10" cx="50" cy="50" r="39" transform="rotate(-288.406 50 50)">
+      <animatetransform attributeName="transform" attributeType="XML" type="rotate" dur="5s" from="0 50 50" to="-360 50 50" repeatCount="indefinite"></animatetransform>
   </circle>
   <g fill="#fff">
-  <rect x="30" y="35" width="5" height="30">
-    <animateTransform 
-       attributeName="transform" 
-       dur="1s" 
-       type="translate" 
-       values="0 5 ; 0 -5; 0 5" 
-       repeatCount="indefinite" 
-       begin="0.1"/>
+  <rect x="30" y="35" width="5" height="30" transform="translate(0 3.11274)">
+    <animatetransform attributeName="transform" dur="1s" type="translate" values="0 5 ; 0 -5; 0 5" repeatCount="indefinite" begin="0.1"></animatetransform>
   </rect>
-  <rect x="40" y="35" width="5" height="30" >
-    <animateTransform 
-       attributeName="transform" 
-       dur="1s" 
-       type="translate" 
-       values="0 5 ; 0 -5; 0 5" 
-       repeatCount="indefinite" 
-       begin="0.2"/>
+  <rect x="40" y="35" width="5" height="30" transform="translate(0 1.11274)">
+    <animatetransform attributeName="transform" dur="1s" type="translate" values="0 5 ; 0 -5; 0 5" repeatCount="indefinite" begin="0.2"></animatetransform>
   </rect>
-  <rect x="50" y="35" width="5" height="30" >
-    <animateTransform 
-       attributeName="transform" 
-       dur="1s" 
-       type="translate" 
-       values="0 5 ; 0 -5; 0 5" 
-       repeatCount="indefinite" 
-       begin="0.3"/>
+  <rect x="50" y="35" width="5" height="30" transform="translate(0 -0.88726)">
+    <animatetransform attributeName="transform" dur="1s" type="translate" values="0 5 ; 0 -5; 0 5" repeatCount="indefinite" begin="0.3"></animatetransform>
   </rect>
-  <rect x="60" y="35" width="5" height="30" >
-    <animateTransform 
-       attributeName="transform" 
-       dur="1s" 
-       type="translate" 
-       values="0 5 ; 0 -5; 0 5"  
-       repeatCount="indefinite" 
-       begin="0.4"/>
+  <rect x="60" y="35" width="5" height="30" transform="translate(0 -2.88726)">
+    <animatetransform attributeName="transform" dur="1s" type="translate" values="0 5 ; 0 -5; 0 5" repeatCount="indefinite" begin="0.4"></animatetransform>
   </rect>
-  <rect x="70" y="35" width="5" height="30" >
-    <animateTransform 
-       attributeName="transform" 
-       dur="1s" 
-       type="translate" 
-       values="0 5 ; 0 -5; 0 5" 
-       repeatCount="indefinite" 
-       begin="0.5"/>
+  <rect x="70" y="35" width="5" height="30" transform="translate(0 -4.88726)">
+    <animatetransform attributeName="transform" dur="1s" type="translate" values="0 5 ; 0 -5; 0 5" repeatCount="indefinite" begin="0.5"></animatetransform>
   </rect>
   </g>
 </svg>
 	</div>
-	<div class = "smallerBackgroundContainer">
-		<div id ="header" class = "header">
-			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: calc(20px + 5vh); letter-spacing: 5px;">TITLE</h1>
+	<div class="smallerBackgroundContainer" style="left: 0px;">
+		<div id="header" class="header">
+			<h1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: calc(20px + 5vh); letter-spacing: 5px;">TITLE</h1>
 		</div>
-	<div id = "right" class="split left">
+	<div id="right" class="split left">
 
-	<div id = "1" class = "buttonContainer" style = "text-align:center;" >
-		<h1 style = "color: #404040;">CREATE ACCOUNT</h1>
-	<div class = "socials">
+	<div id="1" class="buttonContainer" style="text-align:center;">
+		<h1 style="color: #404040;">CREATE ACCOUNT</h1>
+	<div class="socials">
 		<a class="fa fa-facebook"></a>
-		<a id = "google" type = "button" onclick="googleRegistration();" class="fa fa-google"></a>
+		<a id="google" type="button" onclick="googleRegistration();" class="fa fa-google"></a>
 		<a class="fa fa-twitter"></a>
 	</div>
 		<hr>
 	<form id="regform" onsubmit="regsubmit();">
-		<div id = "2" class = "adjacentEntryBox">
-			<input type="text" id="username" class = "entryBox" placeholder= "Username" required/>
-			<input type="email" id="email" class = "entryBox" placeholder= "Email" required/>
+		<div id="2" class="adjacentEntryBox">
+			<input type="text" id="username" class="entryBox" placeholder="Username" required="">
+			<input type="email" id="email" class="entryBox" placeholder="Email" required="">
 		</div>
-		<div class = "adjacentEntryBox">
-			<input type="password" id="password" class = "entryBox" placeholder= "Password" required/>
-			<input type="text" id="phone" class = "entryBox" placeholder= "Phone" required/>
+		<div class="adjacentEntryBox">
+			<input type="password" id="password" class="entryBox" placeholder="Password" required="">
+			<input type="text" id="phone" class="entryBox" placeholder="Phone" required="">
 		</div>
-			<button id = "RegButton" type="submit" class = "subButton">Register</button>
-		</div>
-	</form>
+			<button id="RegButton" type="submit" class="subButton">Register</button>
+		</form></div>
+	
 </div>
 
-<div id = "right" class="split right">
-<div class = "buttonContainer" style = "text-align:center;">
-	<h1 style = "color: #404040;">SIGN IN</h1>
-<div class = "socials">
-	<a href="#" class="fa fa-facebook"></a>
-	<a href="#" class="fa fa-google"></a>
-	<a href="#" class="fa fa-twitter"></a>
+<div id="right" class="split right">
+<div class="buttonContainer" style="text-align:center;">
+	<h1 style="color: #404040;">SIGN IN</h1>
+<div class="socials">
+	<a href="http://localhost:5000/index.html#" class="fa fa-facebook"></a>
+	<a href="http://localhost:5000/index.html#" class="fa fa-google"></a>
+	<a href="http://localhost:5000/index.html#" class="fa fa-twitter"></a>
 </div>
 	<hr>
 	<form id="logform" onsubmit="loginSubmit();">
-		<div id = "2" class = "adjacentEntryBox">
-			<input id = "loginUsername" type="text" class="entryBox" placeholder="Username/email" required/>
-			<input id = "loginPassword" type="password" class="entryBox" placeholder="Password" required/>
+		<div id="2" class="adjacentEntryBox">
+			<input id="loginUsername" type="text" class="entryBox" placeholder="Username/email" required="">
+			<input id="loginPassword" type="password" class="entryBox" placeholder="Password" required="">
 		</div>
-		<button id="logButton" type="submit" class="subButton">Login</button>
+		<button id="logButton" type="submit" class="subButton" style="padding: 2.5% 3.5% 3.5%; width: 35%; margin-top: 2%;">Login</button>
 	</form>
 </div>
 </div>
@@ -487,7 +444,7 @@
 		promise.then(user => {
 			$('#fullBackgroundContainer *').attr("disabled", "disabled").off('click');
 			document.getElementById('loadingAnimation').hidden = false;
-			window.location.href = "dashboard.html";
+			window.location.href = "accountsetup.html";
 		}).catch(function(error) {
   		// Handle Errors here.
   		var errorCode = error.code;
@@ -538,5 +495,6 @@
 		})
 	});*/
 	</script>
-</body>
-</html>
+
+
+<div id="dailymail-extras-root"></div><div id="pouch-root"></div></body></html>

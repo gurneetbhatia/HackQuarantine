@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="/__/firebase/7.12.0/firebase-app.js"></script>
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="/__/firebase/7.12.0/firebase-analytics.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
+  <!-- Initialize Firebase -->
+  <script src="/__/firebase/init.js"></script>
+  <script src="/__/firebase/7.12.0/firebase-auth.js"></script>
+  <script src="/__/firebase/7.12.0/firebase-database.js"></script>
+  <script src="/__/firebase/7.12.0/firebase-functions.js"></script>
+  <script type="text/javascript">
+    var functions = firebase.functions();
+    var auth = firebase.auth();
+    auth.onAuthStateChanged(function(user) {
+      
+        if (!user) {
+          alert("No User is logged in!");
+          window.location.href = "/";
+        } else {
+          // there is a logged in user, check if they have completed the registration process
+          console.log("here");
+          var checkRegistrationStatus = firebase.functions().httpsCallable('checkRegistrationStatus');
+          checkRegistrationStatus({uid: auth.currentUser.uid}).then(function(result) {
+            if(result.data) {
+              // they have completed the registration process (account setup)
+              removeLoading();
+            } else {
+              window.location.href = "accountsetup.html";
+            }
+          })
+
+        }
+    });
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Lato", sans-serif;
+    }
+
+    a {
+      cursor: pointer;
+    }
+
+    .sidebaropen {
+      margin: 0;
+      padding: 0;
+      width: 250px;
+      background-color: #25262D;
+      position: fixed;
+      height: 100%;
+      overflow: auto;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      overflow-x: hidden;
+      padding-top: 60px;
+      transition: 0.5s;
+    }
+
+    .sidebaropen a {
+      display: block;
+      color: white;
+      padding: 18px;
+      text-decoration: none;
+      border-bottom: 0.5px solid #606060;
+      border-left: 0.5px solid #606060;
+    }
+     
+    .sidebaropen a.active {
+      background-color: #419385;
+      color: white;
+      text-decoration-style: bold;
+    }
+
+    .sidebaropen a:hover:not(.active) {
+      background-color: #89CAD4;
+      color: white;
+    }
+
+    .sidebaropen .closebtn {
+      position: absolute;
+      top: 0;
+      right: 0px;
+      margin-left: 50px;
+      border-width: 0px; 
+      font-size: 26px;
+    }
+
+    .sidebaropen a.closebtn:hover {
+      color: #f1f1f1;
+      background-color: #25262D;
+    }
+
+    #home {
+      margin-top: 10px;
+    }
+
+    div.content {
+      margin-left: 200px;
+      padding: 1px 16px;
+      height: 1000px;
+    }
+
+    svg{
+      width: 100px;
+      height: 100px;
+      left: 50%;
+      display:inline-block;
+    }
+    svg circle {
+      stroke: #419385;
+    }
+    svg rect {
+      fill: #89CAD4;
+    }
+    #loadingAnimation {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+    }
+
+    @media screen and (max-width: 700px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      .sidebar a {float: left;}
+      div.content {margin-left: 0;}
+    }
+
+    @media screen and (max-width: 400px) {
+      .sidebar a {
+        text-align: center;
+        float: none;
+      }
+    }
+
+    @media screen and (max-height: 450px) {
+      .sidebar {padding-top: 15px;}
+      .sidebar a {font-size: 18px;}
+    }
+  </style>
+  </head>
+  <body onload="displayLoading();">
+
+    <div id="fullBackgroundContainer">
+      <div id="loadingAnimation" class="center" hidden=true>
+    <svg version="1.1" id="L1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+    <circle fill="none" stroke-width="6" stroke-miterlimit="15" stroke-dasharray="14.2472,14.2472" cx="50" cy="50" r="47" >
+      <animateTransform 
+         attributeName="transform" 
+         attributeType="XML" 
+         type="rotate"
+         dur="5s" 
+         from="0 50 50"
+         to="360 50 50" 
+         repeatCount="indefinite" />
+  </circle>
+  <circle fill="none" stroke="#fff" stroke-width="1" stroke-miterlimit="10" stroke-dasharray="10,10" cx="50" cy="50" r="39">
+      <animateTransform 
+         attributeName="transform" 
+         attributeType="XML" 
+         type="rotate"
+         dur="5s" 
+         from="0 50 50"
+         to="-360 50 50" 
+         repeatCount="indefinite" />
+  </circle>
+  <g fill="#fff">
+  <rect x="30" y="35" width="5" height="30">
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5" 
+       repeatCount="indefinite" 
+       begin="0.1"/>
+  </rect>
+  <rect x="40" y="35" width="5" height="30" >
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5" 
+       repeatCount="indefinite" 
+       begin="0.2"/>
+  </rect>
+  <rect x="50" y="35" width="5" height="30" >
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5" 
+       repeatCount="indefinite" 
+       begin="0.3"/>
+  </rect>
+  <rect x="60" y="35" width="5" height="30" >
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5"  
+       repeatCount="indefinite" 
+       begin="0.4"/>
+  </rect>
+  <rect x="70" y="35" width="5" height="30" >
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5" 
+       repeatCount="indefinite" 
+       begin="0.5"/>
+  </rect>
+  </g>
+</svg>
+  </div>
+
+
+      <div id="mySidebar" class="sidebaropen">
+        <a class="closebtn" id="closebtn" onclick="navOperator()" data-open=true>&times;</a>
+        <a class="active" id="home" href="#home">Home</a>
+        <a href="#notifications" id="notifications">Notifications</a>
+        <a href="#reservations" id="reservations">Reservations</a>
+        <a href="#news" id="news">Covid-19 Awareness</a>
+        <a href="#settings" id="settings">Settings</a>
+      </div>
+
+      <!--<div id="main">
+        <button class="openbtn" onclick="openNav()">&#9776; Open Sidebar</button>
+      </div>-->
+
+      <div class="content">
+        
+      </div>
+    </div>
+
+
+    <script type="text/javascript">
+      function displayLoading() {
+        $('#fullBackgroundContainer *').attr("disabled", "disabled").off('click');
+        document.getElementById('loadingAnimation').hidden = false;
+      }
+
+      function removeLoading() {
+        $('#fullBackgroundContainer *').attr("disabled", false).on('click');
+        document.getElementById('loadingAnimation').hidden = true;
+      }
+
+      function navOperator() {
+        // opens or closes the tag depending on current state
+        if(document.getElementById('closebtn').dataset.open == "true") {
+          document.getElementById('closebtn').dataset.open = "false";
+          document.getElementById("mySidebar").style.width = "50px";
+          document.getElementById("closebtn").innerHTML = "&#9776";
+          document.getElementById("home").innerHTML = "<i class='glyphicon glyphicon-home'></i>";
+          document.getElementById("notifications").innerHTML = "<i class='glyphicon glyphicon-bell'></i>";
+          document.getElementById("reservations").innerHTML = "<i class='glyphicon glyphicon-shopping-cart'></i>";
+          document.getElementById("news").innerHTML = "<i class='glyphicon glyphicon-bullhorn'></i>";
+          document.getElementById("settings").innerHTML = "<i class='glyphicon glyphicon-cog'></i>";
+        } else {
+          document.getElementById('closebtn').dataset.open = "true";
+          document.getElementById("mySidebar").style.width = "250px";
+          document.getElementById("closebtn").innerHTML = "&times";
+          document.getElementById("home").innerHTML = "Home";
+          document.getElementById("notifications").innerHTML = "Notifications";
+          document.getElementById("reservations").innerHTML = "Reservations";
+          document.getElementById("news").innerHTML = "Covid-19 Awareness";
+          document.getElementById("settings").innerHTML = "Settings";
+        }
+      }
+
+      function openNav() {
+        document.getElementById("mySidebar").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+      }
+
+      /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+      function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+      }
+
+    </script>
+
+</body>
+</html>

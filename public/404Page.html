@@ -4,14 +4,13 @@
 	<title>Title</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link href='https://fonts.googleapis.com/css?family=Darker Grotesque' rel='stylesheet'>
-	<link href='https://fonts.googleapis.com/css?family=Archivo Black' rel='stylesheet'>
 	<link href='https://fonts.googleapis.com/css?family=Chau Philomene One' rel='stylesheet'>
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<style>
 	h1 {
 		font-family: 'Chau Philomene One';
 		letter-spacing: 2px;
-		font-size: 45px;
+		font-size: 2.5vw;
 	}
 
 	html {
@@ -24,7 +23,17 @@
 		margin-top: 0px;
 		border: 1px solid transparent;
 		overflow: hidden
-}
+	}
+
+	button {
+		cursor: pointer;
+	}
+
+	p {
+		font-family: 'Darker Grotesque';
+		letter-spacing: 2px;
+		font-size: 20px;
+	}
 
 
 	.header {
@@ -42,10 +51,14 @@
 		position: absolute;
 		border: 0px;
 		background-image: url("online-3217733_1920.jpg");
+		min-width: 1000px;
+		min-height: 600px;
 	}
 
 	.smallerBackgroundContainer {
 		height: 80%;
+		min-width: 500px;
+		min-height: 500px;
 		width: 60%;
 		margin-left: 20%;
 		margin-top: 5%;
@@ -65,7 +78,6 @@
 	}
 
 	.left {
-		height: 100%;
   	left: 0;
 		border-right: 1px solid #E0E0E0;
 	}
@@ -107,12 +119,13 @@
     border-radius: 25px;
     border: 2px solid	#e3e1df;
 		margin: 5px;
-    padding: 20px;
-		padding-top: 16px;
-    width: 200px;
-    height: 12px;
+    padding: 3.5%;
+		padding-top: 3%;
+    width: 35%;
+		padding-top: 3%;
+    height: 1vh;
 		background-color:	#e3e1df;
-		font-size: 20px;
+		font-size: 2vh;
 		letter-spacing: 1px;
 		font-family: 'Darker Grotesque';
 		font-weight: bold;
@@ -135,15 +148,16 @@
 	.subButton {
 		border-radius: 25px;
     border: 1px solid	#26b3a3;
-    padding: 20px;
-		padding-top: 18px;
-    width: 200px;
-    height: 12px;
+    padding: 3.5%;
+		padding-top: 2.5%;
+    width: 35%;
+    height: 10%;
+		padding-top: 2.5%;
 		background-color:	#26b3a3;
 		color: white;
-		font-size: 20px;
+		font-size: 2.5vh;
 		margin: 0 auto;
-		margin-top: 10px;
+		margin-top:2%;
     display: block;
 		line-height: 0px;
 		font-family: 'Darker Grotesque';
@@ -152,8 +166,9 @@
 
 	.buttonContainer {
 		vertical-align: middle;
-		width: 515px;
-		height: 350px;
+		width: 100%;
+		height: 50%;
+		margin-top:50%;
 		margin: auto;
 		position: absolute;
 		top: 0; right: 0;
@@ -163,6 +178,7 @@
 		outline: none;
 		background-color:	white;
 	}
+
 
 	select:focus,
 	textarea:focus,
@@ -179,57 +195,28 @@
 	<div class = "fullBackgroundContainer">
 	<div class = "smallerBackgroundContainer">
 		<div id ="header" class = "header">
-			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: 65px; letter-spacing: 5px;">TITLE</h1>
+			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: calc(20px + 5vh);; letter-spacing: 5px;">WRONG PAGE MAYBE?</h1>
 		</div>
-	<div id = "right" class="split left">
-
 	<div id = "1" class = "buttonContainer" style = "text-align:center;" >
-		<h1 style = "color: #404040;">CREATE ACCOUNT</h1>
-	<div class = "socials">
-		<a href="#" class="fa fa-facebook"></a>
-		<a href="#" class="fa fa-google"></a>
-		<a href="#" class="fa fa-twitter"></a>
-	</div>
+	<div>
+		<h1 style = "color: #404040;">PAGE COULD NOT BE FOUND</h1>
 		<hr>
-	<div id = "2" class = "adjacentEntryBox">
-		<input type="text" class = "entryBox" placeholder= "Username"/>
-		<input type="email" class = "entryBox" placeholder= "Email"/>
+	<p style = "font-weight: bold;">Sorry, the page you have requested could not be found. Let's get you back home to where you belong away from any nasty viruses.</p>
+	<br>
+	<button id = "RegButton" type="button" class = "subButton">Home</input>
 	</div>
-	<div class = "adjacentEntryBox">
-		<input type="password" class = "entryBox" placeholder= "Password"/>
-		<input type="text" class = "entryBox" placeholder= "Phone"/>
 	</div>
-	<button id = "RegButton" type="button" class = "subButton">Register</input>
-	</div>
-</div>
-
-<div id = "right" class="split right">
-<div class = "buttonContainer" style = "text-align:center;">
-	<h1 style = "color: #404040;">SIGN IN</h1>
-<div class = "socials">
-	<a href="#" class="fa fa-facebook"></a>
-	<a href="#" class="fa fa-google"></a>
-	<a href="#" class="fa fa-twitter"></a>
-</div>
-	<hr>
-<div id = "2" class = "adjacentEntryBox">
-	<input type="text" class = "entryBox" placeholder= "Username"/>
-	<input type="password" class = "entryBox" placeholder= "Password"/>
-</div>
-<button id = "logButton" type="button" class = "subButton">Login</input>
-</div>
-</div>
 </div>
 </div>
 <script>
 
 	$(document).ready(function(){
 		$(".subButton").on('mouseenter', function(){
-			$(this).css({padding: '22px',
-									'padding-top':'18px',
-									width:'205px',
-									'font-size':'21px',
-									'margin-top':'9px'
+			$(this).css({padding: '3.7%',
+									'padding-top':'2.5%',
+									width:'36%',
+									'font-size':'2.6vh',
+									'margin-top':'1.8%'
 								});
 			/*
 			$(this).css('padding-top', '18px');
@@ -239,31 +226,16 @@
 			*/
 		});
 		$(".subButton").on('mouseleave', function(){
-			$(this).css({padding: '20px',
-									'padding-top':'18px',
-									width:'200px',
-									'font-size':'20px',
-									'margin-top':'10px'
+			$(this).css({padding: '3.5%',
+									'padding-top':'2.5%',
+									width:'35%',
+									'font-size':'2.5vh',
+									'margin-top':'2%'
 								});
-			/*
-			$(this).css('width', '200px');
-			$(this).css('font-size', '20px');
-			$(this).css('padding', '20px');
-			$(this).css('padding-top', '18px');
-			$(this).css('margin-top', '10px');
-			*/
+
 		});
 	});
 	</script>
-	<!-- <script>
-	$(document).ready(function(){
-		$(".right").click(function(){
-			$(".header").appendTo(".right");
-		});
-	});
-	</script>-->
-
-	<pre id="object"></pre>
 
 
 
@@ -277,7 +249,8 @@
 	<script src="/__/firebase/7.12.0/firebase-analytics.js"></script>
 
 	<!-- Initialize Firebase -->
-	<script src="/__/firebase/init.js"></script>
+	<!--<script src="/__/firebase/init.js"></script>-->
+	<script src="/__/firebase/7.12.0/firebase-auth.js"></script>
 	<script src="/__/firebase/7.12.0/firebase-database.js"></script>
 	<script src="./app.js"></script>
 </body>

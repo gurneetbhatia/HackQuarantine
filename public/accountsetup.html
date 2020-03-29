@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width = device-width, initial-scale = 1">
+
+	<title>Account Setup</title>
+
+	<link href='https://fonts.googleapis.com/css?family=Chau Philomene One' rel='stylesheet'>
+	<link href='https://fonts.googleapis.com/css?family=Darker Grotesque' rel='stylesheet'>
+
+
+	<script src='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
+
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+	<script src="/__/firebase/7.12.0/firebase-app.js"></script>
+
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+	     https://firebase.google.com/docs/web/setup#available-libraries -->
+	<script src="/__/firebase/7.12.0/firebase-analytics.js"></script>
+	<script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
+	<!-- Initialize Firebase -->
+	<script src="/__/firebase/init.js"></script>
+	<script src="/__/firebase/7.12.0/firebase-auth.js"></script>
+	<script src="/__/firebase/7.12.0/firebase-database.js"></script>
+	<script src="/__/firebase/7.12.0/firebase-functions.js"></script>
+	<script type="text/javascript">
+		var functions = firebase.functions();
+		var auth = firebase.auth();
+		auth.onAuthStateChanged(function(user) {
+			$('#fullBackgroundContainer *').attr("disabled", false).on('click');
+			document.getElementById('loadingAnimation').hidden = true;
+		  	if (!user) {
+		    	alert("No User is logged in!");
+		    	window.location.href = "/";
+		  	} else if(user.providerData[0].providerId == "google.com") {
+		  		console.log("here");
+		  		document.getElementById("phoneDiv").hidden = false;
+		  	}
+		});
+	</script>
+
+	<style>
+		body, html{
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			background-color: #019585;
+		}
+		p{
+			color: black;
+		}
+		input:disabled {
+			cursor: not-allowed;
+		}
+		.jumbotron{
+			font-family: 'Darker Grotesque';
+			background-color: rgba(255,255,255,0.9);
+			color: white;
+		}
+		#header{
+			font-family: 'Chau Philomene One';
+			text-align: center;	
+			background-color: #1a7c72;
+			color: white;
+			border-top-left-radius: 28px;
+			border-top-right-radius: 28px;
+			margin-bottom: 0px;
+			padding-top: 40px;
+			padding-bottom: 40px;
+		}
+		#finishPage{
+			display: none;
+			color: black;
+			text-align: center;
+		}
+		#form{
+			padding-top: 5%;
+			padding-bottom: 3%;
+		}
+		#formEntry1{
+			margin-top: 0px;
+			margin-bottom: 0px;
+			border-top-left-radius: 0px;
+			border-top-right-radius: 0px;
+			border-bottom-left-radius: 0px;
+			border-bottom-right-radius: 0px;
+		}
+		#formEntry2{
+			display: none;
+			margin-top: 0px;
+			margin-bottom: 0px;
+			border-top-left-radius: 0px;
+			border-top-right-radius: 0px;
+			border-bottom-left-radius: 0px;
+			border-bottom-right-radius: 0px;
+		}
+		#fullBackgroundContainer {
+			height: 100%;
+			width: 100%;
+			background-image: url("online-3217733_1920.jpg");
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+		.form-group{
+			color: black;
+		}
+		#buttons{
+			font-family: 'Chau Philomene One';
+			text-align: center;	
+			background-color: #1a7c72;
+			border-bottom-left-radius: 28px;
+			border-bottom-right-radius: 28px;
+			padding-top: 40px;
+			padding-bottom: 40px;
+		}
+		#helper{
+			display: none;
+		}
+		#map{
+			position: relative;
+			top: 0;
+			bottom: 0;
+			width: 100%;
+			height: 300px;
+		}
+		.coordinates {
+			background: rgba(0, 0, 0, 0.5);
+			color: #fff;
+			position: relative;
+			bottom: 70px;
+			left: 10px;
+			margin: 0;
+			padding: 5px, 10px;
+			font-size: 11px;
+			line-height: 18px;
+			width: 20%;
+			border-radius: 3px;
+
+			display: none;
+		}
+		#sel2{
+			margin-top: 15px;
+		}
+		#finButton{
+			position: absolute;
+			left: 80%;
+		}
+
+		svg{
+			width: 100px;
+			height: 100px;
+			left: 50%;
+			display:inline-block;
+		}
+		svg circle {
+			stroke: #419385;
+		}
+		svg rect {
+			fill: #89CAD4;
+		}
+		#loadingAnimation {
+			position: fixed;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 3;
+		}
+
+	</style>
+</head>
+<body onload="domLoaded();">
+	<div id="fullBackgroundContainer" >
+		<div id="loadingAnimation" class="center" hidden=true>
+		<svg version="1.1" id="L1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+    <circle fill="none" stroke-width="6" stroke-miterlimit="15" stroke-dasharray="14.2472,14.2472" cx="50" cy="50" r="47" >
+      <animateTransform 
+         attributeName="transform" 
+         attributeType="XML" 
+         type="rotate"
+         dur="5s" 
+         from="0 50 50"
+         to="360 50 50" 
+         repeatCount="indefinite" />
+  </circle>
+  <circle fill="none" stroke="#fff" stroke-width="1" stroke-miterlimit="10" stroke-dasharray="10,10" cx="50" cy="50" r="39">
+      <animateTransform 
+         attributeName="transform" 
+         attributeType="XML" 
+         type="rotate"
+         dur="5s" 
+         from="0 50 50"
+         to="-360 50 50" 
+         repeatCount="indefinite" />
+  </circle>
+  <g fill="#fff">
+  <rect x="30" y="35" width="5" height="30">
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5" 
+       repeatCount="indefinite" 
+       begin="0.1"/>
+  </rect>
+  <rect x="40" y="35" width="5" height="30" >
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5" 
+       repeatCount="indefinite" 
+       begin="0.2"/>
+  </rect>
+  <rect x="50" y="35" width="5" height="30" >
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5" 
+       repeatCount="indefinite" 
+       begin="0.3"/>
+  </rect>
+  <rect x="60" y="35" width="5" height="30" >
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5"  
+       repeatCount="indefinite" 
+       begin="0.4"/>
+  </rect>
+  <rect x="70" y="35" width="5" height="30" >
+    <animateTransform 
+       attributeName="transform" 
+       dur="1s" 
+       type="translate" 
+       values="0 5 ; 0 -5; 0 5" 
+       repeatCount="indefinite" 
+       begin="0.5"/>
+  </rect>
+  </g>
+</svg>
+	</div>
+		<div id="form" class="container">
+			<div id="header" class="page-header">
+				<h1>Account Setup</h1>
+			</div>
+			<div id="formEntry1" class="jumbotron">
+				<p>* Required fields</p>
+				<form action="#" id="entry1" method="post">
+					<div class="form-group">
+						<label for="firstName">First Name *</label>
+						<input class="form-control" id="firstName" required>
+					</div>
+					<div class="form-group">
+						<label for="lastName">Last Name *</label>
+						<input class="form-control" id="lastName" required>
+					</div>
+					<div class="form-group">
+						<label for="age">Age *</label>
+						<input class="form-control" id="age" required>
+					</div>
+					<div id="phoneDiv" class="form-group" hidden=true>
+						<label for="phone">Phone Number *</label>
+						<input class="form-control" id="phone" required>
+					</div>
+					<div id="selMed" class="form-group">
+					<label for="medSelect">Any medical conditions? * <b data-toggle="tooltip" title="Any conditions that poses you at a higher risk, e.g., asthma, chronic lung disease, heart conditions, immunocompromised, etc.">?</b></label>
+					<select class="form-control" id="medSelect">
+						<option id="selNo">No</option>
+						<option id="selYes">Yes</option>
+					</select>
+				</div>
+				</form>
+			</div>
+			<div id="formEntry2" class="jumbotron">
+				<p>* Required fields</p>
+				<form action="#" id="entry2" method="post">
+					<div id="sel1" class="form-group">
+						<label for="helperSelect">Will you be a helper? * <b data-toggle="tooltip" title="Person who volunteers to help people in need. This option can be changed in account settings later.">?</b></label>
+						<select class="form-control" id="helperSelect">
+							<option id="selNo">No</option>
+							<option id="selYes">Yes</option>
+						</select>
+					</div>
+					<div id="helper">
+						<p>Choose location *</p>
+						<div id='map'></div>
+						<pre id="coordinates" class="coordinates"></pre>
+						<div id="sel2" class="form-group">
+							<label for="radiusSelect">Choose preferred radius (miles) *</label>
+							<select class="form-control" id="radiusSelect">
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+								<option>5</option>
+							</select>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div id="finishPage" class="jumbotron">
+				<h2>You're all set!</h1>
+				<p>You will be redirected to the homepage.</p>
+			</div>
+			<div id="buttons" class="jumbotron">
+				<div class="btn-group">
+					<input id="previous" type="button" class="btn" disabled="disabled" value="Previous" onclick="previousPage();"></button>
+					<input id="next" type="button" class="btn" value="Next" onclick="nextPage();"></button>
+				</div>
+				<input onclick="finished();" id="finButton" type="button" class="btn" disabled="disabled" value="Finish">
+			</div>
+		</div>
+
+
+
+	</div>
+	<script>
+
+		function domLoaded() {
+			$('#fullBackgroundContainer *').attr("disabled", "disabled").off('click');
+			document.getElementById('loadingAnimation').hidden = false;
+		}
+
+		function nextPage(){
+			const firstName = document.getElementById('firstName').value;
+			const lastName = document.getElementById('lastName').value;
+			const age = document.getElementById('age').value;
+			const phone = document.getElementById("phoneDiv").hidden ? "na" : document.getElementById("phone").value
+			if(!(firstName && lastName && age && phone)) {
+				alert('Please fill out all the required fields!');
+			} else {
+
+				document.getElementById('next').disabled = true;
+				document.getElementById('previous').disabled = false;
+				document.getElementById('finButton').disabled = false;
+				document.getElementById('formEntry1').style.display = 'none';
+				document.getElementById('formEntry2').style.display = 'block';
+			}
+		}
+
+		function previousPage(){
+			document.getElementById('next').disabled = false;
+			document.getElementById('previous').disabled = true;
+			document.getElementById('finButton').disabled = true;
+			document.getElementById('formEntry1').style.display = 'block';
+			document.getElementById('formEntry2').style.display = 'none';
+		}
+
+		function finished() {
+			console.log("here");
+			domLoaded();
+			const firstName = document.getElementById('firstName').value;
+			const lastName = document.getElementById('lastName').value;
+			const age = document.getElementById('age').value;
+			const phone = document.getElementById("phoneDiv").hidden ? null : document.getElementById("phone").value
+			const medConditions = document.getElementById('medSelect').value;
+			const helper = document.getElementById('helperSelect').value
+			const radius = helper == "Yes" ? document.getElementById('radiusSelect').value : null;
+			const data = {uid: auth.currentUser.uid, firstName: firstName, lastName: lastName, age: age, phone: phone, medConditions: medConditions, helper: helper, radius: radius};
+			var updateRegistrationInfo = firebase.functions().httpsCallable('updateRegistrationInfo');
+			updateRegistrationInfo(data).then(function(result) {
+				console.log("pushed data");
+				window.location.href = "dashboard.html";
+
+			})
+		}
+
+		var firstName, lastName, age, medCond, helper, radius;
+
+		$(document).ready(function(){
+			$("#sel1").change(function(){
+				$(this).find("option:selected").each(function(){
+					if($(this).attr("id")=="selYes"){
+						$("#helper").show();
+					}
+					else{
+						$("#helper").hide();
+					}
+				})
+			}).change();
+			$(function () {
+  				$('[data-toggle="tooltip"]').tooltip()
+			})
+
+			/*$("#finButton").click(function(e){
+				e.preventDefault();
+				firstName = $("#firstName").val();
+				lastName = $("#lastName").val();
+				age = $("#age").val();
+				if(!(firstName && lastName && age)) {
+					alert('Please fill out all the required fields!');
+				} else {
+					medCond = $("#selMed").find("option:selected").val();
+					helper = $("#sel1").find("option:selected").val();
+					radius = $("#sel2").find("option:selected").val();
+
+					document.getElementById('formEntry1').style.display = 'none';
+					document.getElementById('formEntry2').style.display = 'none';
+					document.getElementById('buttons').style.display = 'none';
+					document.getElementById('finishPage').style.display = 'block';
+
+					setTimeout(function(){
+						window.location.href = "homepage.html";
+					}, 3000);
+				}
+
+			});*/
+
+
+		});
+	</script>
+
+	<script>
+
+		function setMapToCurrentPos(position) {
+			mapboxgl.accessToken = 'pk.eyJ1IjoiaHVjY2FsIiwiYSI6ImNrODdta3FwYTAxaTAzbW1lbjZ3dXc2bTYifQ.bCvPCM3ThA-UbWLF4-Eqnw';
+			var map = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/mapbox/streets-v11',
+			center: [position.coords.longitude, position.coords.latitude],
+			zoom: 7
+			});
+
+			map.addControl(
+				new mapboxgl.GeolocateControl({
+					positionOptions: {
+						enableHighAccuracy: true
+					},
+					trackUserLocation: true
+				})
+			);
+
+			var marker = new mapboxgl.Marker({
+			draggable: true
+			})
+			.setLngLat([position.coords.longitude, position.coords.latitude])
+			.addTo(map);
+			marker.on('dragend', onDragEnd);
+		}
+
+		function setMapToPredefinedPos() {
+			mapboxgl.accessToken = 'pk.eyJ1IjoiaHVjY2FsIiwiYSI6ImNrODdta3FwYTAxaTAzbW1lbjZ3dXc2bTYifQ.bCvPCM3ThA-UbWLF4-Eqnw';
+			var map = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/mapbox/streets-v11',
+			center: [-0.13044, 51.5099],
+			zoom: 7
+			});
+
+			map.addControl(
+				new mapboxgl.GeolocateControl({
+					positionOptions: {
+						enableHighAccuracy: true
+					},
+					trackUserLocation: true
+				})
+			);
+
+			var marker = new mapboxgl.Marker({
+			draggable: true
+			})
+			.setLngLat([-0.13044, 51.5099])
+			.addTo(map);
+			marker.on('dragend', onDragEnd);
+		}
+
+		navigator.geolocation.getCurrentPosition(setMapToCurrentPos, setMapToPredefinedPos);
+		 
+		function onDragEnd() {
+		var lngLat = marker.getLngLat();
+		coordinates.style.display = 'block';
+		coordinates.innerHTML =
+		'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
+		}
+		 
+
+		/*var long = marker.getLngLat().lng;
+		var lat = marker.getLngLat().lat;
+		console.log(long);
+		console.log(lat);*/
+	</script>
+
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
