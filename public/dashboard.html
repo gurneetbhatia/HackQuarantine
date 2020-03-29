@@ -2,6 +2,7 @@
 <html>
   <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
   <script src="/__/firebase/7.12.0/firebase-app.js"></script>
   <!-- TODO: Add SDKs for Firebase products that you want to use
@@ -46,34 +47,62 @@
       font-family: "Lato", sans-serif;
     }
 
-    .sidebar {
+    a {
+      cursor: pointer;
+    }
+
+    .sidebaropen {
       margin: 0;
       padding: 0;
-      width: 200px;
+      width: 250px;
       background-color: #25262D;
       position: fixed;
       height: 100%;
       overflow: auto;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      overflow-x: hidden;
+      padding-top: 60px;
+      transition: 0.5s;
     }
 
-    .sidebar a {
+    .sidebaropen a {
       display: block;
       color: white;
-      padding: 16px;
+      padding: 18px;
       text-decoration: none;
       border-bottom: 0.5px solid #606060;
       border-left: 0.5px solid #606060;
     }
      
-    .sidebar a.active {
+    .sidebaropen a.active {
       background-color: #419385;
       color: white;
       text-decoration-style: bold;
     }
 
-    .sidebar a:hover:not(.active) {
+    .sidebaropen a:hover:not(.active) {
       background-color: #89CAD4;
       color: white;
+    }
+
+    .sidebaropen .closebtn {
+      position: absolute;
+      top: 0;
+      right: 0px;
+      margin-left: 50px;
+      border-width: 0px; 
+      font-size: 26px;
+    }
+
+    .sidebaropen a.closebtn:hover {
+      color: #f1f1f1;
+      background-color: #25262D;
+    }
+
+    #home {
+      margin-top: 10px;
     }
 
     div.content {
@@ -117,6 +146,11 @@
         text-align: center;
         float: none;
       }
+    }
+
+    @media screen and (max-height: 450px) {
+      .sidebar {padding-top: 15px;}
+      .sidebar a {font-size: 18px;}
     }
   </style>
   </head>
@@ -196,12 +230,18 @@
   </div>
 
 
-      <div class="sidebar">
-        <a class="active" href="#home">Home</a>
-        <a href="#reservations">Reservations</a>
-        <a href="#news">Covid-19 Awareness</a>
-        <a href="#settings">Settings</a>
+      <div id="mySidebar" class="sidebaropen">
+        <a class="closebtn" id="closebtn" onclick="navOperator()" data-open=true>&times;</a>
+        <a class="active" id="home" href="#home">Home</a>
+        <a href="#notifications" id="notifications">Notifications</a>
+        <a href="#reservations" id="reservations">Reservations</a>
+        <a href="#news" id="news">Covid-19 Awareness</a>
+        <a href="#settings" id="settings">Settings</a>
       </div>
+
+      <!--<div id="main">
+        <button class="openbtn" onclick="openNav()">&#9776; Open Sidebar</button>
+      </div>-->
 
       <div class="content">
         
@@ -218,6 +258,40 @@
       function removeLoading() {
         $('#fullBackgroundContainer *').attr("disabled", false).on('click');
         document.getElementById('loadingAnimation').hidden = true;
+      }
+
+      function navOperator() {
+        // opens or closes the tag depending on current state
+        if(document.getElementById('closebtn').dataset.open == "true") {
+          document.getElementById('closebtn').dataset.open = "false";
+          document.getElementById("mySidebar").style.width = "50px";
+          document.getElementById("closebtn").innerHTML = "&#9776";
+          document.getElementById("home").innerHTML = "<i class='glyphicon glyphicon-home'></i>";
+          document.getElementById("notifications").innerHTML = "<i class='glyphicon glyphicon-bell'></i>";
+          document.getElementById("reservations").innerHTML = "<i class='glyphicon glyphicon-shopping-cart'></i>";
+          document.getElementById("news").innerHTML = "<i class='glyphicon glyphicon-bullhorn'></i>";
+          document.getElementById("settings").innerHTML = "<i class='glyphicon glyphicon-cog'></i>";
+        } else {
+          document.getElementById('closebtn').dataset.open = "true";
+          document.getElementById("mySidebar").style.width = "250px";
+          document.getElementById("closebtn").innerHTML = "&times";
+          document.getElementById("home").innerHTML = "Home";
+          document.getElementById("notifications").innerHTML = "Notifications";
+          document.getElementById("reservations").innerHTML = "Reservations";
+          document.getElementById("news").innerHTML = "Covid-19 Awareness";
+          document.getElementById("settings").innerHTML = "Settings";
+        }
+      }
+
+      function openNav() {
+        document.getElementById("mySidebar").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+      }
+
+      /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+      function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
       }
 
     </script>
