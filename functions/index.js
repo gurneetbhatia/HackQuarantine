@@ -40,10 +40,12 @@ app.use(express.json());
 
 exports.getPopularTimes = functions.https.onCall((data, context) => {
 	var pythonProcess = spawn('python3',["testing.py", data.lat, data.lng, data.radius]);
-	return pythonProcess.stdout.on('data', (data) => {
+	return pythonProcess.stdout.on('data', (data1) => {
 		//let rawdata = fs.readFileSync('result.json');
 		//let json = JSON.parse(rawdata);
 		return "done";
+	}).catch(error => {
+		return error;
 	})
 })
 
