@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body{
+            background-color: aliceblue;
+        }
+    </style>
+    
+<title>Page Title</title>
+</head>
+<body>
+
+    <!-- <input type="number" id="radius">Radius</input><br> -->
+    <input style="border-radius: 4px;margin-left: 40%;margin-top: 50px;padding: 2px;"type="number" id="timeInput">  Preferred Time</input><br>
+    <button style="border-radius: 10px;margin-left: 40%;margin-top: 5px;padding: 10px;"type="button" onclick="runit()">Check</button> 
+
+<div style="padding: 10px;"id="output"></div>
+<div style="padding: 10px;margin-left: 40%"id="bestTime">Nothing yet</div>
+<div style="padding: 10px;margin-left: 40%"id="bestTimeOut">Nothing yet</div>
+<br>
+<div id="data"> </div>
+<script src="out.js"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script> 
+<script src="http://www.skulpt.org/js/skulpt.min.js" type="text/javascript"></script> 
+<script src="http://www.skulpt.org/js/skulpt-stdlib.js" type="text/javascript"></script> 
+
+
+<script src="plotly-latest.min.js"></script>
+
+
+<div id="day"style=" font-size: 20px;margin-left: 40%;margin-top: 10px; display: none; color:darkblue"><br></div>
+<div id="myDiv" style="width:600px;height:550px; margin-left: 30%;margin-top: 10px"></div>
+
+
+</body>
+</html>
