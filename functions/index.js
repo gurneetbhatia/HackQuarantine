@@ -8,6 +8,7 @@ var app = express();
 // Required for side-effects
 require("firebase/firestore");
 require("firebase/functions");
+const admin = require('firebase-admin');
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -98,6 +99,11 @@ exports.checkRegistrationStatus = functions.https.onCall((data, context) => {
 	});
 })
 
+exports.setEmailValid = functions.https.onCall((data, context) => {
+    admin.auth().updateUser(data.userid, {emailVerified: true});
+    return true;
+  });
+
 function updateUser(uid, data) {
 	var newPostKey = firebase.database().ref().child('users').push().key;
 	updates = {};
@@ -141,6 +147,3 @@ function createUser(userid, username, email, phone) {
 		regCompleted: false
 	})
 }
-
-
-

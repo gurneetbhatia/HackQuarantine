@@ -238,69 +238,69 @@
 		<div id="loadingAnimation" class="center" hidden=true>
 		<svg version="1.1" id="L1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
     <circle fill="none" stroke-width="6" stroke-miterlimit="15" stroke-dasharray="14.2472,14.2472" cx="50" cy="50" r="47" >
-      <animateTransform 
-         attributeName="transform" 
-         attributeType="XML" 
+      <animateTransform
+         attributeName="transform"
+         attributeType="XML"
          type="rotate"
-         dur="5s" 
+         dur="5s"
          from="0 50 50"
-         to="360 50 50" 
+         to="360 50 50"
          repeatCount="indefinite" />
   </circle>
   <circle fill="none" stroke="#fff" stroke-width="1" stroke-miterlimit="10" stroke-dasharray="10,10" cx="50" cy="50" r="39">
-      <animateTransform 
-         attributeName="transform" 
-         attributeType="XML" 
+      <animateTransform
+         attributeName="transform"
+         attributeType="XML"
          type="rotate"
-         dur="5s" 
+         dur="5s"
          from="0 50 50"
-         to="-360 50 50" 
+         to="-360 50 50"
          repeatCount="indefinite" />
   </circle>
   <g fill="#fff">
   <rect x="30" y="35" width="5" height="30">
-    <animateTransform 
-       attributeName="transform" 
-       dur="1s" 
-       type="translate" 
-       values="0 5 ; 0 -5; 0 5" 
-       repeatCount="indefinite" 
+    <animateTransform
+       attributeName="transform"
+       dur="1s"
+       type="translate"
+       values="0 5 ; 0 -5; 0 5"
+       repeatCount="indefinite"
        begin="0.1"/>
   </rect>
   <rect x="40" y="35" width="5" height="30" >
-    <animateTransform 
-       attributeName="transform" 
-       dur="1s" 
-       type="translate" 
-       values="0 5 ; 0 -5; 0 5" 
-       repeatCount="indefinite" 
+    <animateTransform
+       attributeName="transform"
+       dur="1s"
+       type="translate"
+       values="0 5 ; 0 -5; 0 5"
+       repeatCount="indefinite"
        begin="0.2"/>
   </rect>
   <rect x="50" y="35" width="5" height="30" >
-    <animateTransform 
-       attributeName="transform" 
-       dur="1s" 
-       type="translate" 
-       values="0 5 ; 0 -5; 0 5" 
-       repeatCount="indefinite" 
+    <animateTransform
+       attributeName="transform"
+       dur="1s"
+       type="translate"
+       values="0 5 ; 0 -5; 0 5"
+       repeatCount="indefinite"
        begin="0.3"/>
   </rect>
   <rect x="60" y="35" width="5" height="30" >
-    <animateTransform 
-       attributeName="transform" 
-       dur="1s" 
-       type="translate" 
-       values="0 5 ; 0 -5; 0 5"  
-       repeatCount="indefinite" 
+    <animateTransform
+       attributeName="transform"
+       dur="1s"
+       type="translate"
+       values="0 5 ; 0 -5; 0 5"
+       repeatCount="indefinite"
        begin="0.4"/>
   </rect>
   <rect x="70" y="35" width="5" height="30" >
-    <animateTransform 
-       attributeName="transform" 
-       dur="1s" 
-       type="translate" 
-       values="0 5 ; 0 -5; 0 5" 
-       repeatCount="indefinite" 
+    <animateTransform
+       attributeName="transform"
+       dur="1s"
+       type="translate"
+       values="0 5 ; 0 -5; 0 5"
+       repeatCount="indefinite"
        begin="0.5"/>
   </rect>
   </g>
@@ -315,7 +315,7 @@
 	<div id = "1" class = "buttonContainer" style = "text-align:center;" >
 		<h1 style = "color: #404040;">CREATE ACCOUNT</h1>
 	<div class = "socials">
-		<a class="fa fa-facebook"></a>
+		<a id = "facebook" class="fa fa-facebook"></a>
 		<a id = "google" type = "button" onclick="googleRegistration();" class="fa fa-google"></a>
 		<a class="fa fa-twitter"></a>
 	</div>
@@ -422,7 +422,7 @@
 		  		var user = result.user;
 				console.log(user);
 
-		  		
+
 			}).catch(function(error) {
 		  		// Handle Errors here.
 		  		var errorCode = error.code;
@@ -499,44 +499,120 @@
 	</script>
 
 	<script>
-	/*$("#google").click(function() {
+	$("#google").click(function() {
 		console.log("Clicked")
-		$('#fullBackgroundContainer *').attr("disabled", "disabled").off('click');
-		document.getElementById('loadingAnimation').hidden = false;
 		var provider = new firebase.auth.GoogleAuthProvider();
 		firebase.auth().signInWithPopup(provider).then(function(result) {
-	  		// This gives you a Google Access Token. You can use it to access the Google API.
-	  		if(result.additionalUserInfo.isNewUser) {
-				// add the users details to the database and then move them to account setup
-				var register = firebase.functions().httpsCallable('register');
-				register({userid: auth.currentUser.uid, username: auth.currentUser.email, email: auth.currentUser.email, phone: null}).then(function(result) {
-						console.log(result);
-						window.location.href = "accountsetup.html";
-				});
-
-	  		} 
-
-	  		var token = result.credential.accessToken;
-	  		// The signed-in user info.
-	  		var user = result.user;
-			console.log(user);
-
-	  		
+			if (error.code === 'auth/account-exists-with-different-credential') {
+				console.log("BIG ERROR")
+		    var pendingCred = error.credential;
+		    var email = error.email;
+		    // Get sign-in methods for this email.
+		    auth.fetchSignInMethodsForEmail(email).then(function(methods) {
+		      if (methods[0] === 'password') {
+		        // Asks the user their password.
+		        // In real scenario, you should handle this asynchronously.
+		        var password = window.prompt("Enter password for original account","");
+		        auth.signInWithEmailAndPassword(email, password).then(function(user) {
+		          // Step 4a.
+		          return user.linkWithCredential(pendingCred);
+		        }).then(function() {
+		          // Google account successfully linked to the existing Firebase user.
+								window.location.href = "accountsetup.html";
+		        });
+		        return;
+		      }
+		    })
+		   }
+  		var token = result.credential.accessToken;
+  		// The signed-in user info.
+  		var user = result.user;
+			console.log(user)
+  		// ...
 		}).catch(function(error) {
-	  		// Handle Errors here.
-	  		var errorCode = error.code;
-	  		var errorMessage = error.message;
-	  		// The email of the user's account used.
-	  		var email = error.email;
-	  		// The firebase.auth.AuthCredential type that was used.
-	  		var credential = error.credential;
+  		// Handle Errors here.
+  		var errorCode = error.code;
+  		var errorMessage = error.message;
+  		// The email of the user's account used.
+  		var email = error.email;
+  		// The firebase.auth.AuthCredential type that was used.
+  		var credential = error.credential;
 			console.log(errorCode)
 			console.log(errorMessage)
-			$('#fullBackgroundContainer *').attr("disabled", false).on('click');
-			document.getElementById('loadingAnimation').hidden = true;
-  			// ...
+  		// ...
 		})
-	});*/
+	});
+
+
+	$("#facebook").click(function() {
+		console.log("Clicked")
+		var provider = new firebase.auth.FacebookAuthProvider();
+		auth.signInWithPopup(provider)
+		.then(function(result) {
+			var user = result.user;
+			var uid = user.uid;
+			console.log(user.uid);
+			var makeValid = firebase.functions().httpsCallable('makeValid');
+			makeValid({userid: auth.currentUser.uid}).then(function(result) {
+				console.log(result);
+			});
+				//window.location.href = "accountsetup.html";
+		});
+		.catch(function(error) {
+		  // An error happened.
+		  if (error.code === 'auth/account-exists-with-different-credential') {
+		    // Step 2.
+		    // User's email already exists.
+		    // The pending Facebook credential.
+		    var pendingCred = error.credential;
+		    // The provider account's email address.
+		    var email = error.email;
+		    // Get sign-in methods for this email.
+		    auth.fetchSignInMethodsForEmail(email).then(function(methods) {
+		      // Step 3.
+		      // If the user has several sign-in methods,
+		      // the first method in the list will be the "recommended" method to use.
+					console.log(methods)
+		      if (methods.includes('password')) {
+		        // Asks the user their password.
+		        // In real scenario, you should handle this asynchronously.
+		        var password = window.prompt("Enter password for original account","");
+						console.log(email);
+						console.log(password)
+		        auth.signInWithEmailAndPassword(email, password).then(function(user) {
+							firebase.auth().onAuthStateChanged(function(user) {
+								return user.linkWithCredential(pendingCred);
+							})
+		          // Step 4a.
+		        }).then(function() {
+		          // Facebook account successfully linked to the existing Firebase user.
+		          //window.location.href = "accountsetup.html";
+		        });
+		        return;
+		      } else {
+						if (methods.includes('google.com')) {
+			        // Asks the user their password.
+			        // In real scenario, you should handle this asynchronously.
+			        var provider = new firebase.auth.GoogleAuthProvider();
+							auth.signInWithPopup(provider).then(function(result) {
+								// Remember that the user may have signed in with an account that has a different email
+								// address than the first one. This can happen as Firebase doesn't control the provider's
+								// sign in flow and the user is free to login using whichever account they own.
+								// Step 4b.
+								// Link to Facebook credential.
+								// As we have access to the pending credential, we can directly call the link method.
+								result.user.linkWithCredential(pendingCred).then(function(usrcred) {
+			          	// Facebook account successfully linked to the existing Firebase user.
+			          	window.location.href = "accountsetup.html";
+			        });
+			        return;
+			      });
+					}
+				}
+			});
+		}
+	});
+})
 	</script>
 </body>
 </html>
