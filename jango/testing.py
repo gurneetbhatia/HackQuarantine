@@ -18,10 +18,20 @@ radius = hundred_meters * radius_magnifier
 
 supermarkets = populartimes.get(myKey, ["grocery_or_supermarket"], (myPosition_x - radius, myPosition_y - radius), (myPosition_x + radius, myPosition_y + radius))
 
+output = []
+for supermarket in supermarkets:
+    currentOut = {"id":supermarket["id"],
+                  "name":supermarket["name"],
+                  "address":supermarket["address"],
+                  "lat": supermarket["coordinates"]["lat"],
+                  "lng": supermarket["coordinates"]["lng"],
+                  "populartimes":supermarket["populartimes"]}
+    output.append(currentOut)
+print(output[0])
 
 
 
-for i in range(len(supermarkets)):
+'''for i in range(len(supermarkets)):
     print(list(supermarkets[i].values())[1])
     placeIDs.append(list(supermarkets[i].values())[0])
     
@@ -34,7 +44,7 @@ with open('output.json', 'w') as outfile:
             outfile.write(",")
     outfile.write("]")
 
-outfile.close()
+outfile.close()'''
 
 
 
