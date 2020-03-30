@@ -1,7 +1,39 @@
 import populartimes
 import json
+import sys
 from flask import Flask, request, jsonify
 
+def getPopularTimes(lat, lng, radius):
+    myKey = "AIzaSyBLMCOvdz6-uGCjEPfYC7TKt0MICGRcK1E"
+    myPosition_x = float(lat)
+    myPosition_y = float(lng)
+    radius = float(radius) * 0.008983 #to convert to km and to scale by lat/lng
+    supermarkets = populartimes.get(myKey, ["grocery_or_supermarket"], (myPosition_x - radius, myPosition_y - radius), (myPosition_x + radius, myPosition_y + radius))
+    outputs = {}
+    for supermarket in supermarkets:
+        outputs[supermarket["id"]] =  {"name":supermarket["name"],
+                                       "address":supermarket["address"],
+                                       "lat": supermarket["coordinates"]["lat"],
+                                       "lng": supermarket["coordinates"]["lng"],
+                                       "populartimes":supermarket["populartimes"]}
+    #print(supermarkets)
+    output_objs = []
+    '''#print(outputs.keys())
+    for key in outputs.keys():
+        output_str = "{\"" + key + "\"" + ":" + json.dumps(outputs[key]) + "}"
+        output_objs.append(output_str)
+    return "[" + ','.join(output_objs) + "]"'''
+    with open('result.json', 'w') as fp:
+        json.dump(outputs, fp)
+    return "done"
+    #return json.dumps(outputs)
+
+
+print(getPopularTimes(sys.argv[1], sys.argv[2], sys.argv[3]))
+sys.stdout.flush()
+
+
+'''
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
@@ -27,7 +59,7 @@ def getPopularTimes():
         return jsonify(outputs)
     else:
         return 'ERROR: Insufficient inputs provided'
-app.run()
+app.run()'''
 
 '''
 placeIDs = []
