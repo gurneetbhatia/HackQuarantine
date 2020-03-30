@@ -2,6 +2,8 @@ const functions = require('firebase-functions');
 const firebase = require("firebase");
 const express = require('express');
 const cors = require('cors')({origin: true});
+const spawn = require("child_process").spawn;
+const fs = require('fs');
 var app = express();
 // Required for side-effects
 require("firebase/firestore");
@@ -35,6 +37,15 @@ app.use(express.json());
 		createUser(userid, "07464", "G", "Bhatia", "sbgurneet@gmail.com", "test", "novice", false);
 	});
 });*/
+
+exports.getPopularTimes = functions.https.onCall((data, context) => {
+	var pythonProcess = spawn('python3',["testing.py", data.lat, data.lng, data.radius]);
+	return pythonProcess.stdout.on('data', (data) => {
+		//let rawdata = fs.readFileSync('result.json');
+		//let json = JSON.parse(rawdata);
+		return "done";
+	})
+})
 
 exports.checkIfUserUnique = functions.https.onCall((data, context) => {
 	return firebase.database().ref('/users/').once("value").then(function(snapshot) {
