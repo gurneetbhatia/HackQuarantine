@@ -552,7 +552,7 @@
 			var user = result.user;
 			var uid = user.uid;
 			console.log(user.uid);
-			var makeValid = firebase.functions().httpsCallable('makeValid');
+			var makeValid = firebase.functions().httpsCallable('setEmailValid');
 			makeValid({userid: auth.currentUser.uid}).then(function(result) {
 				console.log(result);
 			});
