@@ -338,8 +338,8 @@
 <div class = "buttonContainer" style = "text-align:center;">
 	<h1 style = "color: #404040;">SIGN IN</h1>
 <div class = "socials">
-	<a href="#" class="fa fa-facebook"></a>
-	<a href="#" class="fa fa-google"></a>
+	<a href="#facebookLogin" class="fa fa-facebook"></a>
+	<a href="#googleLogin" class="fa fa-google"></a>
 	<a href="#" class="fa fa-twitter"></a>
 </div>
 	<hr>
@@ -549,58 +549,46 @@
 		var provider = new firebase.auth.FacebookAuthProvider();
 		auth.signInWithPopup(provider)
 		.then(function(result) {
-			var user = result.user;
-			var uid = user.uid;
-			console.log(user.uid);
+			// Create promise to set facebook email valid
+			// If not done then when google account logged in it will overwrite
+			// facebook account and unlink it.
 			var makeValid = firebase.functions().httpsCallable('setEmailValid');
 			makeValid({userid: auth.currentUser.uid}).then(function(result) {
 				console.log(result);
 			});
-				//window.location.href = "accountsetup.html";
-		});
+				window.location.href = "accountsetup.html";
+		})
 		.catch(function(error) {
-		  // An error happened.
+			//If already signed in using a different method on same email
 		  if (error.code === 'auth/account-exists-with-different-credential') {
-		    // Step 2.
-		    // User's email already exists.
-		    // The pending Facebook credential.
+		    //Save the would be credential and get email
 		    var pendingCred = error.credential;
-		    // The provider account's email address.
 		    var email = error.email;
 		    // Get sign-in methods for this email.
 		    auth.fetchSignInMethodsForEmail(email).then(function(methods) {
-		      // Step 3.
-		      // If the user has several sign-in methods,
-		      // the first method in the list will be the "recommended" method to use.
+		     	// If one of the methods is email and password sign in use that one.
 					console.log(methods)
 		      if (methods.includes('password')) {
-		        // Asks the user their password.
-		        // In real scenario, you should handle this asynchronously.
+		        // Basic prompt for password, may change later.
 		        var password = window.prompt("Enter password for original account","");
-						console.log(email);
-						console.log(password)
+						// Sign in using the email and password provided
 		        auth.signInWithEmailAndPassword(email, password).then(function(user) {
+							// If login was successful get user id and link it with the pending credential
 							firebase.auth().onAuthStateChanged(function(user) {
 								return user.linkWithCredential(pendingCred);
 							})
-		          // Step 4a.
 		        }).then(function() {
 		          // Facebook account successfully linked to the existing Firebase user.
-		          //window.location.href = "accountsetup.html";
+		          window.location.href = "accountsetup.html";
 		        });
 		        return;
 		      } else {
+						// If they are only signed up using google
 						if (methods.includes('google.com')) {
-			        // Asks the user their password.
-			        // In real scenario, you should handle this asynchronously.
+			        // Validate user login
 			        var provider = new firebase.auth.GoogleAuthProvider();
 							auth.signInWithPopup(provider).then(function(result) {
-								// Remember that the user may have signed in with an account that has a different email
-								// address than the first one. This can happen as Firebase doesn't control the provider's
-								// sign in flow and the user is free to login using whichever account they own.
-								// Step 4b.
-								// Link to Facebook credential.
-								// As we have access to the pending credential, we can directly call the link method.
+								// Use pending cred to link to existing account.
 								result.user.linkWithCredential(pendingCred).then(function(usrcred) {
 			          	// Facebook account successfully linked to the existing Firebase user.
 			          	window.location.href = "accountsetup.html";
@@ -612,6 +600,108 @@
 			});
 		}
 	});
+})
+
+$("#googleLogin").click(function() {
+	console.log("Clicked")
+	var provider = new firebase.auth.GoogleAuthProvider();
+	firebase.auth().signInWithPopup(provider).then(function(result) {
+		if (error.code === 'auth/account-exists-with-different-credential') {
+			var pendingCred = error.credential;
+			var email = error.email;
+			// Get sign-in methods for this email.
+			auth.fetchSignInMethodsForEmail(email).then(function(methods) {
+				if (methods[0] === 'password') {
+					// Asks the user their password.
+					// In real scenario, you should handle this asynchronously.
+					var password = window.prompt("Enter password for original account","");
+					auth.signInWithEmailAndPassword(email, password).then(function(user) {
+						// Step 4a.
+						return user.linkWithCredential(pendingCred);
+					}).then(function() {
+						// Google account successfully linked to the existing Firebase user.
+							window.location.href = "dashboard.html";
+					});
+					return;
+				}
+			})
+		 }
+		var token = result.credential.accessToken;
+		// The signed-in user info.
+		var user = result.user;
+		console.log(user)
+		// ...
+	}).catch(function(error) {
+		// Handle Errors here.
+		var errorCode = error.code;
+		var errorMessage = error.message;
+		// The email of the user's account used.
+		var email = error.email;
+		// The firebase.auth.AuthCredential type that was used.
+		var credential = error.credential;
+		console.log(errorCode)
+		console.log(errorMessage)
+		// ...
+	})
+});
+
+
+$("#facebookLogin").click(function() {
+	console.log("Clicked")
+	var provider = new firebase.auth.FacebookAuthProvider();
+	auth.signInWithPopup(provider)
+	.then(function(result) {
+		// Create promise to set facebook email valid
+		// If not done then when google account logged in it will overwrite
+		// facebook account and unlink it.
+		var makeValid = firebase.functions().httpsCallable('setEmailValid');
+		makeValid({userid: auth.currentUser.uid}).then(function(result) {
+			console.log(result);
+		});
+			window.location.href = "dashboard.html";
+	})
+	.catch(function(error) {
+		//If already signed in using a different method on same email
+		if (error.code === 'auth/account-exists-with-different-credential') {
+			//Save the would be credential and get email
+			var pendingCred = error.credential;
+			var email = error.email;
+			// Get sign-in methods for this email.
+			auth.fetchSignInMethodsForEmail(email).then(function(methods) {
+				// If one of the methods is email and password sign in use that one.
+				console.log(methods)
+				if (methods.includes('password')) {
+					// Basic prompt for password, may change later.
+					var password = window.prompt("Enter password for original account","");
+					// Sign in using the email and password provided
+					auth.signInWithEmailAndPassword(email, password).then(function(user) {
+						// If login was successful get user id and link it with the pending credential
+						firebase.auth().onAuthStateChanged(function(user) {
+							return user.linkWithCredential(pendingCred);
+						})
+					}).then(function() {
+						// Facebook account successfully linked to the existing Firebase user.
+						window.location.href = "dashboard.html";
+					});
+					return;
+				} else {
+					// If they are only signed up using google
+					if (methods.includes('google.com')) {
+						// Validate user login
+						var provider = new firebase.auth.GoogleAuthProvider();
+						auth.signInWithPopup(provider).then(function(result) {
+							// Use pending cred to link to existing account.
+							result.user.linkWithCredential(pendingCred).then(function(usrcred) {
+								// Facebook account successfully linked to the existing Firebase user.
+								window.location.href = "dashboard.html";
+						});
+						return;
+					});
+				}
+			}
+		});
+	}
+});
 })
 	</script>
 </body>
