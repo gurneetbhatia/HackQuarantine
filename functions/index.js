@@ -1,14 +1,25 @@
 const functions = require('firebase-functions');
 const firebase = require("firebase");
 const express = require('express');
-const cors = require('cors')({origin: true});
 const spawn = require("child_process").spawn;
 const fs = require('fs');
 var app = express();
 // Required for side-effects
 require("firebase/firestore");
 require("firebase/functions");
-const admin = require('firebase-admin');
+var admin = require("firebase-admin");
+const cors = require('cors');
+app.use(cors({ origin: true }));
+app.use(express.urlencoded());
+app.use(express.json());
+
+
+var serviceAccount = require("./admin-sdk.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://hq-app-8cc14.firebaseio.com"
+});
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -26,10 +37,6 @@ const firebaseConfig = {
   measurementId: "G-LVC5S42ELF"
 };
 firebase.initializeApp(firebaseConfig);
-
-
-app.use(express.urlencoded());
-app.use(express.json());
 //app.use(cors({ origin: true }));
 /*app.post('/register', function(request, response) {
 	console.log(request.body);
@@ -100,8 +107,9 @@ exports.checkRegistrationStatus = functions.https.onCall((data, context) => {
 })
 
 exports.setEmailValid = functions.https.onCall((data, context) => {
-    admin.auth().updateUser(data.userid, {emailVerified: true});
-    return true;
+    return admin.auth().updateUser(data.userid, {emailVerified: true}).then(function(output) {
+    	return true;
+    })
   });
 
 function updateUser(uid, data) {
