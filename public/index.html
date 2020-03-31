@@ -319,7 +319,7 @@
 		<h1 style = "color: #404040;">CREATE ACCOUNT</h1>
 	<div class = "socials">
 		<a id = "facebook" class="fa fa-facebook"></a>
-		<a id = "google" type = "button" class="fa fa-google"></a>
+		<a id = "google" class="fa fa-google"></a>
 		<a class="fa fa-twitter"></a>
 	</div>
 		<hr>
@@ -341,8 +341,8 @@
 <div class = "buttonContainer" style = "text-align:center;">
 	<h1 style = "color: #404040;">SIGN IN</h1>
 <div class = "socials">
-	<a id="facebookLogin" class="fa fa-facebook"></a>
-	<a id="googleLogin" class="fa fa-google"></a>
+	<a id="facebook" class="fa fa-facebook"></a>
+	<a id="google" class="fa fa-google"></a>
 	<a href="#" class="fa fa-twitter"></a>
 </div>
 	<hr>
@@ -502,7 +502,7 @@
 	</script>
 
 	<script>
-	$("#google").click(function() {
+	$(".fa-google").click(function() {
 		$('#fullBackgroundContainer *').attr("hidden", true).on('click');
 		document.getElementById('loadingAnimation').hidden = false;
 		// Provider is google
@@ -546,7 +546,7 @@
 	});
 
 
-	$("#facebook").click(function() {
+	$(".fa-facebook").click(function() {
 		$('#fullBackgroundContainer *').attr("hidden", true).on('click');
 		document.getElementById('loadingAnimation').hidden = false;
 		// Provider is facebook
