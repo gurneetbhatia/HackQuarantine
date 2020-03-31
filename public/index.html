@@ -75,6 +75,9 @@
 		position: absolute;
 		border: 0px;
 		background-image: url("online-3217733_1920.jpg");
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
 		min-width: 1000px;
 		min-height: 600px;
 	}
@@ -316,7 +319,7 @@
 		<h1 style = "color: #404040;">CREATE ACCOUNT</h1>
 	<div class = "socials">
 		<a id = "facebook" class="fa fa-facebook"></a>
-		<a id = "google" type = "button" onclick="googleRegistration();" class="fa fa-google"></a>
+		<a id = "google" type = "button" class="fa fa-google"></a>
 		<a class="fa fa-twitter"></a>
 	</div>
 		<hr>
@@ -338,8 +341,8 @@
 <div class = "buttonContainer" style = "text-align:center;">
 	<h1 style = "color: #404040;">SIGN IN</h1>
 <div class = "socials">
-	<a href="#facebookLogin" class="fa fa-facebook"></a>
-	<a href="#googleLogin" class="fa fa-google"></a>
+	<a id="facebookLogin" class="fa fa-facebook"></a>
+	<a id="googleLogin" class="fa fa-google"></a>
 	<a href="#" class="fa fa-twitter"></a>
 </div>
 	<hr>
@@ -485,7 +488,7 @@
 		console.log(password)
 		const promise = auth.signInWithEmailAndPassword(email, password);
 		promise.then(user => {
-			$('#fullBackgroundContainer *').attr("disabled", "disabled").off('click');
+			$('#fullBackgroundContainer *').attr("disabled", true).off('click');
 			document.getElementById('loadingAnimation').hidden = false;
 			window.location.href = "dashboard.html";
 		}).catch(function(error) {
@@ -500,35 +503,32 @@
 
 	<script>
 	$("#google").click(function() {
-		console.log("Clicked")
+		$('#fullBackgroundContainer *').attr("hidden", true).on('click');
+		document.getElementById('loadingAnimation').hidden = false;
+		// Provider is google
 		var provider = new firebase.auth.GoogleAuthProvider();
 		firebase.auth().signInWithPopup(provider).then(function(result) {
-			if (error.code === 'auth/account-exists-with-different-credential') {
-				console.log("BIG ERROR")
-		    var pendingCred = error.credential;
-		    var email = error.email;
-		    // Get sign-in methods for this email.
-		    auth.fetchSignInMethodsForEmail(email).then(function(methods) {
-		      if (methods[0] === 'password') {
-		        // Asks the user their password.
-		        // In real scenario, you should handle this asynchronously.
-		        var password = window.prompt("Enter password for original account","");
-		        auth.signInWithEmailAndPassword(email, password).then(function(user) {
-		          // Step 4a.
-		          return user.linkWithCredential(pendingCred);
-		        }).then(function() {
-		          // Google account successfully linked to the existing Firebase user.
-								window.location.href = "accountsetup.html";
-		        });
-		        return;
-		      }
-		    })
-		   }
-  		var token = result.credential.accessToken;
-  		// The signed-in user info.
-  		var user = result.user;
-			console.log(user)
-  		// ...
+			if(result.additionalUserInfo.isNewUser) {
+				// If they are a new user make their email valid (Already validated by facebook)
+				// Add details to database and move to account setup
+				var register = firebase.functions().httpsCallable('register');
+				register({userid: auth.currentUser.uid, username: auth.currentUser.email, email: auth.currentUser.email, phone: null}).then(function(result) {
+					window.location.href = "accountsetup.html";
+				});
+			} else {
+				// If they are not a new user check if they have completed reg and move
+				// to appropriate page.
+				var checkRegistrationStatus = firebase.functions().httpsCallable('checkRegistrationStatus');
+				checkRegistrationStatus({uid: auth.currentUser.uid}).then(function(result) {
+					if(result.data) {
+						// they have completed the registration process (account setup)
+						window.location.href = "dashboard.html";
+					} else {
+						// they have not completed setup
+						window.location.href = "accountsetup.html";
+					}
+				})
+			}
 		}).catch(function(error) {
   		// Handle Errors here.
   		var errorCode = error.code;
@@ -539,24 +539,46 @@
   		var credential = error.credential;
 			console.log(errorCode)
 			console.log(errorMessage)
+			$('#fullBackgroundContainer *').attr("disabled", false).on('click');
+			document.getElementById('loadingAnimation').hidden = true;
   		// ...
 		})
 	});
 
 
 	$("#facebook").click(function() {
-		console.log("Clicked")
+		$('#fullBackgroundContainer *').attr("hidden", true).on('click');
+		document.getElementById('loadingAnimation').hidden = false;
+		// Provider is facebook
 		var provider = new firebase.auth.FacebookAuthProvider();
+		// Create popup
 		auth.signInWithPopup(provider)
 		.then(function(result) {
-			// Create promise to set facebook email valid
-			// If not done then when google account logged in it will overwrite
-			// facebook account and unlink it.
-			var makeValid = firebase.functions().httpsCallable('setEmailValid');
-			makeValid({userid: auth.currentUser.uid}).then(function(result) {
-				console.log(result);
-			});
-				window.location.href = "accountsetup.html";
+			// Check if they are a new user
+			if(result.additionalUserInfo.isNewUser) {
+				// If they are a new user make their email valid (Already validated by facebook)
+				// Add details to database and move to account setup
+				var register = firebase.functions().httpsCallable('register');
+				register({userid: auth.currentUser.uid, username: auth.currentUser.email, email: auth.currentUser.email, phone: null}).then(function(result) {
+					var makeValid = firebase.functions().httpsCallable('setEmailValid');
+					makeValid({userid: auth.currentUser.uid}).then(() => {
+					});
+					window.location.href = "accountsetup.html";
+				});
+			} else {
+				// If they are not a new user check if they have completed reg and move
+				// to appropriate page.
+				var checkRegistrationStatus = firebase.functions().httpsCallable('checkRegistrationStatus');
+				checkRegistrationStatus({uid: auth.currentUser.uid}).then(function(result) {
+					if(result.data) {
+						// they have completed the registration process (account setup)
+						window.location.href = "dashboard.html";
+					} else {
+						// they have not completed setup
+						window.location.href = "accountsetup.html";
+					}
+				})
+			}
 		})
 		.catch(function(error) {
 			//If already signed in using a different method on same email
@@ -570,6 +592,7 @@
 					console.log(methods)
 		      if (methods.includes('password')) {
 		        // Basic prompt for password, may change later.
+						// TODO: Add page for password prompt
 		        var password = window.prompt("Enter password for original account","");
 						// Sign in using the email and password provided
 		        auth.signInWithEmailAndPassword(email, password).then(function(user) {
@@ -579,7 +602,16 @@
 							})
 		        }).then(function() {
 		          // Facebook account successfully linked to the existing Firebase user.
-		          window.location.href = "accountsetup.html";
+							var checkRegistrationStatus = firebase.functions().httpsCallable('checkRegistrationStatus');
+							checkRegistrationStatus({uid: auth.currentUser.uid}).then(function(result) {
+								if(result.data) {
+									// they have completed the registration process (account setup)
+									window.location.href = "dashboard.html";
+								} else {
+									// they have not completed setup
+									window.location.href = "accountsetup.html";
+								}
+							})
 		        });
 		        return;
 		      } else {
@@ -591,8 +623,20 @@
 								// Use pending cred to link to existing account.
 								result.user.linkWithCredential(pendingCred).then(function(usrcred) {
 			          	// Facebook account successfully linked to the existing Firebase user.
-			          	window.location.href = "accountsetup.html";
-			        });
+									var checkRegistrationStatus = firebase.functions().httpsCallable('checkRegistrationStatus');
+									checkRegistrationStatus({uid: auth.currentUser.uid}).then(function(result) {
+										if(result.data) {
+											// they have completed the registration process (account setup)
+											window.location.href = "dashboard.html";
+										} else {
+											// they have not completed setup
+											window.location.href = "accountsetup.html";
+										}
+									})
+			        }).catch(function(error) {
+								$('#fullBackgroundContainer *').attr("hidden", false).on('click');
+								document.getElementById('loadingAnimation').hidden = true;
+							});
 			        return;
 			      });
 					}
@@ -600,108 +644,6 @@
 			});
 		}
 	});
-})
-
-$("#googleLogin").click(function() {
-	console.log("Clicked")
-	var provider = new firebase.auth.GoogleAuthProvider();
-	firebase.auth().signInWithPopup(provider).then(function(result) {
-		if (error.code === 'auth/account-exists-with-different-credential') {
-			var pendingCred = error.credential;
-			var email = error.email;
-			// Get sign-in methods for this email.
-			auth.fetchSignInMethodsForEmail(email).then(function(methods) {
-				if (methods[0] === 'password') {
-					// Asks the user their password.
-					// In real scenario, you should handle this asynchronously.
-					var password = window.prompt("Enter password for original account","");
-					auth.signInWithEmailAndPassword(email, password).then(function(user) {
-						// Step 4a.
-						return user.linkWithCredential(pendingCred);
-					}).then(function() {
-						// Google account successfully linked to the existing Firebase user.
-							window.location.href = "dashboard.html";
-					});
-					return;
-				}
-			})
-		 }
-		var token = result.credential.accessToken;
-		// The signed-in user info.
-		var user = result.user;
-		console.log(user)
-		// ...
-	}).catch(function(error) {
-		// Handle Errors here.
-		var errorCode = error.code;
-		var errorMessage = error.message;
-		// The email of the user's account used.
-		var email = error.email;
-		// The firebase.auth.AuthCredential type that was used.
-		var credential = error.credential;
-		console.log(errorCode)
-		console.log(errorMessage)
-		// ...
-	})
-});
-
-
-$("#facebookLogin").click(function() {
-	console.log("Clicked")
-	var provider = new firebase.auth.FacebookAuthProvider();
-	auth.signInWithPopup(provider)
-	.then(function(result) {
-		// Create promise to set facebook email valid
-		// If not done then when google account logged in it will overwrite
-		// facebook account and unlink it.
-		var makeValid = firebase.functions().httpsCallable('setEmailValid');
-		makeValid({userid: auth.currentUser.uid}).then(function(result) {
-			console.log(result);
-		});
-			window.location.href = "dashboard.html";
-	})
-	.catch(function(error) {
-		//If already signed in using a different method on same email
-		if (error.code === 'auth/account-exists-with-different-credential') {
-			//Save the would be credential and get email
-			var pendingCred = error.credential;
-			var email = error.email;
-			// Get sign-in methods for this email.
-			auth.fetchSignInMethodsForEmail(email).then(function(methods) {
-				// If one of the methods is email and password sign in use that one.
-				console.log(methods)
-				if (methods.includes('password')) {
-					// Basic prompt for password, may change later.
-					var password = window.prompt("Enter password for original account","");
-					// Sign in using the email and password provided
-					auth.signInWithEmailAndPassword(email, password).then(function(user) {
-						// If login was successful get user id and link it with the pending credential
-						firebase.auth().onAuthStateChanged(function(user) {
-							return user.linkWithCredential(pendingCred);
-						})
-					}).then(function() {
-						// Facebook account successfully linked to the existing Firebase user.
-						window.location.href = "dashboard.html";
-					});
-					return;
-				} else {
-					// If they are only signed up using google
-					if (methods.includes('google.com')) {
-						// Validate user login
-						var provider = new firebase.auth.GoogleAuthProvider();
-						auth.signInWithPopup(provider).then(function(result) {
-							// Use pending cred to link to existing account.
-							result.user.linkWithCredential(pendingCred).then(function(usrcred) {
-								// Facebook account successfully linked to the existing Firebase user.
-								window.location.href = "dashboard.html";
-						});
-						return;
-					});
-				}
-			}
-		});
-	}
-});
 })
 	</script>
 </body>
