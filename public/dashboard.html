@@ -138,6 +138,28 @@
       z-index: 3;
     }
 
+    .notif {
+      background-color: #419385;
+      border-radius: 20px;
+      padding: 10px;
+      width: 70%;
+      margin: 0 auto;
+      margin-bottom: 3%;
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.25s;
+      -webkit-transition: background-color 0.25s;
+    }
+    .notif:hover {
+      background-color: #89CAD4;
+    }
+    .notif p {
+      color: white;
+    }
+    .notif #title {
+      font-size: 25px;
+    }
+
     @media screen and (max-width: 700px) {
       .sidebar {
         width: 100%;
@@ -257,9 +279,7 @@
           <h1>Home</h1>
         </div>
 
-        <div id="notificationsDiv">
-          <h1>Notifications</h1>
-        </div>
+        <div id="notificationsDiv"></div>
 
         <div id="reservationsDiv">
           <h1>Reservations</h1>
@@ -339,6 +359,34 @@
 
       function notificationsClicked() {
         makeActive("notifications");
+        displayLoading();
+        let notificationsDiv = document.getElementById("notificationsDiv");
+        // clearing the div to get rid of previous notifications
+        notificationsDiv.innerHTML = "";
+        var notifGet = firebase.functions().httpsCallable('getNotificationsForUser');
+        notifGet({uid: auth.currentUser.uid}).then(function(result) {
+          var data = result.data;
+          console.log(Object.keys(result.data))
+          Object.keys(result.data).forEach(function(key) {
+            var notifDiv = document.createElement("div");
+            notifDiv.classList.add("notif");
+            var title = document.createElement("p");
+            title.id = "title";
+            title.innerHTML = result.data[key].title;
+            var text = document.createElement("p");
+            text.id = "text";
+            text.innerHTML = result.data[key].text;
+            var date = document.createElement("p");
+            date.id = "date";
+            date.innerHTML = result.data[key].date;
+            notifDiv.appendChild(title);
+            notifDiv.appendChild(text);
+            notifDiv.appendChild(date);
+            notificationsDiv.appendChild(notifDiv);
+          })
+        })
+        removeLoading();
+
       }
 
       function reservationsClicked() {
