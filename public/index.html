@@ -518,7 +518,7 @@
 		          return user.linkWithCredential(pendingCred);
 		        }).then(function() {
 		          // Google account successfully linked to the existing Firebase user.
-								window.location.href = "accountsetup.html";
+						window.location.href = "accountsetup.html";
 		        });
 		        return;
 		      }
@@ -556,7 +556,7 @@
 			makeValid({userid: auth.currentUser.uid}).then(function(result) {
 				console.log(result);
 			});
-				window.location.href = "accountsetup.html";
+			window.location.href = "accountsetup.html";
 		})
 		.catch(function(error) {
 			//If already signed in using a different method on same email

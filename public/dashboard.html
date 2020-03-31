@@ -159,6 +159,11 @@
     .notif #title {
       font-size: 25px;
     }
+    #nonotifs {
+      color: grey;
+      font-style: italic;
+      margin-top: 20%;
+    }
 
     @media screen and (max-width: 700px) {
       .sidebar {
@@ -367,23 +372,33 @@
         notifGet({uid: auth.currentUser.uid}).then(function(result) {
           var data = result.data;
           console.log(Object.keys(result.data))
-          Object.keys(result.data).forEach(function(key) {
-            var notifDiv = document.createElement("div");
-            notifDiv.classList.add("notif");
-            var title = document.createElement("p");
-            title.id = "title";
-            title.innerHTML = result.data[key].title;
-            var text = document.createElement("p");
-            text.id = "text";
-            text.innerHTML = result.data[key].text;
-            var date = document.createElement("p");
-            date.id = "date";
-            date.innerHTML = result.data[key].date;
-            notifDiv.appendChild(title);
-            notifDiv.appendChild(text);
-            notifDiv.appendChild(date);
-            notificationsDiv.appendChild(notifDiv);
-          })
+          if(Object.keys(result.data).length > 0) {
+
+            Object.keys(result.data).forEach(function(key) {
+              var notifDiv = document.createElement("div");
+              notifDiv.classList.add("notif");
+              var title = document.createElement("p");
+              title.id = "title";
+              title.innerHTML = result.data[key].title;
+              var text = document.createElement("p");
+              text.id = "text";
+              text.innerHTML = result.data[key].text;
+              var date = document.createElement("p");
+              date.id = "date";
+              date.innerHTML = result.data[key].date;
+              notifDiv.appendChild(title);
+              notifDiv.appendChild(text);
+              notifDiv.appendChild(date);
+              notificationsDiv.appendChild(notifDiv);
+            });
+          } else {
+            // no notifications to show to the user
+            var nope = document.createElement("p");
+            nope.id = "nonotifs";
+            nope.align = "center";
+            nope.innerHTML = "No notifications to display.";
+            notificationsDiv.appendChild(nope);
+          }
         })
         removeLoading();
 
