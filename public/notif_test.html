@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Notification Test</title>
+	<style type="text/css">
+		.notif {
+			background-color: #419385;
+			border-radius: 20px;
+			padding: 10px;
+			width: 70%;
+			margin: 0 auto;
+			margin-bottom: 3%;
+			position: relative;
+			overflow: hidden;
+			transition: background-color 0.25s;
+  			-webkit-transition: background-color 0.25s;
+		}
+		.notif:hover {
+			background-color: #89CAD4;
+		}
+		.notif p {
+			color: white;
+		}
+		.notif #title {
+			font-size: 25px;
+		}
+	</style>
+</head>
+<body>
+	<div class="notif">
+		<p id="title">Test Notification</p>
+		<p id="text">This is an example notification that I will render using js</p>
+		<p id="date" align="right">31/03/2020</p>
+	</div>
+
+	<div class="notif">
+		<p id="title">Test Notification2</p>
+		<p id="text">This is an example notification that I will render using js</p>
+		<p id="date" align="right">31/03/2020</p>
+	</div>
+</body>
+</html>
