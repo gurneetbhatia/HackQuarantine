@@ -138,6 +138,33 @@
       z-index: 3;
     }
 
+    .notif {
+      background-color: #419385;
+      border-radius: 20px;
+      padding: 10px;
+      width: 70%;
+      margin: 0 auto;
+      margin-bottom: 3%;
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.25s;
+      -webkit-transition: background-color 0.25s;
+    }
+    .notif:hover {
+      background-color: #89CAD4;
+    }
+    .notif p {
+      color: white;
+    }
+    .notif #title {
+      font-size: 25px;
+    }
+    #nonotifs {
+      color: grey;
+      font-style: italic;
+      margin-top: 20%;
+    }
+
     @media screen and (max-width: 700px) {
       .sidebar {
         width: 100%;
@@ -170,7 +197,7 @@
       <animateTransform 
          attributeName="transform" 
          attributeType="XML" 
-         type="rotate"
+         type="rotate"  
          dur="5s" 
          from="0 50 50"
          to="360 50 50" 
@@ -257,9 +284,7 @@
           <h1>Home</h1>
         </div>
 
-        <div id="notificationsDiv">
-          <h1>Notifications</h1>
-        </div>
+        <div id="notificationsDiv"></div>
 
         <div id="reservationsDiv">
           <h1>Reservations</h1>
@@ -269,8 +294,45 @@
           <h1>Covid-19 Awarness</h1>
         </div>
 
-        <div id="settingsDiv">
-          <h1>Settings</h1>
+        <div id="settingsDiv" class="container">
+          <div id="header" class="page-header">
+            <h1>Settings</h1>
+          </div>
+          <div id="form" class="jumbotron">
+            <form action="#" id="changes" method="post">
+              <div id="selMed" class="form-group">
+                <label for="medSelect">Medical Condition<b data-toggle="tooltip" title="Any conditions that poses you at a higher risk, e.g., asthma, chronic lung disease, heart conditions, immunocompromised, etc.">?</b></label>
+                <select class="form-control" id="medSelect">
+                  <option id="selNo">No</option>
+                  <option id="selYes">Yes</option>
+                </select>
+              </div>
+              <div id="selHelper" class="form-group">
+                <label for="helperSelect">Helper<b data-toggle="tooltip" title="Person who volunteers to help people in need. This option can be changed in account settings later.">?</b></label>
+                <select class="form-control" id="helperSelect">
+                  <option id="selNo">No</option>
+                  <option id="selYes">Yes</option>
+                </select>
+              </div>
+              <div id="selRad" class="form-group">
+                <label for="radiusSelect">Preferred radius (miles)</label>
+                <select class="form-control" id="radiusSelect">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+              <div id="changePw" class="form-group">
+                <label for="pwChange">Change Password</label>
+                <input class="form-control" id="pwChange">
+              </div>
+            </form>
+            <div id="confirmButton">
+              <input id="confirm" type="button" class="btn" value="Save Changes">
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -339,6 +401,44 @@
 
       function notificationsClicked() {
         makeActive("notifications");
+        displayLoading();
+        let notificationsDiv = document.getElementById("notificationsDiv");
+        // clearing the div to get rid of previous notifications
+        notificationsDiv.innerHTML = "";
+        var notifGet = firebase.functions().httpsCallable('getNotificationsForUser');
+        notifGet({uid: auth.currentUser.uid}).then(function(result) {
+          var data = result.data;
+          console.log(Object.keys(result.data))
+          if(Object.keys(result.data).length > 0) {
+
+            Object.keys(result.data).forEach(function(key) {
+              var notifDiv = document.createElement("div");
+              notifDiv.classList.add("notif");
+              var title = document.createElement("p");
+              title.id = "title";
+              title.innerHTML = result.data[key].title;
+              var text = document.createElement("p");
+              text.id = "text";
+              text.innerHTML = result.data[key].text;
+              var date = document.createElement("p");
+              date.id = "date";
+              date.innerHTML = result.data[key].date;
+              notifDiv.appendChild(title);
+              notifDiv.appendChild(text);
+              notifDiv.appendChild(date);
+              notificationsDiv.appendChild(notifDiv);
+            });
+          } else {
+            // no notifications to show to the user
+            var nope = document.createElement("p");
+            nope.id = "nonotifs";
+            nope.align = "center";
+            nope.innerHTML = "No notifications to display.";
+            notificationsDiv.appendChild(nope);
+          }
+        })
+        removeLoading();
+
       }
 
       function reservationsClicked() {

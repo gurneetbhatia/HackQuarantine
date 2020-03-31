@@ -57,6 +57,14 @@ exports.getPopularTimes = functions.https.onCall((data, context) => {
 	})
 })
 
+exports.getNotificationsForUser = functions.https.onCall((data, context) => {
+	return firebase.database().ref('/users/' + data.uid + '/notifications').once("value").then(function(snapshot) {
+		return snapshot.val();
+	}).catch(function(error) {
+		return error;
+	})
+})
+
 exports.checkIfUserUnique = functions.https.onCall((data, context) => {
 	return firebase.database().ref('/users/').once("value").then(function(snapshot) {
 	    let snapData = snapshot.val();
