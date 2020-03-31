@@ -41,7 +41,7 @@
 		  	if (!user) {
 		    	alert("No User is logged in!");
 		    	window.location.href = "/";
-		  	} else if(user.providerData[0].providerId == "google.com") {
+		  	} else if(user.providerData[0].providerId == "google.com" || user.providerData[0].providerId == "facebook.com") {
 		  		console.log("here");
 		  		document.getElementById("phoneDiv").hidden = false;
 		  	}
