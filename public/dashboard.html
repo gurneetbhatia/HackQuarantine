@@ -76,8 +76,10 @@
       color: white;
       padding: 18px;
       text-decoration: none;
+      border-top: 0.5px solid #606060;
       border-bottom: 0.5px solid #606060;
-      border-left: 0.5px solid #606060;
+      /*border-bottom: 0.5px solid #606060;
+      border-left: 0.5px solid #606060;*/
     }
      
     .sidebaropen a.active {
@@ -110,9 +112,10 @@
     }
 
     div.content {
-      margin-left: 200px;
+      margin-left: 250px;
       padding: 1px 16px;
       height: 1000px;
+      transition: 0.5s;
     }
 
     svg{
@@ -236,29 +239,63 @@
 
       <div id="mySidebar" class="sidebaropen">
         <a class="closebtn" id="closebtn" onclick="navOperator()" data-open=true>&times;</a>
-        <a class="active" id="home" href="#home">Home</a>
-        <a href="#notifs" id="notifications">Notifications</a>
-        <a href="#bookings" id="reservations">Reservations</a>
-        <a href="#awareness" id="news">Covid-19 Awareness</a>
-        <a href="#account" id="settings">Settings</a>
-        <a onclick="logout();" id="logout">Logout</a>
-      </div>
+        <a id="home" onclick="homeClicked();">Home</a>
+        <a id="notifications" onclick="notificationsClicked()">Notifications</a>
+        <a id="reservations" onclick="reservationsClicked();">Reservations</a>
+        <a id="news" onclick="newsClicked();">Covid-19 Awareness</a>
+        <a id="settings" onclick="settingsClicked();">Settings</a>
+        <a id="logout" onclick="logout();">Logout</a>
 
-      <div id="notifs">
-      <h1>Test</h1>
-    </div>
+      </div>
 
       <!--<div id="main">
         <button class="openbtn" onclick="openNav()">&#9776; Open Sidebar</button>
       </div>-->
 
-      <div class="content">
-        
+      <div class="content" id="contentDiv">
+        <div id="homeDiv">
+          <h1>Home</h1>
+        </div>
+
+        <div id="notificationsDiv">
+          <h1>Notifications</h1>
+        </div>
+
+        <div id="reservationsDiv">
+          <h1>Reservations</h1>
+        </div>
+
+        <div id="newsDiv">
+          <h1>Covid-19 Awarness</h1>
+        </div>
+
+        <div id="settingsDiv">
+          <h1>Settings</h1>
+        </div>
       </div>
     </div>
 
 
     <script type="text/javascript">
+      function makeActive(id) {
+        let activeList = document.getElementsByClassName("active")
+        if (activeList.length == 1) {
+          activeList[0].classList.remove("active");
+        }
+        document.getElementById(id).classList.add("active");
+        //let contentDiv = document.getElementById("contentDiv");
+        let childNodes = $("#contentDiv").children();
+        let div = document.getElementById(id+"Div");
+        for(var i=0;i<childNodes.length;i++) {
+          if(childNodes[i].id == div.id) {
+            $("#"+id+"Div").show();
+            continue;
+          } else {
+            $("#"+childNodes[i].id).hide();
+          }
+        }
+      }
+
       function displayLoading() {
         $('#fullBackgroundContainer *').attr("disabled", "disabled").off('click');
         document.getElementById('loadingAnimation').hidden = false;
@@ -274,6 +311,7 @@
         if(document.getElementById('closebtn').dataset.open == "true") {
           document.getElementById('closebtn').dataset.open = "false";
           document.getElementById("mySidebar").style.width = "50px";
+          document.getElementById("contentDiv").style.marginLeft = "50px"
           document.getElementById("closebtn").innerHTML = "&#9776";
           document.getElementById("home").innerHTML = "<i class='glyphicon glyphicon-home'></i>";
           document.getElementById("notifications").innerHTML = "<i class='glyphicon glyphicon-bell'></i>";
@@ -284,6 +322,7 @@
         } else {
           document.getElementById('closebtn').dataset.open = "true";
           document.getElementById("mySidebar").style.width = "250px";
+          document.getElementById("contentDiv").style.marginLeft = "250px"
           document.getElementById("closebtn").innerHTML = "&times";
           document.getElementById("home").innerHTML = "Home";
           document.getElementById("notifications").innerHTML = "Notifications";
@@ -294,21 +333,32 @@
         }
       }
 
-      function openNav() {
-        document.getElementById("mySidebar").style.width = "250px";
-        document.getElementById("main").style.marginLeft = "250px";
+      function homeClicked() {
+        makeActive("home");
       }
 
-      /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
-      function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        document.getElementById("main").style.marginLeft = "0";
+      function notificationsClicked() {
+        makeActive("notifications");
+      }
+
+      function reservationsClicked() {
+        makeActive("reservations");
+      }
+
+      function newsClicked() {
+        makeActive("news");
+      }
+
+      function settingsClicked() {
+        makeActive("settings");
       }
 
       function logout() {
         signingOut = true;
         auth.signOut();
       }
+
+      makeActive("home");
 
     </script>
 
