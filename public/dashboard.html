@@ -269,6 +269,7 @@
         <a id="home" onclick="homeClicked();">Home</a>
         <a id="notifications" onclick="notificationsClicked()">Notifications</a>
         <a id="reservations" onclick="reservationsClicked();">Reservations</a>
+        <a id="requests" onclick="requestsClicked();">Requests</a>
         <a id="news" onclick="newsClicked();">Covid-19 Awareness</a>
         <a id="settings" onclick="settingsClicked();">Settings</a>
         <a id="logout" onclick="logout();">Logout</a>
@@ -288,6 +289,10 @@
 
         <div id="reservationsDiv">
           <h1>Reservations</h1>
+        </div>
+
+        <div id="requestsDiv">
+          <h1>Requests</h1>
         </div>
 
         <div id="newsDiv">
@@ -377,7 +382,8 @@
           document.getElementById("closebtn").innerHTML = "&#9776";
           document.getElementById("home").innerHTML = "<i class='glyphicon glyphicon-home'></i>";
           document.getElementById("notifications").innerHTML = "<i class='glyphicon glyphicon-bell'></i>";
-          document.getElementById("reservations").innerHTML = "<i class='glyphicon glyphicon-shopping-cart'></i>";
+          document.getElementById("reservations").innerHTML = "<i class='glyphicon glyphicon-book'></i>";
+          document.getElementById("requests").innerHTML = "<i class='glyphicon glyphicon-shopping-cart'></i>";
           document.getElementById("news").innerHTML = "<i class='glyphicon glyphicon-bullhorn'></i>";
           document.getElementById("settings").innerHTML = "<i class='glyphicon glyphicon-cog'></i>";
           document.getElementById("logout").innerHTML = "<i class='glyphicon glyphicon-log-out'></i>";
@@ -389,6 +395,7 @@
           document.getElementById("home").innerHTML = "Home";
           document.getElementById("notifications").innerHTML = "Notifications";
           document.getElementById("reservations").innerHTML = "Reservations";
+          document.getElementById("requests").innerHTML = "Requests";
           document.getElementById("news").innerHTML = "Covid-19 Awareness";
           document.getElementById("settings").innerHTML = "Settings";
           document.getElementById("logout").innerHTML = "Logout";
@@ -451,6 +458,10 @@
 
       function settingsClicked() {
         makeActive("settings");
+      }
+
+      function requestsClicked() {
+        makeActive("requests");
       }
 
       function logout() {
