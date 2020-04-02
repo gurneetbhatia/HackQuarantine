@@ -186,8 +186,14 @@
             .send()
             .then(response => {
                 const match = response.body;
-                console.log(match.features);
-                callback(match);
+                var features = [];
+                match.features.forEach(function(value) {
+                	console.log(value.properties.category);
+                	if(value.properties.category.includes("super") || value.properties.category.includes("groceries") || value.properties.category.includes("grocery") || value.properties.category.includes("market")) {
+                		features.push(value);
+                	}
+                })
+                callback(features.slice(0, 5));
             });
     }
 
@@ -207,8 +213,8 @@
 
             // suggestion list MapBox api called with callback
             autocompleteSuggestionMapBoxAPI($('#myInput').val(), function (results) {
-            	//console.log(results);
-                results.features.forEach(function (key) {
+            	console.log(results);
+                results.forEach(function (key) {
                     b = document.createElement("DIV");
                     b.innerHTML = "<strong>" + key.place_name.substr(0, val.length) + "</strong>";
                     b.innerHTML += key.place_name.substr(val.length);
