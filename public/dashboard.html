@@ -412,6 +412,10 @@
         let notificationsDiv = document.getElementById("notificationsDiv");
         // clearing the div to get rid of previous notifications
         notificationsDiv.innerHTML = "";
+        var title = document.createElement("h1");
+        title.id = "notifsTitle";
+        title.innerHTML = "Notifications";
+        notificationsDiv.appendChild(title);
         var notifGet = firebase.functions().httpsCallable('getNotificationsForUser');
         notifGet({uid: auth.currentUser.uid}).then(function(result) {
           var data = result.data;
