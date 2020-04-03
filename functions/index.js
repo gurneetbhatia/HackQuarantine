@@ -114,6 +114,17 @@ exports.checkRegistrationStatus = functions.https.onCall((data, context) => {
 	});
 })
 
+exports.getSettingsData = functions.https.onCall((data, context) => {
+	let uid = data.uid;
+	return firebase.database().ref('/users/'+uid).once("value").then(function(snapshot) {
+		let values = snapshot.val();
+		settings = {medConditions: values.medConditions,
+			radius: values.radius,
+			helper: values.helper};
+		return settings;
+	})
+})
+
 exports.setEmailValid = functions.https.onCall((data, context) => {
     return admin.auth().updateUser(data.userid, {emailVerified: true}).then(function(output) {
     	return true;

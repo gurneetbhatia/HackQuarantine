@@ -558,6 +558,21 @@
 
       function settingsClicked() {
         makeActive("settings");
+        displayLoading();
+        var medSelector = document.getElementById("medSelect");
+        var helperSelector = document.getElementById("helperSelect");
+        var radiusSelector = document.getElementById("radiusSelect");
+        var getSettingsData = firebase.functions().httpsCallable('getSettingsData');
+        getSettingsData({uid: auth.currentUser.uid}).then(function(result) {
+          medSelector.value = result.data.medConditions ? result.data.medConditions : "No";
+          helperSelector.value = result.data.helper;
+          radiusSelector.value = result.data.radius;
+          removeLoading();
+        }).catch(function(error) {
+          console.log(error);
+          alert("An error occured while fetching your current settings.");
+          removeLoading();
+        })
       }
 
       function requestsClicked() {
