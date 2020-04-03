@@ -398,7 +398,7 @@
               </div>
               <div id="selHelper" class="form-group">
                 <label for="helperSelect">Helper<b data-toggle="tooltip" title="Person who volunteers to help people in need. This option can be changed in account settings later.">?</b></label>
-                <select class="form-control" id="helperSelect">
+                <select class="form-control" id="helperSelect" onchange="helperSelectValChanged();">
                   <option id="selNo">No</option>
                   <option id="selYes">Yes</option>
                 </select>
@@ -485,6 +485,18 @@
         }
       }
 
+      function helperSelectValChanged() {
+        console.log("changed");
+        var radiusSelector = document.getElementById("radiusSelect");
+        if(document.getElementById("helperSelect").value != "Yes") {
+          radiusSelector.value = null;
+          radiusSelector.disabled = true;
+        } else {
+          radiusSelector.disabled = false;
+          radiusSelector.value = 1;
+        }
+      }
+
       function changePasswordClicked() {
         let confirmation = confirm("Are you sure that you would like to change your password? An email will be sent to you to enable you to do so.")
         if(confirmation) {
@@ -567,6 +579,7 @@
           medSelector.value = result.data.medConditions ? result.data.medConditions : "No";
           helperSelector.value = result.data.helper;
           radiusSelector.value = result.data.radius;
+          helperSelectValChanged();
           removeLoading();
         }).catch(function(error) {
           console.log(error);
