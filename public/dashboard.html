@@ -141,6 +141,12 @@
       z-index: 3;
     }
 
+    #settingsDiv {
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+
     .notif {
       background-color: #419385;
       border-radius: 20px;
@@ -203,6 +209,10 @@
             cursor: pointer;
         }
 
+        #confirmButton {
+          margin-top: 5px;
+        }
+
         .autocomplete-items {
             position: absolute;
             border: 1px solid #d4d4d4;
@@ -232,6 +242,7 @@
             background-color: DodgerBlue !important;
             color: #ffffff;
         }
+
 
     @media screen and (max-width: 700px) {
       .sidebar {
@@ -402,12 +413,11 @@
                   <option>5</option>
                 </select>
               </div>
-              <div id="changePw" class="form-group">
-                <label for="pwChange">Change Password</label>
-                <input class="form-control" id="pwChange">
-              </div>
             </form>
-            <div id="confirmButton">
+            <div id="changePasswd" align="center">
+              <input id="changePw" type="button" class="btn" onclick="changePasswordClicked();" value="Change Password">
+            </div>
+            <div id="confirmButton" align="center">
               <input id="confirm" type="button" class="btn" value="Save Changes">
             </div>
           </div>
@@ -472,6 +482,20 @@
           document.getElementById("news").innerHTML = "Covid-19 Awareness";
           document.getElementById("settings").innerHTML = "Settings";
           document.getElementById("logout").innerHTML = "Logout";
+        }
+      }
+
+      function changePasswordClicked() {
+        let confirmation = confirm("Are you sure that you would like to change your password? An email will be sent to you to enable you to do so.")
+        if(confirmation) {
+          displayLoading();
+          auth.sendPasswordResetEmail(auth.currentUser.email).then(function(result) {
+            alert("An email has been sent to you with a password reset link.");
+            removeLoading();
+          }).catch(function(error) {
+            alert("For security reasons, you will have to be logged out. Upon logging back in with your credentials, you will be able to attempt to complete this action again.");
+            auth.signOut();
+          })
         }
       }
 
