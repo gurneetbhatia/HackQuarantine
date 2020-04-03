@@ -417,7 +417,7 @@
             <div id="changePasswd" align="center">
               <input id="changePw" type="button" class="btn" onclick="changePasswordClicked();" value="Change Password">
             </div>
-            <div id="confirmButton" align="center">
+            <div id="confirmButton" align="center" onclick="saveSettingsClicked();">
               <input id="confirm" type="button" class="btn" value="Save Changes">
             </div>
           </div>
@@ -509,6 +509,23 @@
             auth.signOut();
           })
         }
+      }
+
+      function saveSettingsClicked() {
+        displayLoading();
+        var medConds = document.getElementById("medSelect").value;
+        var helper = document.getElementById("helperSelect").value;
+        var radius = helper == "Yes" ? document.getElementById("radiusSelect").value : null;
+        data = {uid: auth.currentUser.uid, medConditions: medConds, helper: helper, radius: radius};
+        var updateSettingsData = firebase.functions().httpsCallable('updateSettingsData');
+        updateSettingsData(data).then(function(result) {
+          alert("Settings updated!");
+          removeLoading();
+        }).catch(function(error) {
+          console.log(error);
+          alert("An alert occured while updating settings.");
+          removeLoading();
+        })
       }
 
       function homeClicked() {

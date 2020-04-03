@@ -114,11 +114,21 @@ exports.checkRegistrationStatus = functions.https.onCall((data, context) => {
 	});
 })
 
+exports.updateSettingsData = functions.https.onCall((data, context) => {
+	let uid = data.uid;
+	var newPostKey = firebase.database().ref().child('users').push().key;
+	updates = {};
+	updates['/users/' + uid + '/helper'] = data.helper;
+	updates['/users/' + uid + '/radius'] = data.radius;
+	updates['/users/' + uid + '/medConditons'] = data.medConditions; // made a typo when entering into db now it shall continue for eternity
+	return firebase.database().ref().update(updates);
+})
+
 exports.getSettingsData = functions.https.onCall((data, context) => {
 	let uid = data.uid;
 	return firebase.database().ref('/users/'+uid).once("value").then(function(snapshot) {
 		let values = snapshot.val();
-		settings = {medConditions: values.medConditions,
+		settings = {medConditions: values.medConditons,
 			radius: values.radius,
 			helper: values.helper};
 		return settings;
