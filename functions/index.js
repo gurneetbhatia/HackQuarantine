@@ -3,6 +3,8 @@ const firebase = require("firebase");
 const express = require('express');
 const spawn = require("child_process").spawn;
 const fs = require('fs');
+const https = require('https');
+const uuid_gen = require('uuid');
 var app = express();
 // Required for side-effects
 require("firebase/firestore");
@@ -103,6 +105,36 @@ exports.updateRegistrationInfo = functions.https.onCall((data, context) => {
 	let uid = data.uid;
 	data.uid = null;
 	return updateUser(uid, data);
+})
+
+exports.getAutocompleteResults = functions.https.onCall((input, context) => {
+	let api_key = "AIzaSyAOrlWQqx5juI-PXFT-5A-Xzgw7lC74pAo";
+	let query =  "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+input.string+"&key="+api_key+"&location"+input.lat+","+input.lng+"&types=establishment";
+	/*https.get(query, (resp) => {
+		let data = '';
+		resp.on('data', (chunk) => {
+			data += chunk;
+		})
+
+		resp.on('end', () => {
+			console.log(JSON.parse(data));
+			return "here";
+		})
+	}).on("error", (err) => {
+		return "error";
+	})*/
+	var data = '';
+	callback = function(response) {
+		response.on('data', function(chunk) {
+			data += chunk;
+		});
+
+		response.on('end', function() {
+			console.log(req.data);
+			console.log(data);
+		})
+	}
+	var req = http.request(options, callback).end();
 })
 
 exports.checkRegistrationStatus = functions.https.onCall((data, context) => {
