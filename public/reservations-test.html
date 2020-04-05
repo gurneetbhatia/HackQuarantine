@@ -103,16 +103,20 @@
 
 	var coordsLng;
 	var coordsLat;
+	var map;
+	var selectedLocationMarker;
 
 	function setCurrentPos(position) {
+		console.log('here1')
 		coordsLng = position.coords.longitude;
 		coordsLat = position.coords.latitude;
 		setMapToCurrentPos(position)
 	}
 
 	function setMapToCurrentPos(position) {
+		console.log('here')
 		mapboxgl.accessToken = 'pk.eyJ1IjoiaHVjY2FsIiwiYSI6ImNrODdta3FwYTAxaTAzbW1lbjZ3dXc2bTYifQ.bCvPCM3ThA-UbWLF4-Eqnw';
-		var map = new mapboxgl.Map({
+		map = new mapboxgl.Map({
 		container: 'map',
 		style: 'mapbox://styles/mapbox/streets-v11',
 		center: [position.coords.longitude, position.coords.latitude],
@@ -139,7 +143,7 @@
 
 	function setMapToPredefinedPos() {
 		mapboxgl.accessToken = 'pk.eyJ1IjoiaHVjY2FsIiwiYSI6ImNrODdta3FwYTAxaTAzbW1lbjZ3dXc2bTYifQ.bCvPCM3ThA-UbWLF4-Eqnw';
-		var map = new mapboxgl.Map({
+		map = new mapboxgl.Map({
 		container: 'map',
 		style: 'mapbox://styles/mapbox/streets-v11',
 		center: [-0.13044, 51.5099],
@@ -162,6 +166,8 @@
 		.setLngLat([-0.13044, 51.5099])
 		.addTo(map);
 		marker.on('dragend', onDragEnd);
+		coordsLng = -0.13044;
+		coordsLat = 51.5099;
 	}
 
 	function onDragEnd() {
@@ -188,8 +194,7 @@
                 const match = response.body;
                 var features = [];
                 match.features.forEach(function(value) {
-                	console.log(value.properties.category);
-                	if(value.properties.category.includes("super") || value.properties.category.includes("groceries") || value.properties.category.includes("grocery") || value.properties.category.includes("market")) {
+                	if(value.properties.category.includes("super") || value.properties.category.includes("groceries") || value.properties.category.includes("grocery") || value.properties.category.includes("market") || value.properties.category.includes("store") || value.properties.category.includes("minimart") || value.properties.category.includes("mini mart") || value.properties.category.includes("convenience")) {
                 		features.push(value);
                 	}
                 })
@@ -225,6 +230,13 @@
                         inp.value = $(this).find('input').val();
                         $(inp).attr('data-lat', lat);
                         $(inp).attr('data-lng', long);
+                        if(selectedLocationMarker) {
+                        	selectedLocationMarker.remove();
+                        }
+                        selectedLocationMarker = new mapboxgl.Marker()
+						.setLngLat([long, lat])
+						.addTo(map);
+						map.fitBounds([[coordsLng, coordsLat], [long, lat]]);
                         closeAllLists();
                     });
                     a.appendChild(b);
