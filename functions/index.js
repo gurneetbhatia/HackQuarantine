@@ -107,10 +107,30 @@ exports.updateRegistrationInfo = functions.https.onCall((data, context) => {
 	return updateUser(uid, data);
 })
 
-exports.getAutocompleteResults = functions.https.onCall((input, context) => {
+app.get('/:lat/:lng/:string', (req, res) =>  {
+	let api_key = "AIzaSyAOrlWQqx5juI-PXFT-5A-Xzgw7lC74pAo";
+	let string = req.params.string;
+	let lat = req.params.lat;
+	let lng = req.params.lng
+	let query =  "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+string+"&key="+api_key+"&location"+lat+","+lng+"&types=establishment";
+	https.get(query, (resp) => {
+		let data = '';
+		resp.on('data', (chunk) => {
+			data += chunk;
+		});
+
+		resp.on('end', () => {
+			res.send(data);
+		})
+	})
+	//res.send(req.params.id+req.params.id2)
+});
+exports.getAutocompleteResults = functions.https.onRequest(app);
+
+/*exports.getAutocompleteResults = functions.https.onCall((input, context) => {
 	let api_key = "AIzaSyAOrlWQqx5juI-PXFT-5A-Xzgw7lC74pAo";
 	let query =  "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+input.string+"&key="+api_key+"&location"+input.lat+","+input.lng+"&types=establishment";
-	/*https.get(query, (resp) => {
+	https.get(query, (resp) => {
 		let data = '';
 		resp.on('data', (chunk) => {
 			data += chunk;
@@ -122,20 +142,8 @@ exports.getAutocompleteResults = functions.https.onCall((input, context) => {
 		})
 	}).on("error", (err) => {
 		return "error";
-	})*/
-	var data = '';
-	callback = function(response) {
-		response.on('data', function(chunk) {
-			data += chunk;
-		});
-
-		response.on('end', function() {
-			console.log(req.data);
-			console.log(data);
-		})
-	}
-	var req = http.request(options, callback).end();
-})
+	})
+})*/
 
 exports.checkRegistrationStatus = functions.https.onCall((data, context) => {
 	let uid = data.uid;
