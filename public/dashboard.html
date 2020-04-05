@@ -491,7 +491,11 @@
         document.getElementById("requests").classList.remove("disabled");
         document.getElementById("news").classList.remove("disabled");
         document.getElementById("settings").classList.remove("disabled");
+<<<<<<< HEAD
         document.getElementById("logout").classList.remove("disabled");
+=======
+        document.getElementById("logout").classList.add("disabled");
+>>>>>>> c855ae7aea6cba4bb17f60a8390b0e0a253daf66
         document.getElementById('loadingAnimation').hidden = true;
       }
 
@@ -915,6 +919,12 @@
                         inp.value = $(this).find('input').val();
                         $(inp).attr('data-lat', lat);
                         $(inp).attr('data-lng', long);
+<<<<<<< HEAD
+=======
+                        $.getJSON("http://bgurneet.pythonanywhere.com/api/v2/getbusytimes?address="+inp.value).then(result => {
+                          console.log(result);
+                        })
+>>>>>>> c855ae7aea6cba4bb17f60a8390b0e0a253daf66
                         if(selectedLocationMarker) {
                           selectedLocationMarker.remove();
                         }

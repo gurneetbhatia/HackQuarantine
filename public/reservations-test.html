@@ -1,39 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8"/>
-    <title>Add a geocoder</title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no"/>
+	<title>Reservation built with Google</title>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.js" type="text/javascript"></script>
-    <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
-    <script src='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
-	<link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            font: 16px Arial;
-        }
-
-        /*the container must be positioned relative:*/
-        .autocomplete {
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</script>
+  	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+  	<script src='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
+  	<link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
+  	<style type="text/css">
+  		.autocomplete {
             position: relative;
             display: inline-block;
         }
 
         #map{
-			position: relative;
-			top: 0;
-			bottom: 0;
-			width: 100%;
-			height: 300px;
-		}
-
-        input {
+	      position: relative;
+	      top: 20px;
+	      bottom: 0;
+	      width: 100%;
+	      height: 300px;
+	    }
+  		input {
             border: 1px solid transparent;
             background-color: #f1f1f1;
             padding: 10px;
@@ -46,13 +35,17 @@
         }
 
         button[type=submit] {
-        	border: 1px solid transparent;
-        	background-color: #f1f1f1;
-            background-color: DodgerBlue;
+          	border: 1px solid transparent;
+          	background-color: #f1f1f1;
+          	background-color: DodgerBlue;
             padding: 10px;
             font-size: 16px;
             color: #fff;
             cursor: pointer;
+        }
+
+        #confirmButton {
+          margin-top: 5px;
         }
 
         .autocomplete-items {
@@ -84,9 +77,10 @@
             background-color: DodgerBlue !important;
             color: #ffffff;
         }
-    </style>
+  	</style>
 </head>
 <body>
+<<<<<<< HEAD
 
 <h2>Reservations</h2>
 
@@ -202,6 +196,116 @@
             });
     }
 
+=======
+	<div id="reservationsDiv">
+          <h1>Reservations</h1>
+          <div class="autocomplete" style="width:300px;">
+            <input id="myInput" type="text" name="myCountry" placeholder="location">
+          </div>
+          <button type="submit">Submit</button>
+          <div id="map"></div>
+        </div>
+
+	<script>
+// scripts for the reservation page
+  var coordsLng;
+  var coordsLat;
+  var map;
+  var selectedLocationMarker;
+
+  function setCurrentPos(position) {
+    console.log('here1')
+    coordsLng = position.coords.longitude;
+    coordsLat = position.coords.latitude;
+    setMapToCurrentPos(position)
+  }
+
+  function setMapToCurrentPos(position) {
+    console.log('here')
+    mapboxgl.accessToken = 'pk.eyJ1IjoiaHVjY2FsIiwiYSI6ImNrODdta3FwYTAxaTAzbW1lbjZ3dXc2bTYifQ.bCvPCM3ThA-UbWLF4-Eqnw';
+    map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [position.coords.longitude, position.coords.latitude],
+    zoom: 13
+    });
+
+    map.addControl(new mapboxgl.NavigationControl());
+    map.addControl(
+      new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true
+        },
+        trackUserLocation: true
+      })
+    );
+
+    var marker = new mapboxgl.Marker({
+    draggable: true
+    })
+    .setLngLat([position.coords.longitude, position.coords.latitude])
+    .addTo(map);
+    marker.on('dragend', onDragEnd);
+  }
+
+  function setMapToPredefinedPos() {
+    mapboxgl.accessToken = 'pk.eyJ1IjoiaHVjY2FsIiwiYSI6ImNrODdta3FwYTAxaTAzbW1lbjZ3dXc2bTYifQ.bCvPCM3ThA-UbWLF4-Eqnw';
+    map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [-0.13044, 51.5099],
+    zoom: 13
+    });
+
+    map.addControl(new mapboxgl.NavigationControl());
+    map.addControl(
+      new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true
+        },
+        trackUserLocation: true
+      })
+    );
+
+    var marker = new mapboxgl.Marker({
+    draggable: true
+    })
+    .setLngLat([-0.13044, 51.5099])
+    .addTo(map);
+    marker.on('dragend', onDragEnd);
+    coordsLng = -0.13044;
+    coordsLat = 51.5099;
+  }
+
+  function onDragEnd() {
+    var lngLat = marker.getLngLat();
+    coordinates.style.display = 'block';
+    coordinates.innerHTML =
+    'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
+  }
+
+  function autocompleteWithGoogleMaps(input) {
+  	let lat = (""+coordsLat).slice(0,10);
+  	let lng = (""+coordsLng).slice(0, 10);
+  	let query = "https://us-central1-hq-app-8cc14.cloudfunctions.net/getAutocompleteResults/"+lat+"/"+lng+"/"+input;
+  	console.log(query);
+  	return $.getJSON(query).then(data => {
+  		return data.predictions;
+  	})
+  }
+
+  function getLatLngFromPlaceID(placeid) {
+  	let query = "https://us-central1-hq-app-8cc14.cloudfunctions.net/getAutocompleteResults/"+placeid;
+  	return $.getJSON(query).then(data => {
+  		return data.result.geometry.location;
+  	})
+  }
+
+  navigator.geolocation.getCurrentPosition(setCurrentPos, setMapToPredefinedPos);
+
+    var geocodingClient = mapboxSdk({accessToken: 'pk.eyJ1IjoiYmd1cm5lZXQiLCJhIjoiY2s4aXBteG42MDNmYTNtbzB4Z2FjeXFxcSJ9.38w36WEgv4HqjYTNiPcz_Q'});
+
+>>>>>>> c855ae7aea6cba4bb17f60a8390b0e0a253daf66
     function autocompleteInputBox(inp) {
         var currentFocus;
         inp.addEventListener("input", function (e) {
@@ -216,6 +320,7 @@
             a.setAttribute("class", "autocomplete-items");
             this.parentNode.appendChild(a);
 
+<<<<<<< HEAD
             // suggestion list MapBox api called with callback
             autocompleteSuggestionMapBoxAPI($('#myInput').val(), function (results) {
             	console.log(results);
@@ -241,8 +346,37 @@
                     });
                     a.appendChild(b);
                 });
+=======
+            autocompleteWithGoogleMaps($("#myInput").val()).then(function(results) {
+	            results.forEach(element => {
+	            	getLatLngFromPlaceID(element.place_id).then(function(location) {
+		            	let b = document.createElement("DIV");
+		            	b.innerHTML = "<strong>" + element.structured_formatting.main_text + "</strong><br>";
+		            	b.innerHTML += element.structured_formatting.secondary_text;
+		            	b.innerHTML += "<input type='hidden' data-lat='"+location.lat+"' data-lng='"+location.lng+"' data-placeid='"+element.place_id+"' value='"+element.structured_formatting.main_text+"'>";
+		            	b.addEventListener("click", function (e) {
+		            		let lat = $(this).find('input').attr('data-lat');
+		            		let lng = $(this).find('input').attr('data-lng');
+		            		let placeid = $(this).find('input').attr('data-placeid');
+		            		$(inp).val($(this).find('input').val());
+		            		$(inp).attr('data-lat', lat);
+		            		$(inp).attr('data-lng', lng);
+		            		$(inp).attr('data-placeid', placeid);
+		            		if(selectedLocationMarker) {
+	                          selectedLocationMarker.remove();
+	                        }
+	                        selectedLocationMarker = new mapboxgl.Marker()
+	                        .setLngLat([lng, lat])
+	            			.addTo(map);
+	            			map.fitBounds([[coordsLng, coordsLat], [lng, lat]]);
+	                        	closeAllLists();
+	                    	});
+	                    	a.appendChild(b);
+		            	})
+	            	})
+	            })
+>>>>>>> c855ae7aea6cba4bb17f60a8390b0e0a253daf66
             })
-        });
 
 
         /*execute a function presses a key on the keyboard:*/
@@ -308,7 +442,5 @@
 
     autocompleteInputBox(document.getElementById("myInput"));
 </script>
-
-
 </body>
 </html>
