@@ -915,6 +915,9 @@
                         inp.value = $(this).find('input').val();
                         $(inp).attr('data-lat', lat);
                         $(inp).attr('data-lng', long);
+                        $.getJSON("http://bgurneet.pythonanywhere.com/api/v2/getbusytimes?address="+inp.value).then(result => {
+                          console.log(result);
+                        })
                         if(selectedLocationMarker) {
                           selectedLocationMarker.remove();
                         }

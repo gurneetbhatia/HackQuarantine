@@ -168,7 +168,9 @@
   }
 
   function autocompleteWithGoogleMaps(input) {
-  	let query = "https://us-central1-hq-app-8cc14.cloudfunctions.net/getAutocompleteResults/"+coordsLat+"/"+coordsLng+"/"+input;
+  	let lat = (""+coordsLat).slice(0,10);
+  	let lng = (""+coordsLng).slice(0, 10);
+  	let query = "https://us-central1-hq-app-8cc14.cloudfunctions.net/getAutocompleteResults/"+lat+"/"+lng+"/"+input;
   	console.log(query);
   	return $.getJSON(query).then(data => {
   		return data.predictions;
@@ -229,34 +231,6 @@
 	            	})
 	            })
             })
-
-            // suggestion list MapBox api called with callback
-            /*autocompleteSuggestionMapBoxAPI($('#myInput').val(), function (results) {
-              console.log(results);
-                results.forEach(function (key) {
-                    b = document.createElement("DIV");
-                    b.innerHTML = "<strong>" + key.place_name.substr(0, val.length) + "</strong>";
-                    b.innerHTML += key.place_name.substr(val.length);
-                    b.innerHTML += "<input type='hidden' data-lat='" + key.geometry.coordinates[1] + "' data-lng='" + key.geometry.coordinates[0] + "'  value='" + key.place_name + "'>";
-                    b.addEventListener("click", function (e) {
-                        let lat = $(this).find('input').attr('data-lat');
-                        let long = $(this).find('input').attr('data-lng');
-                        inp.value = $(this).find('input').val();
-                        $(inp).attr('data-lat', lat);
-                        $(inp).attr('data-lng', long);
-                        if(selectedLocationMarker) {
-                          selectedLocationMarker.remove();
-                        }
-                        selectedLocationMarker = new mapboxgl.Marker()
-            .setLngLat([long, lat])
-            .addTo(map);
-            map.fitBounds([[coordsLng, coordsLat], [long, lat]]);
-                        closeAllLists();
-                    });
-                    a.appendChild(b);
-                });
-            })
-        });*/
 
 
         /*execute a function presses a key on the keyboard:*/

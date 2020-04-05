@@ -107,7 +107,7 @@ exports.updateRegistrationInfo = functions.https.onCall((data, context) => {
 	return updateUser(uid, data);
 })
 
-app.get('/:placeid', (req, res) => {
+/*app.get('/:placeid', (req, res) => {
 	let api_key = "AIzaSyAOrlWQqx5juI-PXFT-5A-Xzgw7lC74pAo";
 	let placeid = req.params.placeid;
 	let query = "https://maps.googleapis.com/maps/api/place/details/json?placeid="+placeid+"&key="+api_key+"&fields=geometry";
@@ -128,7 +128,7 @@ app.get('/:lat/:lng/:string', (req, res) =>  {
 	let string = req.params.string;
 	let lat = req.params.lat;
 	let lng = req.params.lng
-	let query =  "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+string+"&radius=10000&key="+api_key+"&location="+lat+","+lng+"&origin="+lat+","+lng+"&strictbounds&types=establishment";
+	let query =  "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+string+"&key="+api_key+"&location="+lat+","+lng+"&origin="+lat+","+lng+"&types=establishment";
 	https.get(query, (resp) => {
 		let data = '';
 		resp.on('data', (chunk) => {
@@ -140,7 +140,22 @@ app.get('/:lat/:lng/:string', (req, res) =>  {
 		})
 	})
 	//res.send(req.params.id+req.params.id2)
-});
+});*/
+
+app.get('/:address', (req, res) => {
+	let address = req.params.address;
+	let query = "https://bgurneet.pythonanywhere.com/api/v2/getbusytimes?address="+address;
+	https.get(query, (resp) => {
+		let data = '';
+		resp.on('data', (chunk) => {
+			data += chunk;
+		});
+
+		resp.on('end', () => {
+			res.send(data);
+		})
+	})
+})
 exports.getAutocompleteResults = functions.https.onRequest(app);
 
 exports.checkRegistrationStatus = functions.https.onCall((data, context) => {
