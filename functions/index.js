@@ -107,12 +107,28 @@ exports.updateRegistrationInfo = functions.https.onCall((data, context) => {
 	return updateUser(uid, data);
 })
 
+app.get('/:placeid', (req, res) => {
+	let api_key = "AIzaSyAOrlWQqx5juI-PXFT-5A-Xzgw7lC74pAo";
+	let placeid = req.params.placeid;
+	let query = "https://maps.googleapis.com/maps/api/place/details/json?placeid="+placeid+"&key="+api_key+"&fields=geometry";
+	https.get(query, (resp) => {
+		let data = '';
+		resp.on('data', (chunk) => {
+			data += chunk;
+		});
+
+		resp.on('end', () => {
+			res.send(data);
+		})
+	})
+})
+
 app.get('/:lat/:lng/:string', (req, res) =>  {
 	let api_key = "AIzaSyAOrlWQqx5juI-PXFT-5A-Xzgw7lC74pAo";
 	let string = req.params.string;
 	let lat = req.params.lat;
 	let lng = req.params.lng
-	let query =  "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+string+"&key="+api_key+"&location"+lat+","+lng+"&types=establishment";
+	let query =  "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+string+"&radius=10000&key="+api_key+"&location="+lat+","+lng+"&origin="+lat+","+lng+"&strictbounds&types=establishment";
 	https.get(query, (resp) => {
 		let data = '';
 		resp.on('data', (chunk) => {
@@ -126,24 +142,6 @@ app.get('/:lat/:lng/:string', (req, res) =>  {
 	//res.send(req.params.id+req.params.id2)
 });
 exports.getAutocompleteResults = functions.https.onRequest(app);
-
-/*exports.getAutocompleteResults = functions.https.onCall((input, context) => {
-	let api_key = "AIzaSyAOrlWQqx5juI-PXFT-5A-Xzgw7lC74pAo";
-	let query =  "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+input.string+"&key="+api_key+"&location"+input.lat+","+input.lng+"&types=establishment";
-	https.get(query, (resp) => {
-		let data = '';
-		resp.on('data', (chunk) => {
-			data += chunk;
-		})
-
-		resp.on('end', () => {
-			console.log(JSON.parse(data));
-			return "here";
-		})
-	}).on("error", (err) => {
-		return "error";
-	})
-})*/
 
 exports.checkRegistrationStatus = functions.https.onCall((data, context) => {
 	let uid = data.uid;

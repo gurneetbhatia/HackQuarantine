@@ -4,7 +4,6 @@
 	<title>Reservation built with Google</title>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOrlWQqx5juI-PXFT-5A-Xzgw7lC74pAo&libraries=places">
 </script>
   	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
@@ -169,9 +168,18 @@
   }
 
   function autocompleteWithGoogleMaps(input) {
-  	try {
+  	let query = "https://us-central1-hq-app-8cc14.cloudfunctions.net/getAutocompleteResults/"+coordsLat+"/"+coordsLng+"/"+input;
+  	console.log(query);
+  	return $.getJSON(query).then(data => {
+  		return data.predictions;
+  	})
+  }
 
-  	}
+  function getLatLngFromPlaceID(placeid) {
+  	let query = "https://us-central1-hq-app-8cc14.cloudfunctions.net/getAutocompleteResults/"+placeid;
+  	return $.getJSON(query).then(data => {
+  		return data.result.geometry.location;
+  	})
   }
 
   navigator.geolocation.getCurrentPosition(setCurrentPos, setMapToPredefinedPos);
@@ -191,6 +199,36 @@
             a.setAttribute("id", this.id + "autocomplete-list");
             a.setAttribute("class", "autocomplete-items");
             this.parentNode.appendChild(a);
+
+            autocompleteWithGoogleMaps($("#myInput").val()).then(function(results) {
+	            results.forEach(element => {
+	            	getLatLngFromPlaceID(element.place_id).then(function(location) {
+		            	let b = document.createElement("DIV");
+		            	b.innerHTML = "<strong>" + element.structured_formatting.main_text + "</strong><br>";
+		            	b.innerHTML += element.structured_formatting.secondary_text;
+		            	b.innerHTML += "<input type='hidden' data-lat='"+location.lat+"' data-lng='"+location.lng+"' data-placeid='"+element.place_id+"' value='"+element.structured_formatting.main_text+"'>";
+		            	b.addEventListener("click", function (e) {
+		            		let lat = $(this).find('input').attr('data-lat');
+		            		let lng = $(this).find('input').attr('data-lng');
+		            		let placeid = $(this).find('input').attr('data-placeid');
+		            		$(inp).val($(this).find('input').val());
+		            		$(inp).attr('data-lat', lat);
+		            		$(inp).attr('data-lng', lng);
+		            		$(inp).attr('data-placeid', placeid);
+		            		if(selectedLocationMarker) {
+	                          selectedLocationMarker.remove();
+	                        }
+	                        selectedLocationMarker = new mapboxgl.Marker()
+	                        .setLngLat([lng, lat])
+	            			.addTo(map);
+	            			map.fitBounds([[coordsLng, coordsLat], [lng, lat]]);
+	                        	closeAllLists();
+	                    	});
+	                    	a.appendChild(b);
+		            	})
+	            	})
+	            })
+            })
 
             // suggestion list MapBox api called with callback
             /*autocompleteSuggestionMapBoxAPI($('#myInput').val(), function (results) {
@@ -217,8 +255,8 @@
                     });
                     a.appendChild(b);
                 });
-            })*/
-        });
+            })
+        });*/
 
 
         /*execute a function presses a key on the keyboard:*/
