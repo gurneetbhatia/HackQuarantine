@@ -59,6 +59,10 @@
       cursor: pointer;
     }
 
+    #mySidebar {
+      z-index: 2;
+    }
+
     .sidebaropen {
       margin: 0;
       padding: 0;
@@ -249,6 +253,34 @@
           cursor: default;
         }
 
+  #searchArea {
+    width: 20%;
+    height: 400px;
+    overflow:auto;
+    position: absolute;
+    z-index:1;
+    }
+
+    #dataArea {
+      position: relative;
+    }
+
+    .countryListItem {
+      width: 100%;
+      background-color: #EEEEEE;
+      border-radius: 5px;
+    }
+
+    #dataOverTimeChartContainer {
+      background-color: #EEEEEE;
+      border-radius: 5px;
+      margin: 30px;
+    }
+
+    #twitterContainer {
+      border-radius: 5px;
+      margin: 30px;
+    }
 
     @media screen and (max-width: 700px) {
       .sidebar {
@@ -491,6 +523,7 @@
         document.getElementById("requests").classList.remove("disabled");
         document.getElementById("news").classList.remove("disabled");
         document.getElementById("settings").classList.remove("disabled");
+        document.getElementById("logout").classList.remove("disabled");
         document.getElementById("logout").classList.add("disabled");
         document.getElementById('loadingAnimation').hidden = true;
       }
@@ -647,22 +680,22 @@
       function filterCountries() {
         var searchArea = document.getElementById("searchArea");
         searchArea.innerHTML = "";
-        var countries = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria',
-        'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina',
-        'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cabo Verde', 'Cambodia', 'Cameroon', 'Canada', 'CAR', 'Chad', 'Chile', 'China',
-        'Colombia', 'Comoros', 'Congo', 'Costa Rica', "Cote d'Ivoire", 'Croatia', 'Cuba', 'Cyprus', 'Czechia', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic',
-        'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'Gambia', 'Georgia',
-        'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia',
-        'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia',
-        'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta',
-        'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar',
-        'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'N. Korea', 'North Macedonia', 'Norway', 'Oman', 'Pakistan',
-        'Palau', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda',
-        'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal',
-        'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'S. Korea', 'South Sudan',
-        'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Sweden', 'Switzerland', 'Syria', 'Taiwan*', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor-Leste', 'Togo',
-        'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'US', 'Uruguay', 'Uzbekistan',
-        'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Zambia', 'Zimbabwe'];
+        var countries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria",
+        "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina",
+        "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile",
+        "China", "Colombia", "Congo (Brazzaville)", "Congo (Kinshasa)", "Costa Rica", "Cote d'Ivoire", "Croatia", "Diamond Princess", "Cuba", "Cyprus",
+        "Czechia", "Denmark", "Djibouti", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini",
+        "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Guatemala", "Guinea", "Guyana", "Haiti",
+        "Holy See", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan",
+        "Kazakhstan", "Kenya", "Korea, South", "Kuwait", "Kyrgyzstan", "Latvia", "Lebanon", "Liberia", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar",
+        "Malaysia", "Maldives", "Malta", "Mauritania", "Mauritius", "Mexico", "Moldova",
+        "Monaco", "Mongolia", "Montenegro", "Morocco", "Namibia", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Macedonia",
+        "Norway", "Oman", "Pakistan", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia",
+        "Rwanda", "Saint Lucia", "Saint Vincent and the Grenadines", "San Marino", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Singapore", "Slovakia",
+        "Slovenia", "Somalia", "South Africa", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Taiwan*", "Tanzania", "Thailand", "Togo",
+        "Trinidad and Tobago", "Tunisia", "Turkey", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "Uruguay", "US", "Uzbekistan", "Venezuela",
+        "Vietnam", "Zambia", "Zimbabwe", "Dominica", "Grenada", "Mozambique", "Syria", "Timor-Leste", "Belize", "Laos", "Libya", "West Bank and Gaza", "Guinea-Bissau",
+        "Mali", "Saint Kitts and Nevis", "Kosovo", "Burma", "MS Zaandam", "Botswana", "Burundi", "Sierra Leone", "Malawi"]
         var filteredCountries = countries.filter( function (country) {
           return country.toLowerCase().indexOf(document.getElementById("countrySearchInput").value.toLowerCase()) !== -1
         });
@@ -686,12 +719,14 @@
              config.data.datasets[1].data = deathsCountryData
              labelsCountryData = allCountryData.map(function(value, index) { return value.date });
              config.data.labels = labelsCountryData;
+             config.options.title.text = event.target.id;
              console.log(labelsCountryData);
              myChart.update();
              document.getElementById('dataOverTimeChart').style.display = "block";
            }}, false);
         const data = await getCovidDateOverTime();
         console.log(data);
+        console.log(Object.keys(data))
         dataItaly = data["Italy"]
         var ctx = document.getElementById('dataOverTimeChart').getContext('2d');
         labelsItaly = dataItaly.map(function(value, index) { return value.date });
