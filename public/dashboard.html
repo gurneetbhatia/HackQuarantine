@@ -20,6 +20,7 @@
   <script src="/__/firebase/7.12.0/firebase-database.js"></script>
   <script src="/__/firebase/7.12.0/firebase-functions.js"></script>
   <script src='Chart.min.js'></script>
+  <script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
   <script type="text/javascript">
     var functions = firebase.functions();
     var auth = firebase.auth();
@@ -62,6 +63,13 @@
     #mySidebar {
       z-index: 2;
     }
+
+    #reservationsDiv, #popularityChart {
+          height: 300px;
+          margin-top: 100px;
+          width: 100%;
+          padding: 0;
+        }
 
     .sidebaropen {
       margin: 0;
@@ -415,8 +423,9 @@
           <div class="autocomplete" style="width:300px;">
             <input id="myInput" type="text" name="myCountry" placeholder="location">
           </div>
-          <button type="submit">Submit</button>
+          <button type="submit" onclick="reservationSubmitClicked()">Submit</button>
           <div id="map"></div>
+          <div id="popularityChart"></div>
         </div>
 
         <div id="requestsDiv">
@@ -950,9 +959,6 @@
                         inp.value = $(this).find('input').val();
                         $(inp).attr('data-lat', lat);
                         $(inp).attr('data-lng', long);
-                        $.getJSON("http://bgurneet.pythonanywhere.com/api/v2/getbusytimes?address="+inp.value).then(result => {
-                          console.log(result);
-                        })
                         if(selectedLocationMarker) {
                           selectedLocationMarker.remove();
                         }
@@ -1027,6 +1033,32 @@
         document.addEventListener("click", function (e) {
             closeAllLists(e.target);
         });
+    }
+
+    function reservationSubmitClicked() {
+      let address = $("#myInput").val()
+      let query = "http://bgurneet.pythonanywhere.com/api/v2/getbusytimes?address="+address;
+      console.log(query);
+      $.getJSON(query).then(result => {
+        let data = result.data;
+        Object.keys(data).forEach(key => {
+          let dataset = data[key]['data'];
+          console.log(dataset)
+          var chartData = {
+            header: ["Time", "Popularity"],
+            rows: []};
+          for(var i=0; i<dataset.length;i++) {
+            chartData['rows'].push([dataset[i][0]+":00", dataset[i][1]])
+          }
+          console.log(chartData);
+          var chart = anychart.column();
+          chart.data(chartData);
+          chart.title("Busy Times of Selected Supermarket");
+          chart.container('popularityChart');
+          chart.draw()
+        })
+
+      })
     }
 
     autocompleteInputBox(document.getElementById("myInput"));
