@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>JavaScript Bar Chart</title>
+      <script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
+      <style type="text/css">
+        body, #container {
+          height: 300px;
+          margin: 0;
+          padding: 0;
+        }
+      </style>
+  </head>
+  <body>
+    <div id="container" style="width: 100%; height: 100%"></div>
+    <script>
+      anychart.onDocumentReady(function() {
+          // the data 
+          var data = {
+            header: ["Time", "Popularity"],
+            rows: [
+              ["6:00", 0],
+              ["7:00", 0],
+              ["8:00", 8],
+              ["9:00", 17],
+              ["10:00", 25],
+              ["11:00", 30],
+              ["12:00", 28],
+              ["13:00", 24],
+              ["14:00", 23],
+              ["15:00", 33],
+              ["16:00", 56],
+              ["17:00", 84],
+              ["18:00", 100],
+              ["19:00", 91],
+              ["20:00", 64],
+              ["21:00", 34],
+              ["22:00", 14],
+              ["23:00", 0]
+          ]};
+          var chart = anychart.column();
+          chart.data(data);
+          chart.title("test title");
+          chart.container('container')
+          chart.draw()
+          var series = chart.column(data)
+          console.log(series)
+
+          var func_listen = function(e){
+              pi = e.pointIndex;
+              console.log(pi);
+              if (pi) {
+                  console.log("Selected Time: "+chart.data()[pi][0])
+                  //series.fill('#FFC9A8');
+              } else{
+                console.log('here')
+                  //series.fill('#ADEB85')
+              }
+          };
+
+          chart.listen('click', func_listen);
+
+      });
+    </script>
+  </body>
+</html>
