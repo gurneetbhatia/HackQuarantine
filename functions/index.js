@@ -197,6 +197,28 @@ exports.updateSettingsData = functions.https.onCall((data, context) => {
 	return firebase.database().ref().update(updates);
 })
 
+exports.sendFriendRequest = functions.https.onCall((data, context) => {
+	let friendEmail = data.friendEmail;
+	let userEmail = data.userEmail;
+	let userUID = data.uid;
+	getAllUserIDs().then(userids => {
+		firebase.database().ref('/users').once('value').then(function(snapshot) {
+			let database = snapshot.val();
+			userids.forEach(userid => {
+				if(database[userid].email == friendEmail) {
+					// add a friend request from this user
+					// send email, and the user's uid in the friend request
+					var oldPostRef = firebase.database().ref().child('users/'+userid+'/friendRequests');
+					var friendRequest = {email: userEmail, uid: userUID};
+					var newPostRef = oldPostRef.push();
+					newPostRef.set(friendRequest);
+				}
+
+			})
+		})
+	})
+})
+
 exports.getSettingsData = functions.https.onCall((data, context) => {
 	let uid = data.uid;
 	return firebase.database().ref('/users/'+uid).once("value").then(function(snapshot) {
@@ -239,14 +261,15 @@ async function getUniqueUserID() {
 	return userid;
 }
 
-async function getAllUserIDs() {
+function getAllUserIDs() {
 	var userids = {}
-	await firebase.database().ref('/users/').once("value").then(function(snapshot) {
+	return firebase.database().ref('/users/').once("value").then(function(snapshot) {
 		let values = snapshot.val();
 		userids = (values) ? Object.keys(snapshot.val()) : [];
+		return userids;
     	//userids = Object.keys(snapshot.val());
 	});
-	return userids;
+	//return userids;
 }
 
 function createUser(userid, username, email, phone) {

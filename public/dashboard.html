@@ -34,7 +34,6 @@
     var auth = firebase.auth();
     var signingOut = false;
     auth.onAuthStateChanged(function(user) {
-
         if (!user) {
           if(signingOut) {
             window.location.href = "homepage.html";
@@ -452,6 +451,20 @@
       <div class="content" id="contentDiv">
         <div id="homeDiv">
           <h1>Home</h1>
+          <div align="right">
+            <button id="addFriendsBtn" type="button" class="btn btn-primary" onclick="addFriendsClicked();">
+              Add Friends
+            </button>
+            <div id="addFriendDiv" hidden>
+              <div class="form-group">
+                <label for="friendEmail">Email address of the user you wish to add</label>
+                <input type="email" class="form-control" id="friendEmail" placeholder="Enter email">
+                <div align="center">
+                  <button class="btn btn-primary">Send Friend Request</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div id="notificationsDiv"></div>
@@ -1232,6 +1245,18 @@
     }
 
     autocompleteInputBox(document.getElementById("myInput"));
+</script>
+
+<script type="text/javascript">
+  // scripts for the home page
+  function addFriendsClicked() {
+    $('#addFriendDiv').dialog({
+      width: window.innerWidth*0.8,
+      modal: true,
+      resizable: false,
+      draggable: false
+    });
+  }
 </script>
 
 </body>
