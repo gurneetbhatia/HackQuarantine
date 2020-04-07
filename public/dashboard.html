@@ -460,7 +460,7 @@
                 <label for="friendEmail">Email address of the user you wish to add</label>
                 <input type="email" class="form-control" id="friendEmail" placeholder="Enter email">
                 <div align="center">
-                  <button class="btn btn-primary">Send Friend Request</button>
+                  <button class="btn btn-primary" onclick="sendFriendRequest();">Send Friend Request</button>
                 </div>
               </div>
             </div>
@@ -1256,6 +1256,29 @@
       resizable: false,
       draggable: false
     });
+  }
+
+  function sendFriendRequest() {
+    var friendEmail = $('#friendEmail').val();
+    var userEmail = auth.currentUser.email;
+    if(friendEmail == userEmail) {
+      alert("You cannot send yourself a friend request!");
+    } else {
+      var uid = auth.currentUser.uid;
+      var date = (new Date()).toLocaleDateString();
+      data = {friendEmail: friendEmail,
+        userEmail: userEmail,
+        uid: uid,
+        date: date};
+      var sendFriendRequest = firebase.functions().httpsCallable('sendFriendRequest');
+      sendFriendRequest(data).then(result => {
+        $('#addFriendDiv').dialog('close');
+        alert("Friend Request Sent!");
+      }).catch(error => {
+        console.log(error);
+        alert("An error occured, please try again later.");
+      })
+    }
   }
 </script>
 
