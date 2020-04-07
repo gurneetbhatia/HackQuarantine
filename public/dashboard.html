@@ -115,6 +115,10 @@
       color: white;
     }
 
+    #newResBtn {
+      margin-top: 15px;
+    }
+
     .sidebaropen .closebtn {
       position: absolute;
       top: 0;
@@ -265,6 +269,30 @@
         a.disabled {
           pointer-events: none;
           cursor: default;
+        }
+
+        #reservationsTable {
+          font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+          margin-top: 20px;
+        }
+
+        #reservationsTable td, #reservationsTable th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+
+        #reservationsTable tr:nth-child(even){background-color: #f2f2f2;}
+
+        #reservationsTable tr:hover {background-color: #ddd;}
+
+        #reservationsTable th {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          text-align: left;
+          background-color: #4CAF50;
+          color: white;
         }
 
   #searchArea {
@@ -429,10 +457,13 @@
         <div id="notificationsDiv"></div>
 
         <div id="reservationsDiv">
-          <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary" onclick="newReservationClicked();">
-            New Reservation
-          </button>
+          <div align="right">
+            <button id="newResBtn" type="button" class="btn btn-primary" onclick="newReservationClicked();">
+              New Reservation
+            </button>
+          </div>
+
+          <table id="reservationsTable"></table>
 
           <div id="newReservationDiv" hidden>
             <div class="autocomplete" style="width:300px;">
@@ -533,6 +564,7 @@
             $("#"+childNodes[i].id).hide();
           }
         }
+        window.scrollTo(0, 0)
       }
 
       function displayLoading() {
@@ -692,10 +724,42 @@
 
       function reservationsClicked() {
         makeActive("reservations");
+        $("#nonotifs").remove();
         var elems = document.querySelectorAll('.timepicker');
         var instances = M.Timepicker.init(elems, {container: "#timeselector",
           twelveHour: false,
           vibrate: true
+        })
+        displayLoading();
+        var getReservations = firebase.functions().httpsCallable('getReservationsForUser');
+        getReservations({uid: auth.currentUser.uid}).then(result => {
+          console.log(result.data);
+          if(Object.keys(result.data).length > 0) {
+            var table = document.getElementById("reservationsTable");
+            table.innerHTML = "<tr><th>Time</th><th>Address</th></tr>";
+            Object.keys(result.data).forEach(key => {
+              var row = document.createElement('tr');
+              var address = document.createElement('td');
+              address.innerHTML = result.data[key].address;
+              var time = document.createElement('td');
+              var timeVal = new Date(result.data[key].time);
+              time.innerHTML = timeVal.toLocaleDateString() + ' ' + timeVal.toTimeString().substr(0, 5);
+              row.appendChild(time);
+              row.appendChild(address);
+              table.appendChild(row);
+            })
+          } else {
+            var nope = document.createElement("p");
+            nope.id = "nonotifs";
+            nope.align = "center";
+            nope.innerHTML = "No reservations to show.";
+            document.getElementById('reservationsDiv').appendChild(nope);
+          }
+          removeLoading();
+        }).catch(error => {
+          console.log(error);
+          alert("An error occured while fetching your reservations. Please try again later.");
+          removeLoading();
         })
       }
 
@@ -733,12 +797,12 @@
                 newReservation(reservationData).then(function(result) {
                   console.log(result);
                   $('#newReservationDiv').dialog('close')
-                  removeLoading();
+                  reservationsClicked();
                 }).catch(function(error) {
                   console.log(error);
                   alert("A problem occured, try again later.")
                   $('#newReservationDiv').dialog('close')
-                  removeLoading();
+                  reservationsClicked();
                 })
               }
             }
