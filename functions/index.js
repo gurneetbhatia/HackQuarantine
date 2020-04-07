@@ -201,6 +201,7 @@ exports.sendFriendRequest = functions.https.onCall((data, context) => {
 	let friendEmail = data.friendEmail;
 	let userEmail = data.userEmail;
 	let userUID = data.uid;
+	let date = data.date;
 	getAllUserIDs().then(userids => {
 		firebase.database().ref('/users').once('value').then(function(snapshot) {
 			let database = snapshot.val();
@@ -208,16 +209,33 @@ exports.sendFriendRequest = functions.https.onCall((data, context) => {
 				if(database[userid].email == friendEmail) {
 					// add a friend request from this user
 					// send email, and the user's uid in the friend request
-					var oldPostRef = firebase.database().ref().child('users/'+userid+'/friendRequests');
+					/*var oldPostRef = firebase.database().ref().child('users/'+userid+'/friendRequests');
 					var friendRequest = {email: userEmail, uid: userUID};
 					var newPostRef = oldPostRef.push();
-					newPostRef.set(friendRequest);
+					newPostRef.set(friendRequest);*/
+					var newPostKey = firebase.database().ref().child('users').push().key;
+					updates = {};
+					updates['users/'+userid+'/friendRequests/'+userUID] = userEmail;
+					firebase.database().ref().update(updates);
+					data.userid = userid;
+					addNotification(data);
 				}
 
 			})
 		})
 	})
 })
+
+function addNotification(data) {
+	var oldPostRef = firebase.database().ref().child('users/'+data.userid+'/notifications');
+	var notification = {title: "Friend Request",
+	text: data.userEmail+' has sent you a friend request. Click here to accept it or delete it.',
+	date: data.date,
+	type: "friend-request",
+	originUserUID: data.uid};
+	var newPostRef = oldPostRef.push();
+	newPostRef.set(notification);
+}
 
 exports.getSettingsData = functions.https.onCall((data, context) => {
 	let uid = data.uid;
