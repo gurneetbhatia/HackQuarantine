@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <!-- Compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -27,6 +28,7 @@
   <script src="/__/firebase/7.12.0/firebase-functions.js"></script>
   <script src='Chart.min.js'></script>
   <script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   <script type="text/javascript">
     var functions = firebase.functions();
     var auth = firebase.auth();
@@ -427,19 +429,25 @@
         <div id="notificationsDiv"></div>
 
         <div id="reservationsDiv">
-          <h1>Reservations</h1>
-          <div class="autocomplete" style="width:300px;">
-            <input id="myInput" type="text" name="myCountry" placeholder="location">
-          </div>
-          <button type="submit" onclick="reservationSubmitClicked()">Submit</button>
-          <div id="map"></div>
-          <div id="chartContainer" style="height: 0px; width: 100%;"></div>
-          <h3 id="selectedReservationTime">Selected Time</h3>
-          <div id="timeselector">
-            <input id="resTimePicker" type="text" class="timepicker" placeholder="Select Time">
-          </div>
-          <div align="center">
-            <button type="submit" id="reserveButton" onclick="reserveButtonClicked()">Reserve</button>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" onclick="newReservationClicked();">
+            New Reservation
+          </button>
+
+          <div id="newReservationDiv" hidden>
+            <div class="autocomplete" style="width:300px;">
+              <input id="myInput" type="text" name="myCountry" placeholder="location">
+            </div>
+            <button type="submit" onclick="reservationSubmitClicked()">Submit</button>
+            <div id="map"></div>
+            <div id="chartContainer" style="height: 0px; width: 100%;"></div>
+            <h3 id="selectedReservationTime">Selected Time</h3>
+            <div id="timeselector">
+              <input id="resTimePicker" type="text" class="timepicker" placeholder="Select Time">
+            </div>
+            <div align="center">
+              <button type="submit" id="reserveButton" onclick="reserveButtonClicked()">Reserve</button>
+            </div>
           </div>
         </div>
 
@@ -624,6 +632,16 @@
         })
       }
 
+      function newReservationClicked() {
+        $('#newReservationDiv').dialog({
+          height: window.innerHeight*0.8,
+          width: window.innerWidth*0.8,
+          modal: true,
+          resizable: false,
+          draggable: false
+        });
+      }
+
       function homeClicked() {
         makeActive("home");
       }
@@ -714,10 +732,12 @@
                 var newReservation = firebase.functions().httpsCallable('newReservation');
                 newReservation(reservationData).then(function(result) {
                   console.log(result);
+                  $('#newReservationDiv').dialog('close')
                   removeLoading();
                 }).catch(function(error) {
                   console.log(error);
                   alert("A problem occured, try again later.")
+                  $('#newReservationDiv').dialog('close')
                   removeLoading();
                 })
               }
