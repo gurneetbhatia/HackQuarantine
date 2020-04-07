@@ -429,6 +429,7 @@
           <button type="submit" onclick="reservationSubmitClicked()">Submit</button>
           <div id="map"></div>
           <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+          <h3 id="selectedReservationTime"></h3>
         </div>
 
         <div id="requestsDiv">
@@ -1061,14 +1062,19 @@
             },
             data: [{
               type: "column",
+              click: timeSelected,
               dataPoints: datapoints,
             }]
           })
           chart.render();
           removeLoading();
         })
-
       })
+    }
+
+    function timeSelected(e) {
+      document.getElementById("selectedReservationTime").innerHTML = "Selected Time: " + e.dataPoint.label
+
     }
 
     autocompleteInputBox(document.getElementById("myInput"));
