@@ -107,6 +107,18 @@ exports.updateRegistrationInfo = functions.https.onCall((data, context) => {
 	return updateUser(uid, data);
 })
 
+exports.newReservation = functions.https.onCall((data, context) => {
+	let uid = data.uid;
+	var oldPostRef = firebase.database().ref().child('users/'+uid+'/reservations');
+	let reservation = {lat: data.lat,
+		lng: data.lng,
+		address: data.address,
+		time: data.datetime};
+	var newPostRef = oldPostRef.push();
+	return newPostRef.set(reservation);
+
+});
+
 /*app.get('/:placeid', (req, res) => {
 	let api_key = "AIzaSyAOrlWQqx5juI-PXFT-5A-Xzgw7lC74pAo";
 	let placeid = req.params.placeid;

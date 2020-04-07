@@ -683,6 +683,48 @@
 
       function reserveButtonClicked() {
         // add reservation to the database
+        var input = $("#myInput")
+        let address = input.val()
+        if(!address) {
+          alert("Please select a location!");
+        } else {
+          let lat = input.attr("data-lat");
+          let lng = input.attr("data-lng");
+          if(!lat || !lng) {
+            alert("Invalid Location!");
+          } else {
+            let time = document.getElementById("resTimePicker").value;
+            if(!time) {
+              alert("Please Choose a Valid Time")
+            } else {
+              var today = new Date();
+              var date = (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear()
+              var datetime = new Date(date + ' ' + time);
+              console.log(datetime);
+              console.log(today);
+              if(datetime.getTime() < today.getTime()) {
+                alert("Please choose a valid time that is in the future!");
+              } else {
+                displayLoading();
+                let reservationData = {uid: auth.currentUser.uid,
+                  lat: lat,
+                  lng: lng,
+                  address: address,
+                  datetime: datetime.getTime()};
+                var newReservation = firebase.functions().httpsCallable('newReservation');
+                newReservation(reservationData).then(function(result) {
+                  console.log(result);
+                  removeLoading();
+                }).catch(function(error) {
+                  console.log(error);
+                  alert("A problem occured, try again later.")
+                  removeLoading();
+                })
+              }
+            }
+          }
+        }
+
       }
 
       async function getCovidDateOverTime() {
