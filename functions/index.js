@@ -127,41 +127,6 @@ exports.newReservation = functions.https.onCall((data, context) => {
 
 });
 
-/*app.get('/:placeid', (req, res) => {
-	let api_key = "AIzaSyAOrlWQqx5juI-PXFT-5A-Xzgw7lC74pAo";
-	let placeid = req.params.placeid;
-	let query = "https://maps.googleapis.com/maps/api/place/details/json?placeid="+placeid+"&key="+api_key+"&fields=geometry";
-	https.get(query, (resp) => {
-		let data = '';
-		resp.on('data', (chunk) => {
-			data += chunk;
-		});
-
-		resp.on('end', () => {
-			res.send(data);
-		})
-	})
-})
-
-app.get('/:lat/:lng/:string', (req, res) =>  {
-	let api_key = "AIzaSyAOrlWQqx5juI-PXFT-5A-Xzgw7lC74pAo";
-	let string = req.params.string;
-	let lat = req.params.lat;
-	let lng = req.params.lng
-	let query =  "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+string+"&key="+api_key+"&location="+lat+","+lng+"&origin="+lat+","+lng+"&types=establishment";
-	https.get(query, (resp) => {
-		let data = '';
-		resp.on('data', (chunk) => {
-			data += chunk;
-		});
-
-		resp.on('end', () => {
-			res.send(data);
-		})
-	})
-	//res.send(req.params.id+req.params.id2)
-});*/
-
 app.get('/:address', (req, res) => {
 	let address = req.params.address;
 	let query = "https://bgurneet.pythonanywhere.com/api/v2/getbusytimes?address="+address;
@@ -197,6 +162,70 @@ exports.updateSettingsData = functions.https.onCall((data, context) => {
 	return firebase.database().ref().update(updates);
 })
 
+function getNotificationIdsForUser(uid) {
+	return firebase.database().ref('/users/'+uid+'/notifications').once('value').then(result => {
+		return Object.keys(result.val());
+	})
+}
+
+exports.confirmFriendRequest = functions.https.onCall((data, context) => {
+	let originUserUID = data.originUserUID;
+	let userUID = data.userUID;
+	// delete the notification first and then add 
+	var newPostKey = firebase.database().ref().child('users').push().key;
+	updates = {};
+	updates['/users/'+userUID+'/friendRequests/'+originUserUID] = null;
+	firebase.database().ref('/users/'+userUID+'/notifications').once('value').then(snapshot => {
+		let database = snapshot.val();
+		let keys = Object.keys(database);
+		keys.forEach(key => {
+			if (database[key].originUserUID == originUserUID) {
+				updates['/users/'+userUID+'/notifications/'+key] = null;
+			}
+		})
+		firebase.database().ref().update(updates);
+	}).catch(error => {
+		firebase.database().ref().update(updates);
+	})
+	// friend must have firstName, lastName, uid, and email address
+	getUserData(userUID).then(userData => {
+		var oldOriginRef = firebase.database().ref().child('/users/'+originUserUID+'/friends');
+		var friend = userData;
+		var newOriginRef = oldOriginRef.push();
+		newOriginRef.set(friend);
+	})
+
+	getUserData(originUserUID).then(userData => {
+		var oldOriginRef = firebase.database().ref().child('/users/'+userUID+'/friends');
+		var friend = userData;
+		var newOriginRef = oldOriginRef.push();
+		newOriginRef.set(friend);
+	})
+
+})
+
+exports.deleteFriendRequest = functions.https.onCall((data, context) => {
+	let originUserUID = data.originUserUID;
+	let userUID = data.userUID;
+	var newPostKey = firebase.database().ref().child('users').push().key;
+	updates = {};
+	updates['/users/'+userUID+'/friendRequests/'+originUserUID] = null;
+	firebase.database().ref('/users/'+userUID+'/notifications').once('value').then(snapshot => {
+		let database = snapshot.val();
+		console.log(database)
+		let keys = Object.keys(database);
+		keys.forEach(key => {
+			if (database[key].originUserUID == originUserUID) {
+				updates['/users/'+userUID+'/notifications/'+key] = null;
+			}
+		})
+		firebase.database().ref().update(updates);
+	}).catch(error => {
+		firebase.database().ref().update(updates);
+	})
+
+})
+
 exports.sendFriendRequest = functions.https.onCall((data, context) => {
 	let friendEmail = data.friendEmail;
 	let userEmail = data.userEmail;
@@ -209,10 +238,6 @@ exports.sendFriendRequest = functions.https.onCall((data, context) => {
 				if(database[userid].email == friendEmail) {
 					// add a friend request from this user
 					// send email, and the user's uid in the friend request
-					/*var oldPostRef = firebase.database().ref().child('users/'+userid+'/friendRequests');
-					var friendRequest = {email: userEmail, uid: userUID};
-					var newPostRef = oldPostRef.push();
-					newPostRef.set(friendRequest);*/
 					var newPostKey = firebase.database().ref().child('users').push().key;
 					updates = {};
 					updates['users/'+userid+'/friendRequests/'+userUID] = userEmail;
@@ -235,6 +260,17 @@ function addNotification(data) {
 	originUserUID: data.uid};
 	var newPostRef = oldPostRef.push();
 	newPostRef.set(notification);
+}
+
+function getUserData(uid) {
+	return firebase.database().ref('/users/'+uid).once('value').then(snapshot => {
+		let values = snapshot.val();
+		let data = {uid: uid,
+			firstName: values.firstName,
+			lastName: values.lastName,
+			email: values.email};
+		return data;
+	})
 }
 
 exports.getSettingsData = functions.https.onCall((data, context) => {

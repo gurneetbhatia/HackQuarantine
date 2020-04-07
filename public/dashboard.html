@@ -721,6 +721,11 @@
               notifDiv.appendChild(title);
               notifDiv.appendChild(text);
               notifDiv.appendChild(date);
+              if(result.data[key].type == "friend-request") {
+                notifDiv.onclick = function() {
+                  friendRequestClicked(result.data[key].originUserUID);
+                }
+              }
               notificationsDiv.appendChild(notifDiv);
             });
           } else {
@@ -733,6 +738,30 @@
           }
         })
         removeLoading();
+      }
+
+      function friendRequestClicked(uid, email) { // the uid here is the originUserUID
+        let notificationsDiv = document.getElementById("notificationsDiv");
+        let data = {originUserUID: uid, userUID: auth.currentUser.uid};
+        if(confirm("Dou you wish to accept this friend request?")) {
+          var confirmRequest = firebase.functions().httpsCallable('confirmFriendRequest');
+          confirmRequest(data).then(result => {
+            notificationsClicked();
+          }).catch(error => {
+            console.log(error);
+            alert("An error occured, please try again later!");
+            notificationsClicked();
+          })
+        } else {
+          var deleteRequest = firebase.functions().httpsCallable('deleteFriendRequest');
+          deleteRequest(data).then(result => {
+            notificationsClicked();
+          }).catch(error => {
+            console.log(error);
+            alert("An error occured, please try again later!");
+            notificationsClicked();
+          })
+        }
       }
 
       function reservationsClicked() {
