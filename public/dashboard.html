@@ -3,6 +3,11 @@
   <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
   <script src="/__/firebase/7.12.0/firebase-app.js"></script>
@@ -214,11 +219,11 @@
         button[type=submit] {
           border: 1px solid transparent;
           background-color: #f1f1f1;
-            background-color: DodgerBlue;
-            padding: 10px;
-            font-size: 16px;
-            color: #fff;
-            cursor: pointer;
+          background-color: DodgerBlue;
+          padding: 10px;
+          font-size: 16px;
+          color: #fff;
+          cursor: pointer;
         }
 
         #confirmButton {
@@ -428,8 +433,14 @@
           </div>
           <button type="submit" onclick="reservationSubmitClicked()">Submit</button>
           <div id="map"></div>
-          <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-          <h3 id="selectedReservationTime"></h3>
+          <div id="chartContainer" style="height: 0px; width: 100%;"></div>
+          <h3 id="selectedReservationTime">Selected Time</h3>
+          <div id="timeselector">
+            <input id="resTimePicker" type="text" class="timepicker" placeholder="Select Time">
+          </div>
+          <div align="center">
+            <button type="submit" id="reserveButton" onclick="reserveButtonClicked()">Reserve</button>
+          </div>
         </div>
 
         <div id="requestsDiv">
@@ -663,6 +674,15 @@
 
       function reservationsClicked() {
         makeActive("reservations");
+        var elems = document.querySelectorAll('.timepicker');
+        var instances = M.Timepicker.init(elems, {container: "#timeselector",
+          twelveHour: false,
+          vibrate: true
+        })
+      }
+
+      function reserveButtonClicked() {
+        // add reservation to the database
       }
 
       async function getCovidDateOverTime() {
@@ -1044,7 +1064,9 @@
       let address = $("#myInput").val()
       let query = "http://bgurneet.pythonanywhere.com/api/v2/getbusytimes?address="+address;
       console.log(query);
-      $.getJSON(query).then(result => {
+      $.getJSON(query)
+      .done(result => {
+        document.getElementById('chartContainer').style = "height: 300px; width: 100%;"
         let data = result.data;
         Object.keys(data).forEach(key => {
           let dataset = data[key]['data'];
@@ -1067,13 +1089,19 @@
             }]
           })
           chart.render();
-          removeLoading();
         })
+      }).fail(error => {
+        let container = document.getElementById("chartContainer");
+        chartContainer.innerHTML = "<h3>Popular Times Not Available</h3>";
+        chartContainer.style = "height: 100px; width: 100%;"
+
+      }).always(function() { 
+        removeLoading();
       })
     }
 
     function timeSelected(e) {
-      document.getElementById("selectedReservationTime").innerHTML = "Selected Time: " + e.dataPoint.label
+      document.getElementById("resTimePicker").value = e.dataPoint.label
 
     }
 
