@@ -561,10 +561,7 @@
 
     <script type="text/javascript">
       function makeActive(id) {
-        let activeList = document.getElementsByClassName("active")
-        if (activeList.length == 1) {
-          activeList[0].classList.remove("active");
-        }
+        document.querySelectorAll(".active").forEach(e => {e.classList.remove("active")});
         document.getElementById(id).classList.add("active");
         //let contentDiv = document.getElementById("contentDiv");
         let childNodes = $("#contentDiv").children();
@@ -577,7 +574,7 @@
             $("#"+childNodes[i].id).hide();
           }
         }
-        window.scrollTo(0, 0)
+        //window.scrollTo(0, 0)
       }
 
       function displayLoading() {
