@@ -47,6 +47,7 @@
           checkRegistrationStatus({uid: auth.currentUser.uid}).then(function(result) {
             if(result.data) {
               // they have completed the registration process (account setup)
+              homeClicked();
               removeLoading();
             } else {
               window.location.href = "accountsetup.html";
@@ -270,23 +271,23 @@
           cursor: default;
         }
 
-        #reservationsTable {
+        table {
           font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
           border-collapse: collapse;
           width: 100%;
           margin-top: 20px;
         }
 
-        #reservationsTable td, #reservationsTable th {
+        td, th {
           border: 1px solid #ddd;
           padding: 8px;
         }
 
-        #reservationsTable tr:nth-child(even){background-color: #f2f2f2;}
+        tr:nth-child(even){background-color: #f2f2f2;}
 
-        #reservationsTable tr:hover {background-color: #ddd;}
+        tr:hover {background-color: #ddd;}
 
-        #reservationsTable th {
+        th {
           padding-top: 12px;
           padding-bottom: 12px;
           text-align: left;
@@ -455,6 +456,7 @@
             <button id="addFriendsBtn" type="button" class="btn btn-primary" onclick="addFriendsClicked();">
               Add Friends
             </button>
+            <table id="friendsTable"></table>
             <div id="addFriendDiv" hidden>
               <div class="form-group">
                 <label for="friendEmail">Email address of the user you wish to add</label>
@@ -684,8 +686,86 @@
         });
       }
 
+      function getRank(score) {
+        if(score < 10) {
+          return 'Beginner';
+        } else if(score < 30) {
+          return 'Novice'
+        } else if(score < 50) {
+          return 'Graduate'
+        } else if(score < 70) {
+          return 'Expert'
+        } else if(score < 100) {
+          return 'Master'
+        } else if(score < 150) {
+          return 'Grand Master'
+        } else {
+          return 'Legend'
+        }
+      }
+
       function homeClicked() {
         makeActive("home");
+        // fetch the list of the persons friends
+        displayLoading();
+        var getFriends = firebase.functions().httpsCallable('getFriends');
+        var getUserScore = firebase.functions().httpsCallable('getUserScore');
+        var table = document.getElementById("friendsTable");
+        table.innerHTML = "<tr><th>Rank</th><th>Name</th><th>Score</th>";
+        getFriends({uid: auth.currentUser.uid}).then(result => {
+          Object.keys(result.data).forEach(key => {
+            var row = document.createElement('tr');
+            let nameVal = result.data[key].firstName + ' ' + result.data[key].lastName;
+            var name = document.createElement('td');
+            name.innerHTML = nameVal;
+            getUserScore({uid: result.data[key].uid}).then(score_result => {
+              let scoreVal = score_result.data;
+              var score = document.createElement('td');
+              score.innerHTML = scoreVal;
+              let rankVal = getRank(scoreVal);
+              var rank = document.createElement('td');
+              rank.innerHTML = rankVal;
+              row.appendChild(rank);
+              row.appendChild(name);
+              row.appendChild(score);
+              table.appendChild(row);
+            })
+          })
+          removeLoading();
+        }).catch(error => {
+          removeLoading();
+          alert('An error occured while fetching your friends data. Please try again later.');
+          console.log(error);
+        })
+        /*getReservations({uid: auth.currentUser.uid}).then(result => {
+          console.log(result.data);
+          if(Object.keys(result.data).length > 0) {
+            var table = document.getElementById("friendsTable");
+            table.innerHTML = "<tr><th>Time</th><th>Address</th></tr>";
+            Object.keys(result.data).forEach(key => {
+              var row = document.createElement('tr');
+              var address = document.createElement('td');
+              address.innerHTML = result.data[key].address;
+              var time = document.createElement('td');
+              var timeVal = new Date(result.data[key].time);
+              time.innerHTML = timeVal.toLocaleDateString() + ' ' + timeVal.toTimeString().substr(0, 5);
+              row.appendChild(time);
+              row.appendChild(address);
+              table.appendChild(row);
+            })
+          } else {
+            var nope = document.createElement("p");
+            nope.id = "nonotifs";
+            nope.align = "center";
+            nope.innerHTML = "No reservations to show.";
+            document.getElementById('reservationsDiv').appendChild(nope);
+          }
+          removeLoading();
+        }).catch(error => {
+          console.log(error);
+          alert("An error occured while fetching your reservations. Please try again later.");
+          removeLoading();
+        })*/
       }
 
       function notificationsClicked() {

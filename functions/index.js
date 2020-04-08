@@ -67,6 +67,20 @@ exports.getNotificationsForUser = functions.https.onCall((data, context) => {
 	})
 })
 
+exports.getFriends = functions.https.onCall((data, context) => {
+	return firebase.database().ref('/users/' + data.uid + '/friends').once('value').then(snapshot => {
+		return snapshot.val();
+	}).catch(error => {
+		return error;
+	})
+})
+
+exports.getUserScore = functions.https.onCall((data, context) => {
+	return firebase.database().ref('/users/' + data.uid + '/score').once('value').then(snapshot => {
+		return snapshot.val()
+	})
+})
+
 exports.getReservationsForUser = functions.https.onCall((data, context) => {
 	return firebase.database().ref('/users/' + data.uid + '/reservations').once("value").then(function(snapshot) {
 		return snapshot.val();
