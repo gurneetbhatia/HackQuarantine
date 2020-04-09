@@ -522,10 +522,9 @@
 
             </div>
             <div id="header">
-              <h2>Grocery List</h2>
+              <h4>Grocery List</h4>
             </div>
-            <div id="groceryList" class="card-deck" align="center">
-
+              <div id="groceryList" class="card-deck" align="center">
             </div>
           </div>
         </div>
@@ -766,35 +765,6 @@
           alert('An error occured while fetching your friends data. Please try again later.');
           console.log(error);
         })
-        /*getReservations({uid: auth.currentUser.uid}).then(result => {
-          console.log(result.data);
-          if(Object.keys(result.data).length > 0) {
-            var table = document.getElementById("friendsTable");
-            table.innerHTML = "<tr><th>Time</th><th>Address</th></tr>";
-            Object.keys(result.data).forEach(key => {
-              var row = document.createElement('tr');
-              var address = document.createElement('td');
-              address.innerHTML = result.data[key].address;
-              var time = document.createElement('td');
-              var timeVal = new Date(result.data[key].time);
-              time.innerHTML = timeVal.toLocaleDateString() + ' ' + timeVal.toTimeString().substr(0, 5);
-              row.appendChild(time);
-              row.appendChild(address);
-              table.appendChild(row);
-            })
-          } else {
-            var nope = document.createElement("p");
-            nope.id = "nonotifs";
-            nope.align = "center";
-            nope.innerHTML = "No reservations to show.";
-            document.getElementById('reservationsDiv').appendChild(nope);
-          }
-          removeLoading();
-        }).catch(error => {
-          console.log(error);
-          alert("An error occured while fetching your reservations. Please try again later.");
-          removeLoading();
-        })*/
       }
 
       function notificationsClicked() {
@@ -1115,6 +1085,15 @@
 
       function requestsClicked() {
         makeActive("requests");
+        console.log("clicked");
+        const groceryList = document.getElementById('groceryList');
+        const dbRefObject = firebase.database().ref('/users/'+auth.currentUser.uid+'/groceryList')
+        dbRefObject.on('value', snap => {
+          let data = snap.val();
+          Object.keys(data).forEach(key => {
+            addItem(data[key].src, data[key].txt, false);
+          })
+        });
       }
 
       function logout() {
@@ -1490,7 +1469,7 @@
           button.className = "btn btn-primary";
           button.type = "button";
           button.value = "Add";
-          button.onclick = function() { addItem(src, path); };
+          button.onclick = function() { addItem(src, path, true); };
           cardBody.appendChild(button);
 
           card.align = "center";
@@ -1504,9 +1483,12 @@
 
     }
     
-    function addItem(src, txt){
-      //console.log(src);
-      //console.log(txt);
+    function addItem(src, txt, addToDB){
+      if(addToDB) {
+        var addItemToList = firebase.functions().httpsCallable('addItemToGroceryList');
+        addItemToList({uid: auth.currentUser.uid,
+          src: src, txt: txt});
+      }
       list.push({"src": src,
        "name": txt});
       let pos = list.name;
@@ -1534,21 +1516,24 @@
       button1.type = "button";
       button1.value = "Remove";
       button1.onclick = function() { grocery.removeChild(event1);
-                      removeItem(pos); };        //event.innerHTML = ""; };
-                      cardBody1.appendChild(button1);
-                      card1.appendChild(cardBody1);
-                      event1.appendChild(card1);
-                      grocery.append(event1);
+      removeItem(pos, src, txt); 
+    };        //event.innerHTML = ""; };
+      cardBody1.appendChild(button1);
+      card1.appendChild(cardBody1);
+      event1.appendChild(card1);
+      grocery.append(event1);
 
-                    }
+    }
 
-                    function removeItem(pos){
+    function removeItem(pos, src, txt){
+      var removeItemFromList = firebase.functions().httpsCallable('removeItemFromGroceryList');
+      removeItemFromList({uid: auth.currentUser.uid,
+          src: src, txt: txt});
+      list = list.splice(list.indexOf(pos));
+    }
 
-                      list = list.splice(list.indexOf(pos));
-                    }
 
-
-                  </script>
+  </script>
 
 </body>
 </html>

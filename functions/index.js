@@ -265,6 +265,37 @@ exports.sendFriendRequest = functions.https.onCall((data, context) => {
 	})
 })
 
+exports.addItemToGroceryList = functions.https.onCall((data, context) => {
+	let uid = data.uid;
+	let src = data.src;
+	let txt = data.txt
+	let oldPostRef = firebase.database().ref().child('users/'+uid+'/groceryList');
+	var groceryListItem = {src: src, txt: txt};
+	var newPostRef = oldPostRef.push();
+	return newPostRef.set(groceryListItem);
+	
+
+})
+
+exports.removeItemFromGroceryList = functions.https.onCall((data, context) => {
+	let uid = data.uid;
+	let src = data.src;
+	let txt = data.txt;
+	return firebase.database().ref('users/'+uid+'/groceryList').once("value").then(function(snapshot) {
+		let data = snapshot.val();
+		let keys = Object.keys(data);
+		for(var i = 0; i<keys.length;i++) {
+			let datapoint = data[keys[i]];
+			if (datapoint.src == src && datapoint.txt == txt) {
+				updates = {};
+				updates['/users/'+uid+'/groceryList/'+key] = null;
+				firebase.database().ref().update(updates);
+				break;
+			}
+		}
+	})
+})
+
 function addNotification(data) {
 	var oldPostRef = firebase.database().ref().child('users/'+data.userid+'/notifications');
 	var notification = {title: "Friend Request",
