@@ -328,6 +328,16 @@
       margin-top: 30px;
     }
 
+    #items {
+      
+    }
+
+    .card {
+      width: 15rem;
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+
     @media screen and (max-width: 700px) {
       .sidebar {
         width: 100%;
@@ -497,8 +507,27 @@
           </div>
         </div>
 
-        <div id="requestsDiv">
-          <h1>Requests</h1>
+        <div id="requestsDiv" class="container">
+          <div id="header" class="page-header">
+            <h1>Requests</h1>
+          </div>
+          <div id="io" class="jumbotron">
+            <div id="searchBox" class="input-group mb-3">
+              <input id="itemSearchInput" type="text" placeholder="Search for items" class="form-control">
+              <div id="searchBoxBtn" class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" onclick="getItems();">Search</button>
+              </div>
+            </div>
+            <div id="items">
+
+            </div>
+            <div id="header">
+              <h2>Grocery List</h2>
+            </div>
+            <div id="groceryList" class="card-deck">
+
+            </div>
+          </div>
         </div>
 
         <div id="newsDiv" class="container">
@@ -1387,6 +1416,136 @@
     }
   }
 </script>
+
+<script>
+  const pre = "https://uk.openfoodfacts.org/cgi/search.pl?search_terms=";
+    //const pro = "&search_simple=1&action=process&json=true"
+    const pro = "&action=process&json=true"
+    var data;
+    var item;
+    var container = document.getElementById("items");
+    var grocery = document.getElementById("groceryList");
+
+    let list = [];
+    //const buttonNode = document.createTextNode('Add');
+
+    async function getItems(){
+      container.innerHTML = "";
+      item = document.getElementById('itemSearchInput').value;
+      const response = await fetch(pre + item + pro);
+      data = await response.json();
+      console.log(data);
+      if(Object.keys(data.products).length == 0){
+        let notFound = document.createElement('p');
+        let notFoundText = document.createTextNode("The item was not found.");
+        notFound.appendChild(notFoundText);
+        container.appendChild(notFound);
+      }
+      else{
+        showItems();
+      }
+      //var pageSize = data.page_size;
+    }
+
+    function showItems(){
+      var count = Object.keys(data.products).length;
+      //console.log(count);
+      //var num = 1;
+
+
+      var cardDeck = 1;
+      for(j=1; j<=cardDeck; j++){
+        var deck = document.createElement('div');
+        deck.className = "card-deck";
+        for(let i=0; i<count; i++){
+          let path = data.products[i].product_name;
+          let event = document.createElement('div');
+          let card = document.createElement('div');
+          let cardBody = document.createElement('div');
+          let img = document.createElement('img');
+          let src = data.products[i].image_front_url;
+          let name = document.createElement('h5');
+          let node = document.createTextNode(path);
+          let button = document.createElement('input');
+
+          // card settings
+          card.className = "card";
+
+
+          if (typeof src == "undefined"){
+            src = "https://static.openfoodfacts.org/images/svg/product-silhouette.svg";
+          }
+          img.src = src;
+          //img.className = "img-thumbnail";
+          img.className = "card-img-top";
+          img.width = "100";
+          img.height = "100";
+          img.alt = "Card image cap";
+          card.appendChild(img);
+
+          cardBody.className = "card-body";
+          name.appendChild(node);
+          cardBody.appendChild(name);
+          button.className = "btn btn-primary";
+          button.type = "button";
+          button.value = "Add";
+          button.onclick = function() { addItem(src, path); };
+          cardBody.appendChild(button);
+
+          card.appendChild(cardBody);
+
+          event.appendChild(card);
+          deck.appendChild(event);
+          container.append(deck);
+        }
+      }
+
+    }
+    
+    function addItem(src, txt){
+      //console.log(src);
+      //console.log(txt);
+      list.push({"src": src,
+       "name": txt});
+      let pos = list.name;
+
+      let event1 = document.createElement('div');
+      let card1 = document.createElement('div');
+      let cardBody1 = document.createElement('div');
+      let img1 = document.createElement('img');
+      let name1 = document.createElement('h5');
+      let node1 = document.createTextNode(txt);
+      let button1 = document.createElement('input');
+
+      card1.className = "card";
+      img1.src = src;
+      img1.className = "card-img-top";
+      img1.width = "100";
+      img1.height = "100";
+      img1.alt = "Card image cap";
+      card1.appendChild(img1);
+      cardBody1.className = "card-body";
+      name1.appendChild(node1);
+      cardBody1.appendChild(name1);
+      button1.className = "btn btn-danger";
+      button1.type = "button";
+      button1.value = "Remove";
+      button1.onclick = function() { grocery.removeChild(event1);
+                      removeItem(pos); };        //event.innerHTML = ""; };
+                      cardBody1.appendChild(button1);
+                      card1.appendChild(cardBody1);
+                      event1.appendChild(card1);
+                      grocery.append(event1);
+
+                    }
+                    
+                    function removeItem(pos){
+
+                      list = list.splice(list.indexOf(pos));
+                    }
+                    
+
+                  </script>
 
 </body>
 </html>
