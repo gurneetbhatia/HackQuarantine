@@ -1336,7 +1336,7 @@
     function reservationSubmitClicked() {
       displayLoading();
       let address = $("#myInput").val()
-      let query = "http://bgurneet.pythonanywhere.com/api/v2/getbusytimes?address="+address;
+      let query = "https://bgurneet.pythonanywhere.com/api/v2/getbusytimes?address="+address;
       console.log(query);
       $.getJSON(query)
       .done(result => {
