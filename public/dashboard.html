@@ -882,7 +882,7 @@
         var getReservations = firebase.functions().httpsCallable('getReservationsForUser');
         getReservations({uid: auth.currentUser.uid}).then(result => {
           console.log(result.data);
-          if(Object.keys(result.data).length > 0) {
+          if(result.data) {
             var table = document.getElementById("reservationsTable");
             table.innerHTML = "<tr><th>Time</th><th>Address</th></tr>";
             Object.keys(result.data).forEach(key => {
@@ -1336,7 +1336,7 @@
     function reservationSubmitClicked() {
       displayLoading();
       let address = $("#myInput").val()
-      let query = "http://bgurneet.pythonanywhere.com/api/v2/getbusytimes?address="+address;
+      let query = "https://bgurneet.pythonanywhere.com/api/v2/getbusytimes?address="+address;
       console.log(query);
       $.getJSON(query)
       .done(result => {
