@@ -348,3 +348,17 @@ function createUser(userid, username, email, phone) {
 		regCompleted: false
 	})
 }
+
+exports.checkIfNotificationsPresent = functions.https.onCall((data, context) => {
+	let uid = data.uid;
+	return firebase.database().ref('/users/' + uid + '/notifications').once("value").then(function(snapshot) {
+		if (snapshot.val() == null) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}).catch(function(error){
+		return error;
+	})
+})
