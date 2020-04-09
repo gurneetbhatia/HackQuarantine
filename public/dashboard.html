@@ -524,7 +524,7 @@
             <div id="header">
               <h2>Grocery List</h2>
             </div>
-            <div id="groceryList" class="card-deck">
+            <div id="groceryList" class="card-deck" align="center">
 
             </div>
           </div>
@@ -1457,6 +1457,7 @@
       for(j=1; j<=cardDeck; j++){
         var deck = document.createElement('div');
         deck.className = "card-deck";
+        deck.align = "center";
         for(let i=0; i<count; i++){
           let path = data.products[i].product_name;
           let event = document.createElement('div');
@@ -1492,6 +1493,7 @@
           button.onclick = function() { addItem(src, path); };
           cardBody.appendChild(button);
 
+          card.align = "center";
           card.appendChild(cardBody);
 
           event.appendChild(card);
@@ -1520,9 +1522,10 @@
       card1.className = "card";
       img1.src = src;
       img1.className = "card-img-top";
-      img1.width = "100";
+        img1.width = "100";
       img1.height = "100";
       img1.alt = "Card image cap";
+      card1.align = "center";
       card1.appendChild(img1);
       cardBody1.className = "card-body";
       name1.appendChild(node1);
@@ -1538,12 +1541,12 @@
                       grocery.append(event1);
 
                     }
-                    
+
                     function removeItem(pos){
 
                       list = list.splice(list.indexOf(pos));
                     }
-                    
+
 
                   </script>
 
