@@ -350,6 +350,22 @@
       margin-bottom: 8px;
     }
 
+    .groceryListRequest {
+      width: 100%;
+      display: flex;
+      flex-flow: row;
+      flex-wrap: nowrap;
+      overflow: scroll;
+      padding: 2px;
+      background-color: #E5E5E5;
+      margin-top: 20px;
+      border-radius: 5px;
+    }
+    .card {
+      margin: 5px;
+      min-width: 100px;
+    }
+
     @media screen and (max-width: 700px) {
       .sidebar {
         width: 100%;
@@ -502,14 +518,23 @@
 
           <table id="reservationsTable"></table>
 
-          <div id="requestsToDisplay" hidden>
-            <div class="groceryList">
-              <div class="card">
+          <div id="requestsToDisplay">
+            <div class="groceryListRequest" align="center">
+              <input type="button" class="groceryListBtn" value="Accept">
+              <div class="card" align="center">
                 <img src="https://static.openfoodfacts.org/images/products/541/118/811/9098/front_en.3.400.jpg" class="card-img-top" width="100" height="100" alt="Card image cap">
                 <div class="card-body">
                   <h5>Alpro coco</h5>
                 </div>
               </div>
+              <div class="card" align="center">
+                <img src="https://static.openfoodfacts.org/images/products/541/118/811/9098/front_en.3.400.jpg" class="card-img-top" width="100" height="100" alt="Card image cap">
+                <div class="card-body">
+                  <h5>Alpro coco</h5>
+                </div>
+              </div>
+
+
             </div>
           </div>
 
@@ -957,8 +982,36 @@
                     let getGroceryList = functions.httpsCallable("getGroceryList");
                     getGroceryList({uid: key}).then(result2 => {
                       let groceries = result2.data;
+                      let groceryListRequest = document.createElement("div");
+                      groceryListRequest.classList.add("groceryListRequest");
+                      groceryListRequest.align = "center";
+                      let btn = document.createElement('input');
+                      btn.type = "button";
+                      btn.value = "Accept"; // make this conditional later
+                      groceryListRequest.appendChild(btn);
+                      Object.keys(groceries).forEach(groceryKey => {
+                        let groceryListItem = groceries[groceryKey];
+                        console.log(groceryListItem);
+                        let card = document.createElement('div');
+                        card.classList.add("card");
+                        console.log("here: "+card.class);
+                        card.align = "center";
+                        let cardImg = document.createElement('img');
+                        cardImg.src = groceryListItem.src;
+                        cardImg.classList.add("card-img-top");
+                        cardImg.width = "100";
+                        cardImg.height = "100";
+                        cardImg.alt = "Card image cap";
+                        card.appendChild(cardImg);
+                        let cardBody = document.createElement("div");
+                        cardBody.classList.add("card-body");
+                        cardBody.innerHTML = "<h5>"+groceryListItem.txt+"</h5>";
+                        card.appendChild(cardBody);
+                        groceryListRequest.appendChild(card);
+                      })
+                      document.getElementById('requestsToDisplay').appendChild(groceryListRequest);
                       console.log("Requested groceries:");
-                      console.log(groceries)
+                      console.log(groceries);
                     })
                   }
                 })
