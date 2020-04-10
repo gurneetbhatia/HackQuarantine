@@ -428,10 +428,9 @@ exports.checkIfNotificationsPresent = functions.https.onCall((data, context) => 
 exports.acceptGroceryListRequest = functions.https.onCall((data, context) => {
 	let uid = data.uid;
 	let key = data.key;
-	let oldPostRef = firebase.database().ref().child('/users/'+uid+'/acceptedGroceryList');
-	var acceptedGroceryList = {uid: key};
-	var newPostRef = oldPostRef.push();
-	return newPostRef.set(acceptedGroceryList);
+	var updates = {};
+	updates['/users/'+uid+'/acceptedGroceryList/'+key] = 1;
+	return firebase.database().ref().update(updates);
 })
 
 exports.getAcceptedGroceryList = functions.https.onCall((data, context) => {

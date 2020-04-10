@@ -1,0 +1,66 @@
+[debug] [2020-04-10T19:57:03.742Z] ----------------------------------------------------------------------
+[debug] [2020-04-10T19:57:03.744Z] Command:       /usr/local/Cellar/node/13.12.0/bin/node /usr/local/bin/firebase serve
+[debug] [2020-04-10T19:57:03.745Z] CLI Version:   7.16.0
+[debug] [2020-04-10T19:57:03.745Z] Platform:      darwin
+[debug] [2020-04-10T19:57:03.745Z] Node Version:  v13.12.0
+[debug] [2020-04-10T19:57:03.746Z] Time:          Fri Apr 10 2020 23:57:03 GMT+0400 (Gulf Standard Time)
+[debug] [2020-04-10T19:57:03.746Z] ----------------------------------------------------------------------
+[debug] [2020-04-10T19:57:03.746Z] 
+[debug] [2020-04-10T19:57:03.757Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-04-10T19:57:03.757Z] > authorizing via signed-in user
+[debug] [2020-04-10T19:57:03.757Z] [iam] checking project hq-app-8cc14 for permissions ["firebase.projects.get"]
+[debug] [2020-04-10T19:57:03.759Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/hq-app-8cc14:testIamPermissions  
+
+[debug] [2020-04-10T19:57:05.338Z] <<< HTTP RESPONSE 200
+[debug] [2020-04-10T19:57:05.340Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/hq-app-8cc14  
+ 
+[debug] [2020-04-10T19:57:05.743Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/inderdeepbhatia/Desktop/GitRepos/HackQuarantine'...
+[info] 
+[debug] [2020-04-10T19:57:05.747Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/hq-app-8cc14/webApps/-/config  
+ 
+[warn] ⚠  Your requested "node" version "8" doesn't match your global version "13"
+[info] ✔  functions: functions emulator started at http://localhost:5001
+[debug] [2020-04-10T19:57:06.423Z] <<< HTTP RESPONSE 200
+[info] i  functions: Watching "/Users/inderdeepbhatia/Desktop/GitRepos/HackQuarantine/functions" for Cloud Functions...
+[debug] [2020-04-10T19:57:06.476Z] [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-04-10T19:57:06.476Z] [worker-pool] Adding worker with key ~diagnostic~, total=1
+[debug] [2020-04-10T19:57:06.476Z] [worker-pool] submitWork(triggerId=)
+[debug] [2020-04-10T19:57:06.477Z] [worker-~diagnostic~-fa8fd258-88f9-43b3-bd71-c83528108939]: Assigning socketPath: /var/folders/j8/_42llm855hx22_m9yk0sf_xm0000gn/T/fire_emu_92056.sock
+[debug] [2020-04-10T19:57:06.477Z] [worker-~diagnostic~-fa8fd258-88f9-43b3-bd71-c83528108939]: BUSY
+[info] i  hosting[shopperhelper]: Serving hosting files from: public
+[info] ✔  hosting[shopperhelper]: Local server: http://localhost:5000
+[debug] [2020-04-10T19:57:06.788Z] [runtime-status] [92056] Functions runtime initialized. {"cwd":"/Users/inderdeepbhatia/Desktop/GitRepos/HackQuarantine/functions","node_version":"13.12.0"}
+[debug] [2020-04-10T19:57:06.790Z] [runtime-status] [92056] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-04-10T19:57:06.821Z] [runtime-status] [92056] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/inderdeepbhatia/Desktop/GitRepos/HackQuarantine/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-04-10T19:57:06.823Z] [runtime-status] [92056] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.5.0","resolution":"/Users/inderdeepbhatia/Desktop/GitRepos/HackQuarantine/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-04-10T19:57:06.824Z] [runtime-status] [92056] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.5.0","resolution":"/Users/inderdeepbhatia/Desktop/GitRepos/HackQuarantine/node_modules/firebase-functions/lib/index.js"}
+[info] >  Fri, 10 Apr 2020 19:57:07 GMT body-parser deprecated undefined extended: provide extended option at index.js:15:17
+[info] ✔  functions[getPopularTimes]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/getPopularTimes).
+[info] ✔  functions[getNotificationsForUser]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/getNotificationsForUser).
+[info] ✔  functions[getFriends]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/getFriends).
+[info] ✔  functions[getUserScore]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/getUserScore).
+[info] ✔  functions[getReservationsForUser]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/getReservationsForUser).
+[info] ✔  functions[checkIfUserUnique]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/checkIfUserUnique).
+[info] ✔  functions[register]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/register).
+[info] ✔  functions[updateRegistrationInfo]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/updateRegistrationInfo).
+[info] ✔  functions[getAllRequests]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/getAllRequests).
+[info] ✔  functions[newReservation]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/newReservation).
+[info] ✔  functions[getAutocompleteResults]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/getAutocompleteResults).
+[info] ✔  functions[checkRegistrationStatus]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/checkRegistrationStatus).
+[info] ✔  functions[updateSettingsData]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/updateSettingsData).
+[info] ✔  functions[confirmFriendRequest]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/confirmFriendRequest).
+[info] ✔  functions[deleteFriendRequest]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/deleteFriendRequest).
+[info] ✔  functions[sendFriendRequest]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/sendFriendRequest).
+[info] ✔  functions[getGroceryList]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/getGroceryList).
+[info] ✔  functions[getHelperradius]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/getHelperradius).
+[info] ✔  functions[addItemToGroceryList]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/addItemToGroceryList).
+[info] ✔  functions[removeItemFromGroceryList]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/removeItemFromGroceryList).
+[info] ✔  functions[getSettingsData]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/getSettingsData).
+[info] ✔  functions[setEmailValid]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/setEmailValid).
+[info] ✔  functions[checkIfNotificationsPresent]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/checkIfNotificationsPresent).
+[info] ✔  functions[acceptGroceryListRequest]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/acceptGroceryListRequest).
+[info] ✔  functions[getAcceptedGroceryList]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/getAcceptedGroceryList).
+[info] ✔  functions[declineGroceryListRequest]: http function initialized (http://localhost:5001/hq-app-8cc14/us-central1/declineGroceryListRequest).
+[debug] [2020-04-10T19:57:07.601Z] [worker-~diagnostic~-fa8fd258-88f9-43b3-bd71-c83528108939]: IDLE

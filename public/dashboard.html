@@ -965,6 +965,9 @@
         })
         // fetch the nearby requests
         // the users coordinates are accessible at coordsLat and coordsLng
+        let acceptGroceryListRequest = functions.httpsCallable('acceptGroceryListRequest');
+        let declineGroceryListRequest = functions.httpsCallable('declineGroceryListRequest');
+        let getAcceptedGroceryList = functions.httpsCallable('getAcceptedGroceryList');
         let getAllRequests = functions.httpsCallable('getAllRequests');
         getAllRequests().then(result => {
           let requests = result.data;
@@ -981,37 +984,48 @@
                     // requests[key] must be displayed to the user
                     let getGroceryList = functions.httpsCallable("getGroceryList");
                     getGroceryList({uid: key}).then(result2 => {
-                      let groceries = result2.data;
-                      let groceryListRequest = document.createElement("div");
-                      groceryListRequest.classList.add("groceryListRequest");
-                      groceryListRequest.align = "center";
-                      let btn = document.createElement('input');
-                      btn.type = "button";
-                      btn.value = "Accept"; // make this conditional later
-                      groceryListRequest.appendChild(btn);
-                      Object.keys(groceries).forEach(groceryKey => {
-                        let groceryListItem = groceries[groceryKey];
-                        console.log(groceryListItem);
-                        let card = document.createElement('div');
-                        card.classList.add("card");
-                        console.log("here: "+card.class);
-                        card.align = "center";
-                        let cardImg = document.createElement('img');
-                        cardImg.src = groceryListItem.src;
-                        cardImg.classList.add("card-img-top");
-                        cardImg.width = "100";
-                        cardImg.height = "100";
-                        cardImg.alt = "Card image cap";
-                        card.appendChild(cardImg);
-                        let cardBody = document.createElement("div");
-                        cardBody.classList.add("card-body");
-                        cardBody.innerHTML = "<h5>"+groceryListItem.txt+"</h5>";
-                        card.appendChild(cardBody);
-                        groceryListRequest.appendChild(card);
+                      getAcceptedGroceryList({uid: auth.currentUser.uid}).then(acceptedResult => {
+                        let acceptedResults = acceptedResult.data
+                        let groceries = result2.data;
+                        let groceryListRequest = document.createElement("div");
+                        groceryListRequest.classList.add("groceryListRequest");
+                        groceryListRequest.align = "center";
+                        let btn = document.createElement('input');
+                        btn.type = "button";
+                        btn.value = acceptedResults && Object.keys(acceptedResults).includes(key) ? "Cancel" : "Accept";
+                        btn.onclick = function() { 
+                          if(btn.value == "Accept") {
+                            acceptGroceryListRequest({uid: auth.currentUser.uid, key: key}) 
+                          } else {
+                            declineGroceryListRequest({uid: auth.currentUser.uid, key: key}) 
+                          }
+                          reservationsClicked();
+                        }
+                        groceryListRequest.appendChild(btn);
+                        Object.keys(groceries).forEach(groceryKey => {
+                          let groceryListItem = groceries[groceryKey];
+                          console.log(groceryListItem);
+                          let card = document.createElement('div');
+                          card.classList.add("card");
+                          console.log("here: "+card.class);
+                          card.align = "center";
+                          let cardImg = document.createElement('img');
+                          cardImg.src = groceryListItem.src;
+                          cardImg.classList.add("card-img-top");
+                          cardImg.width = "100";
+                          cardImg.height = "100";
+                          cardImg.alt = "Card image cap";
+                          card.appendChild(cardImg);
+                          let cardBody = document.createElement("div");
+                          cardBody.classList.add("card-body");
+                          cardBody.innerHTML = "<h5>"+groceryListItem.txt+"</h5>";
+                          card.appendChild(cardBody);
+                          groceryListRequest.appendChild(card);
+                        })
+                        document.getElementById('requestsToDisplay').appendChild(groceryListRequest);
+                        console.log("Requested groceries:");
+                        console.log(groceries);
                       })
-                      document.getElementById('requestsToDisplay').appendChild(groceryListRequest);
-                      console.log("Requested groceries:");
-                      console.log(groceries);
                     })
                   }
                 })
