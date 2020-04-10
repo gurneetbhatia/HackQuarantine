@@ -22,7 +22,7 @@
 		margin: 0px;
 		margin-top: 0px;
 		border: 1px solid transparent;
-		overflow: hidden;
+		overflow: hidden
 	}
 
 	button {
@@ -34,6 +34,44 @@
 		letter-spacing: 2px;
 		font-size: 20px;
 	}
+
+	@media only screen and (max-height: 600px) {
+	h1 {
+		font-family: 'Chau Philomene One';
+		letter-spacing: 2px;
+		font-size: 25px
+		}
+
+	.title {
+		font-family: 'Chau Philomene One';
+		letter-spacing: 2px;
+		font-size: 45px
+		}
+
+	.logo {
+		width : 85px;
+		height : 85px;
+	}
+
+	}
+	@media only screen and (min-height: 600px) {
+	h1 {
+		font-family: 'Chau Philomene One';
+		letter-spacing: 2px;
+		font-size: calc(30px + (45 - 30) * ((100vh - 1000px) / (2600 - 1000)));
+	}
+
+	.title {
+		font-family: 'Chau Philomene One';
+		letter-spacing: 2px;
+		font-size: calc(55px + (90 - 55) * ((100vh - 1000px) / (2600 - 1000)));
+	}
+
+	.logo {
+		width: calc(90px + (120 - 90) * ((100vh - 1000px) / (2600 - 1000)));
+		height: calc(90px + (120 - 90) * ((100vh - 1000px) / (2600 - 1000)));
+	}
+}
 
 
 	.header {
@@ -195,15 +233,15 @@
 	<div class = "fullBackgroundContainer">
 	<div class = "smallerBackgroundContainer">
 		<div id ="header" class = "header">
-			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: calc(20px + 5vh);; letter-spacing: 5px;">WRONG PAGE MAYBE?</h1>
+			<H1 class = "title" style="text-align:center; position:relative; background-color:#1a7c72; letter-spacing: 5px;">WRONG PAGE MAYBE?</h1>
 		</div>
 	<div id = "1" class = "buttonContainer" style = "text-align:center;" >
 	<div>
 		<h1 style = "color: #404040;">PAGE COULD NOT BE FOUND</h1>
 		<hr>
-	<p style = "font-weight: bold;">Sorry, the page you have requested could not be found. Let's get you back home to where you belong away from any nasty viruses.</p>
+	<p style = "font-weight: bold;">Sorry, the page you have requested could not be found. Let's get you back home to where you belong away, from any nasty viruses.</p>
 	<br>
-	<button id = "RegButton" type="button" class = "subButton" onclick="location.href='/'">Home</button>
+	<button id = "RegButton" type="button" class = "subButton" onclick= "window.location.replace('homepage.html')">Home</input>
 	</div>
 	</div>
 </div>
