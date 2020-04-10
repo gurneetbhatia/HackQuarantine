@@ -283,14 +283,16 @@ exports.removeItemFromGroceryList = functions.https.onCall((data, context) => {
 	let txt = data.txt;
 	return firebase.database().ref('users/'+uid+'/groceryList').once("value").then(function(snapshot) {
 		let data = snapshot.val();
-		let keys = Object.keys(data);
-		for(var i = 0; i<keys.length;i++) {
-			let datapoint = data[keys[i]];
-			if (datapoint.src == src && datapoint.txt == txt) {
-				updates = {};
-				updates['/users/'+uid+'/groceryList/'+keys[i]] = null;
-				firebase.database().ref().update(updates);
-				break;
+		if(data){
+			let keys = Object.keys(data);
+			for(var i = 0; i<keys.length;i++) {
+				let datapoint = data[keys[i]];
+				if (datapoint.src == src && datapoint.txt == txt) {
+					updates = {};
+					updates['/users/'+uid+'/groceryList/'+keys[i]] = null;
+					firebase.database().ref().update(updates);
+					break;
+				}
 			}
 		}
 	})
