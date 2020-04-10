@@ -274,8 +274,9 @@ exports.sendFriendRequest = functions.https.onCall((data, context) => {
 exports.getGroceryList = functions.https.onCall((data, context) => {
 	return firebase.database().ref('/users/'+data.uid+'/groceryList').once('value').then(result => {
 		return result.val();
+	}).catch(function(error){
+		return error;
 	})
-
 })
 
 exports.getHelperradius = functions.https.onCall((data, context) => {
@@ -422,4 +423,30 @@ exports.checkIfNotificationsPresent = functions.https.onCall((data, context) => 
 	}).catch(function(error){
 		return error;
 	})
+})
+
+exports.acceptGroceryListRequest = functions.https.onCall((data, context) => {
+	let uid = data.uid;
+	let key = data.key;
+	let oldPostRef = firebase.database().ref().child('/users/'+uid+'/acceptedGroceryList');
+	var acceptedGroceryList = {uid: key};
+	var newPostRef = oldPostRef.push();
+	return newPostRef.set(acceptedGroceryList);
+})
+
+exports.getAcceptedGroceryList = functions.https.onCall((data, context) => {
+	let uid = data.uid;
+	return firebase.database().ref('/users/'+uid+'/acceptedGroceryList/').once('value').then(result => {
+		return result.val();
+	}).catch(function(error){
+		return error;
+	})
+})
+
+exports.declineGroceryListRequest = functions.https.onCall((data, context) => {
+	let uid = data.uid;
+	let key = data.key;
+	var updates = {};
+	updates['/users/'+uid+'/acceptedGroceryList/'+key] = null;
+	return firebase.database().ref().update(updates);
 })
