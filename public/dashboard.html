@@ -1112,7 +1112,7 @@
       function requestsClicked() {
         makeActive("requests");
         console.log("clicked");
-        const groceryList = document.getElementById('groceryList');
+        /*const groceryList = document.getElementById('groceryList');
         const dbRefObject = firebase.database().ref('/users/'+auth.currentUser.uid+'/groceryList')
         dbRefObject.on('value', snap => {
           let data = snap.val();
@@ -1121,7 +1121,16 @@
               addItem(data[key].src, data[key].txt, false);
             })
           }
-        });
+        });*/
+        let getGroceryList = functions.httpsCallable('getGroceryList');
+        getGroceryList({uid: auth.currentUser.uid}).then(result => {
+          if(result.data) {
+            let data = result.data;
+            Object.keys(data).forEach(key => {
+              addItem(data[key].src, data[key].txt, false);
+            })
+          }
+        })
       }
 
       function logout() {
@@ -1512,44 +1521,51 @@
     }
     
     function addItem(src, txt, addToDB){
-      if(addToDB) {
-        var addItemToList = firebase.functions().httpsCallable('addItemToGroceryList');
-        addItemToList({uid: auth.currentUser.uid,
-          src: src, txt: txt});
+      if(!coordsLat || !coordsLng) {
+        alert('You need to give this access to your position before making a request. Once you have done that, refresh this page and try again.')
+      } else {
+        if(addToDB) {
+          var addItemToList = firebase.functions().httpsCallable('addItemToGroceryList');
+          addItemToList({uid: auth.currentUser.uid,
+            src: src, 
+            txt: txt,
+            lat: coordsLat,
+            lng: coordsLng});
+        }
+        list.push({"src": src,
+         "name": txt});
+        let pos = list.name;
+
+        let event1 = document.createElement('div');
+        let card1 = document.createElement('div');
+        let cardBody1 = document.createElement('div');
+        let img1 = document.createElement('img');
+        let name1 = document.createElement('h5');
+        let node1 = document.createTextNode(txt);
+        let button1 = document.createElement('input');
+
+        card1.className = "card";
+        img1.src = src;
+        img1.className = "card-img-top";
+          img1.width = "100";
+        img1.height = "100";
+        img1.alt = "Card image cap";
+        card1.align = "center";
+        card1.appendChild(img1);
+        cardBody1.className = "card-body";
+        name1.appendChild(node1);
+        cardBody1.appendChild(name1);
+        button1.className = "btn btn-danger";
+        button1.type = "button";
+        button1.value = "Remove";
+        button1.onclick = function() { grocery.removeChild(event1);
+        removeItem(pos, src, txt); 
+      };        //event.innerHTML = ""; };
+        cardBody1.appendChild(button1);
+        card1.appendChild(cardBody1);
+        event1.appendChild(card1);
+        grocery.append(event1);
       }
-      list.push({"src": src,
-       "name": txt});
-      let pos = list.name;
-
-      let event1 = document.createElement('div');
-      let card1 = document.createElement('div');
-      let cardBody1 = document.createElement('div');
-      let img1 = document.createElement('img');
-      let name1 = document.createElement('h5');
-      let node1 = document.createTextNode(txt);
-      let button1 = document.createElement('input');
-
-      card1.className = "card";
-      img1.src = src;
-      img1.className = "card-img-top";
-        img1.width = "100";
-      img1.height = "100";
-      img1.alt = "Card image cap";
-      card1.align = "center";
-      card1.appendChild(img1);
-      cardBody1.className = "card-body";
-      name1.appendChild(node1);
-      cardBody1.appendChild(name1);
-      button1.className = "btn btn-danger";
-      button1.type = "button";
-      button1.value = "Remove";
-      button1.onclick = function() { grocery.removeChild(event1);
-      removeItem(pos, src, txt); 
-    };        //event.innerHTML = ""; };
-      cardBody1.appendChild(button1);
-      card1.appendChild(cardBody1);
-      event1.appendChild(card1);
-      grocery.append(event1);
 
     }
 

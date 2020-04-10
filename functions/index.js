@@ -265,16 +265,27 @@ exports.sendFriendRequest = functions.https.onCall((data, context) => {
 	})
 })
 
+exports.getGroceryList = functions.https.onCall((data, context) => {
+	return firebase.database().ref('/users/'+data.uid+'/groceryList').once('value').then(result => {
+		return result.val();
+	})
+
+})
+
 exports.addItemToGroceryList = functions.https.onCall((data, context) => {
 	let uid = data.uid;
 	let src = data.src;
 	let txt = data.txt
+	let lng = data.lng; // update the coordinates of the user
+	let lat = data.lat;
+	var updates = {};
+	updates['requests/'+uid+'/lat'] = lat;
+	updates['requests/'+uid+'/lng'] = lng;
+	firebase.database().ref().update(updates);
 	let oldPostRef = firebase.database().ref().child('users/'+uid+'/groceryList');
 	var groceryListItem = {src: src, txt: txt};
 	var newPostRef = oldPostRef.push();
 	return newPostRef.set(groceryListItem);
-	
-
 })
 
 exports.removeItemFromGroceryList = functions.https.onCall((data, context) => {
@@ -285,15 +296,19 @@ exports.removeItemFromGroceryList = functions.https.onCall((data, context) => {
 		let data = snapshot.val();
 		if(data){
 			let keys = Object.keys(data);
+			updates = {};
+			if (keys.length == 1) {
+				// remove from requests since the grocery list is empty
+				updates['requests/'+uid] = null;
+			}
 			for(var i = 0; i<keys.length;i++) {
 				let datapoint = data[keys[i]];
 				if (datapoint.src == src && datapoint.txt == txt) {
-					updates = {};
 					updates['/users/'+uid+'/groceryList/'+keys[i]] = null;
-					firebase.database().ref().update(updates);
 					break;
 				}
 			}
+			firebase.database().ref().update(updates);
 		}
 	})
 })
