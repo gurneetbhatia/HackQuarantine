@@ -59,6 +59,43 @@
 		cursor: pointer;
 	}
 
+	@media only screen and (max-height: 600px) {
+	h1 {
+		font-family: 'Chau Philomene One';
+		letter-spacing: 2px;
+		font-size: 25px
+		}
+
+	.title {
+		font-family: 'Chau Philomene One';
+		letter-spacing: 2px;
+		font-size: 45px;
+		}
+
+	.logo {
+		width : 85px;
+		height : 85px;
+	}
+
+	}
+	@media only screen and (min-height: 600px) {
+	h1 {
+		font-family: 'Chau Philomene One';
+		letter-spacing: 2px;
+		font-size: calc(30px + (45 - 30) * ((100vh - 1000px) / (2600 - 1000)));
+	}
+
+	.title {
+		font-family: 'Chau Philomene One';
+		letter-spacing: 2px;
+		font-size: calc(55px + (90 - 55) * ((100vh - 1000px) / (2600 - 1000)));
+	}
+
+	.logo {
+		width: calc(90px + (120 - 90) * ((100vh - 1000px) / (2600 - 1000)));
+		height: calc(90px + (120 - 90) * ((100vh - 1000px) / (2600 - 1000)));
+	}
+}
 
 	.header {
 		padding: 1px;
@@ -309,9 +346,9 @@
   </g>
 </svg>
 	</div>
-	<div class = "smallerBackgroundContainer">
+	<div id = "InterfaceContainer" class = "smallerBackgroundContainer">
 		<div id ="header" class = "header">
-			<H1 style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; font-size: calc(20px + 5vh); letter-spacing: 5px;">TITLE</h1>
+			<H1 class = "title" style="text-align:center; z-index: 2; position:relative; background-color:#1a7c72; letter-spacing: 5px;">TITLE</h1>
 		</div>
 	<div id = "right" class="split left">
 
@@ -337,8 +374,8 @@
 	</form>
 </div>
 
-<div id = "right" class="split right">
-<div class = "buttonContainer" style = "text-align:center;">
+<div id = "left" class="split right">
+<div id = "leftContainer" class = "buttonContainer" style = "text-align:center;">
 	<h1 style = "color: #404040;">SIGN IN</h1>
 <div class = "socials">
 	<a id="facebook" class="fa fa-facebook"></a>
@@ -358,6 +395,39 @@
 </div>
 </div>
 <script>
+
+	function myFunction(x) {
+		if (x.matches) { // If media query matches
+			var rightPanel = document.getElementById("right");
+			rightPanel.classList.remove("split");
+			rightPanel.classList.remove("left");
+			var leftPanel = document.getElementById("left");
+			leftPanel.classList.remove("split");
+			leftPanel.classList.remove("right");
+			document.getElementById("right").appendChild(leftPanel);
+			document.getElementById("right").style = "float:none";
+			document.getElementById("1").style.height = "100%";
+			document.getElementById("leftContainer").style.marginTop = "90%";
+			document.getElementById("1").style.verticalAlign = "top";
+			document.getElementById("1").style.marginTop = "30%";
+			document.getElementById("InterfaceContainer").style.width = "80%";
+			document.getElementById("InterfaceContainer").style.marginLeft = "10%";
+		} else {
+			var rightPanel = document.getElementById("right");
+			rightPanel.classList.add("split");
+			rightPanel.classList.add("left");
+			var leftPanel = document.getElementById("left");
+			leftPanel.classList.add("split");
+			leftPanel.classList.add("right");
+			// document.getElementById("1").removeChild(leftPanel);
+			document.body.style.backgroundColor = "pink";
+		}
+	}
+
+	var x = window.matchMedia("(max-device-width: 1500px)")
+	myFunction(x) // Call listener function at run time
+	x.addListener(myFunction) // Attach listener function on state changes
+
 
 	$(document).ready(function(){
 		$(".subButton").on('mouseenter', function(){
