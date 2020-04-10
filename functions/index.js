@@ -129,6 +129,12 @@ exports.updateRegistrationInfo = functions.https.onCall((data, context) => {
 	return updateUser(uid, data);
 })
 
+exports.getAllRequests = functions.https.onCall((data, context) => {
+	return firebase.database().ref('/requests/').once('value').then(snap => {
+		return snap.val();
+	})
+})
+
 exports.newReservation = functions.https.onCall((data, context) => {
 	let uid = data.uid;
 	var oldPostRef = firebase.database().ref().child('users/'+uid+'/reservations');
