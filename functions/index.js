@@ -288,7 +288,7 @@ exports.removeItemFromGroceryList = functions.https.onCall((data, context) => {
 			let datapoint = data[keys[i]];
 			if (datapoint.src == src && datapoint.txt == txt) {
 				updates = {};
-				updates['/users/'+uid+'/groceryList/'+key] = null;
+				updates['/users/'+uid+'/groceryList/'+keys[i]] = null;
 				firebase.database().ref().update(updates);
 				break;
 			}

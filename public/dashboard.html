@@ -1526,6 +1526,7 @@
     }
 
     function removeItem(pos, src, txt){
+      console.log({uid: auth.currentUser.uid, src: src, txt: txt})
       var removeItemFromList = firebase.functions().httpsCallable('removeItemFromGroceryList');
       removeItemFromList({uid: auth.currentUser.uid,
           src: src, txt: txt});
