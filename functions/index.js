@@ -278,7 +278,7 @@ exports.getGroceryList = functions.https.onCall((data, context) => {
 
 })
 
-exports.getHelperRadius = functions.https.onCall((data, context) => {
+exports.getHelperradius = functions.https.onCall((data, context) => {
 	return firebase.database().ref('/users/'+data.uid).once('value').then(result => {
 		let data = result.val();
 		return data.helper == "Yes" ? data.radius : null

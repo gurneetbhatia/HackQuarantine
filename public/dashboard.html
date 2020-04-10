@@ -502,6 +502,17 @@
 
           <table id="reservationsTable"></table>
 
+          <div id="requestsToDisplay" hidden>
+            <div class="groceryList">
+              <div class="card">
+                <img src="https://static.openfoodfacts.org/images/products/541/118/811/9098/front_en.3.400.jpg" class="card-img-top" width="100" height="100" alt="Card image cap">
+                <div class="card-body">
+                  <h5>Alpro coco</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div id="newReservationDiv" hidden>
             <div class="autocomplete" style="width:300px;">
               <input id="myInput" type="text" name="myCountry" placeholder="location">
@@ -933,7 +944,7 @@
         getAllRequests().then(result => {
           let requests = result.data;
           if(requests) {
-            let getHelperRadius = functions.httpsCallable('getHelperRadius');
+            let getHelperRadius = functions.httpsCallable('getHelperradius');
             getHelperRadius({uid: auth.currentUser.uid}).then(result1 => {
               let radius = result1.data;
               if(radius) {
@@ -943,6 +954,12 @@
                   let dist = distance(coordsLat, coordsLng, requests[key].lat, requests[key].lng)
                   if(dist <= radius) {
                     // requests[key] must be displayed to the user
+                    let getGroceryList = functions.httpsCallable("getGroceryList");
+                    getGroceryList({uid: key}).then(result2 => {
+                      let groceries = result2.data;
+                      console.log("Requested groceries:");
+                      console.log(groceries)
+                    })
                   }
                 })
               } else {
