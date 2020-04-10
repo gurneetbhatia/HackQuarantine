@@ -6,7 +6,8 @@
   <!-- Compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -47,6 +48,17 @@
           checkRegistrationStatus({uid: auth.currentUser.uid}).then(function(result) {
             if(result.data) {
               // they have completed the registration process (account setup)
+              const notifs = document.getElementById('notifications');
+              var prevNotifCount = 0;
+              const dbRefObject = firebase.database().ref('/users/'+auth.currentUser.uid+'/notifications');
+              dbRefObject.on('value', snap => {
+                let data = snap.val();
+                console.log(data);
+                if(data && prevNotifCount < Object.keys(data).length) {
+                  prevNotifCount = Object.keys(data).length
+                  newNotification();
+                }
+              })
               homeClicked();
               removeLoading();
             } else {
@@ -444,7 +456,7 @@
 
 
       <div id="mySidebar" class="sidebaropen">
-        <a class="closebtn" id="closebtn" onclick="navOperator()" data-open=true>&times;</a>
+        <a class="closebtn" id="closebtn" onclick="navOperator(true)" data-open=true>&times;</a>
         <a id="home" onclick="homeClicked();">Home</a>
         <a id="notifications" onclick="notificationsClicked()">Notifications</a>
         <a id="reservations" onclick="reservationsClicked();">Reservations</a>
@@ -590,6 +602,7 @@
 
 
     <script type="text/javascript">
+      let newNotifications = false;
       function makeActive(id) {
         document.querySelectorAll(".active").forEach(e => {e.classList.remove("active")});
         document.getElementById(id).classList.add("active");
@@ -632,32 +645,41 @@
         document.getElementById('loadingAnimation').hidden = true;
       }
 
-      function navOperator() {
+      function newNotification() {
+        newNotifications = true;
+        navOperator(false);
+      }
+
+      function navOperator(changeState) {
         // opens or closes the tag depending on current state
         if(document.getElementById('closebtn').dataset.open == "true") {
           document.getElementById('closebtn').dataset.open = "false";
-          document.getElementById("mySidebar").style.width = "50px";
-          document.getElementById("contentDiv").style.marginLeft = "50px"
+          document.getElementById("mySidebar").style.width = "60px";
+          document.getElementById("contentDiv").style.marginLeft = "60px"
           document.getElementById("closebtn").innerHTML = "&#9776";
           document.getElementById("home").innerHTML = "<i class='glyphicon glyphicon-home'></i>";
-          document.getElementById("notifications").innerHTML = "<i class='glyphicon glyphicon-bell'></i>";
           document.getElementById("reservations").innerHTML = "<i class='glyphicon glyphicon-book'></i>";
           document.getElementById("requests").innerHTML = "<i class='glyphicon glyphicon-shopping-cart'></i>";
           document.getElementById("news").innerHTML = "<i class='glyphicon glyphicon-bullhorn'></i>";
           document.getElementById("settings").innerHTML = "<i class='glyphicon glyphicon-cog'></i>";
           document.getElementById("logout").innerHTML = "<i class='glyphicon glyphicon-log-out'></i>";
+          document.getElementById("notifications").innerHTML = newNotifications ? "<i class='material-icons'>notifications_active</i>" : "<i class='glyphicon glyphicon-bell'></i>";
         } else {
-          document.getElementById('closebtn').dataset.open = "true";
-          document.getElementById("mySidebar").style.width = "250px";
-          document.getElementById("contentDiv").style.marginLeft = "250px"
-          document.getElementById("closebtn").innerHTML = "&times";
-          document.getElementById("home").innerHTML = "Home";
-          document.getElementById("notifications").innerHTML = "Notifications";
-          document.getElementById("reservations").innerHTML = "Reservations";
-          document.getElementById("requests").innerHTML = "Requests";
-          document.getElementById("news").innerHTML = "Covid-19 Awareness";
-          document.getElementById("settings").innerHTML = "Settings";
-          document.getElementById("logout").innerHTML = "Logout";
+          if(!changeState) {
+            document.getElementById("notifications").innerHTML = newNotifications ? "<i class='material-icons'>notifications_active</i>" : "<i class='glyphicon glyphicon-bell'></i>";
+          } else {
+            document.getElementById('closebtn').dataset.open = "true";
+            document.getElementById("mySidebar").style.width = "250px";
+            document.getElementById("contentDiv").style.marginLeft = "250px"
+            document.getElementById("closebtn").innerHTML = "&times";
+            document.getElementById("home").innerHTML = "Home";
+            document.getElementById("notifications").innerHTML = "Notifications";
+            document.getElementById("reservations").innerHTML = "Reservations";
+            document.getElementById("requests").innerHTML = "Requests";
+            document.getElementById("news").innerHTML = "Covid-19 Awareness";
+            document.getElementById("settings").innerHTML = "Settings";
+            document.getElementById("logout").innerHTML = "Logout";
+          }
         }
       }
 
@@ -769,6 +791,10 @@
 
       function notificationsClicked() {
         makeActive("notifications");
+        if(newNotifications) {
+          newNotifications = false;
+          navOperator(false);
+        }
         displayLoading();
         let notificationsDiv = document.getElementById("notificationsDiv");
         // clearing the div to get rid of previous notifications
@@ -1090,9 +1116,11 @@
         const dbRefObject = firebase.database().ref('/users/'+auth.currentUser.uid+'/groceryList')
         dbRefObject.on('value', snap => {
           let data = snap.val();
-          Object.keys(data).forEach(key => {
-            addItem(data[key].src, data[key].txt, false);
-          })
+          if(data) {
+            Object.keys(data).forEach(key => {
+              addItem(data[key].src, data[key].txt, false);
+            })
+          }
         });
       }
 
@@ -1532,6 +1560,8 @@
           src: src, txt: txt});
       list = list.splice(list.indexOf(pos));
     }
+
+
 
 
   </script>
