@@ -283,6 +283,8 @@ exports.getHelperradius = functions.https.onCall((data, context) => {
 	return firebase.database().ref('/users/'+data.uid).once('value').then(result => {
 		let data = result.val();
 		return data.helper == "Yes" ? data.radius : null
+	}).catch(error => {
+		return error
 	})
 })
 
@@ -324,6 +326,8 @@ exports.removeItemFromGroceryList = functions.https.onCall((data, context) => {
 			}
 			firebase.database().ref().update(updates);
 		}
+	}).catch(error => {
+		return error;
 	})
 })
 
@@ -346,6 +350,8 @@ function getUserData(uid) {
 			lastName: values.lastName,
 			email: values.email};
 		return data;
+	}).catch(error => {
+		return error;
 	})
 }
 
@@ -357,12 +363,16 @@ exports.getSettingsData = functions.https.onCall((data, context) => {
 			radius: values.radius,
 			helper: values.helper};
 		return settings;
+	}).catch(error => {
+		return error;
 	})
 })
 
 exports.setEmailValid = functions.https.onCall((data, context) => {
     return admin.auth().updateUser(data.userid, {emailVerified: true}).then(function(output) {
     	return true;
+    }).catch(error => {
+    	return error;
     })
   });
 
@@ -428,10 +438,41 @@ exports.checkIfNotificationsPresent = functions.https.onCall((data, context) => 
 exports.acceptGroceryListRequest = functions.https.onCall((data, context) => {
 	let uid = data.uid;
 	let key = data.key;
+	sendAcceptGroceryListNotification(uid, key)
 	var updates = {};
 	updates['/users/'+uid+'/acceptedGroceryList/'+key] = 1;
 	return firebase.database().ref().update(updates);
 })
+
+function getUserDeets(data) {
+	let uid = data.uid;
+	return firebase.database().ref('/users/'+uid).once("value").then(snapshot => {
+		return snapshot.val();
+	}).catch(error => {
+		return error;
+	})
+}
+
+function sendAcceptGroceryListNotification(userid, key) {
+	getUserDeets({uid: key}).then(data => {
+		var oldPostRef = firebase.database().ref().child('users/'+userid+'/notifications');
+		let text = 'You have accepted to take groceries for '+data.firstName+' '+data.lastName+'. Please get in touch with them on their phone number: '+data.phone;
+		var notification = {title: "Volunteering Groceries", 
+		text: text,
+		type: 'volunteer'};
+		var newPostRef = oldPostRef.push();
+		newPostRef.set(notification);
+	})
+	getUserDeets({uid: userid}).then(data => {
+		var oldPostRef = firebase.database().ref().child('users/'+key+'/notifications');
+		let text = data.firstName+' '+data.lastName+' has voluteered to bring your groceries for you. Please get in touch with them on their phone number: '+data.phone;
+		var notification = {title: "Volunteering Groceries", 
+		text: text,
+		type: 'volunteer'};
+		var newPostRef = oldPostRef.push();
+		newPostRef.set(notification);
+	})
+}
 
 exports.getAcceptedGroceryList = functions.https.onCall((data, context) => {
 	let uid = data.uid;

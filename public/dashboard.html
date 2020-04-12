@@ -995,7 +995,7 @@
                         btn.value = acceptedResults && Object.keys(acceptedResults).includes(key) ? "Cancel" : "Accept";
                         btn.onclick = function() { 
                           if(btn.value == "Accept") {
-                            acceptGroceryListRequest({uid: auth.currentUser.uid, key: key}) 
+                            acceptGroceryListRequest({uid: auth.currentUser.uid, key: key, date: (new Date()).toLocaleDateString()}) 
                           } else {
                             declineGroceryListRequest({uid: auth.currentUser.uid, key: key}) 
                           }
